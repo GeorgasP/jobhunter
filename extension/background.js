@@ -11,6 +11,7 @@ import { rankJobs } from "./lib/matcher.js";
 import { generateLetter } from "./lib/letters.js";
 import { pickCompanies } from "./lib/companies.js";
 import { refreshRates } from "./lib/fx.js";
+import { initI18n, t } from "./lib/i18n.js";
 
 const ALARM = "jobhunter-daily";
 let scanning = false;
@@ -91,7 +92,7 @@ async function currentMatches() {
 
 /* ── Scan ─────────────────────────────────────────────────── */
 async function runScan({ silent = false } = {}) {
-  if (scanning) return { ok: false, error: "A scan is already running" };
+  if (scanning) return { ok: false, error: t("error.scanRunning") };
   scanning = true;
   const started = Date.now();
 
@@ -120,14 +121,15 @@ async function runScan({ silent = false } = {}) {
 
     if (!silent || added > 0) {
       const profileNow = await store.getProfile();
+      await initI18n(profileNow.uiLanguage);
       if (profileNow.notify && matches.length) {
         chrome.notifications.create({
           type: "basic",
           iconUrl: chrome.runtime.getURL("icons/128.png"),
-          title: `${matches.length} jobs match you`,
+          title: t("notify.title", { n: matches.length }),
           message: added
-            ? `${added} new postings found. Top pick: ${matches[0].company} — ${matches[0].title}`
-            : `Top pick: ${matches[0].company} — ${matches[0].title}`,
+            ? t("notify.body", { added, company: matches[0].company, title: matches[0].title })
+            : t("notify.bodyNoNew", { company: matches[0].company, title: matches[0].title }),
           priority: 1,
         });
       }
@@ -151,7 +153,7 @@ async function applyToJob(jobId, method = "assisted") {
     store.getProfile(), store.getCV(), store.getJobs(),
   ]);
   const jobItem = jobs.find((j) => j.id === jobId);
-  if (!jobItem) return { ok: false, error: "Job not found" };
+  if (!jobItem) return { ok: false, error: t("error.jobNotFound") };
 
   let letter = { text: "", model: null };
   if (method !== "manual") letter = await generateLetter(jobItem, profile, cv);
@@ -162,7 +164,7 @@ async function applyToJob(jobId, method = "assisted") {
     method, status: "prepared", preparedAt: new Date().toISOString(),
     coverLetter: letter.text, letterModel: letter.model,
   });
-  if (!app) return { ok: false, error: "You already applied to this one" };
+  if (!app) return { ok: false, error: t("error.alreadyApplied") };
 
   await refreshBadge();
   return { ok: true, app, letterModel: letter.model, letterError: letter.error || null };
@@ -178,7 +180,7 @@ async function prefillFor(pageUrl) {
     store.getProfile(), store.getCV(), store.getApps(),
   ]);
   if (!apps.length) {
-    return { ok: false, error: "Nothing prepared yet — open JobHunter and hit Apply on a match first." };
+    return { ok: false, error: t("fill.nothingPrepared") };
   }
 
   const pageIds = idsIn(pageUrl || "");
