@@ -26,6 +26,9 @@ let strings = {};
 let fallback = {};
 let current = DEFAULT;
 
+/** Το background τρέχει σε service worker: δεν υπάρχει document εκεί. */
+const hasDOM = () => typeof document !== "undefined";
+
 /** Η γλώσσα του browser, αν την υποστηρίζουμε. */
 export function detectLanguage() {
   const candidates = [];
@@ -57,7 +60,9 @@ export async function loadLanguage(code) {
   }
   strings = wanted === DEFAULT ? fallback : await fetchLocale(wanted).catch(() => ({}));
   current = wanted;
-  document.documentElement?.setAttribute("lang", wanted);
+  // Ο service worker δεν έχει DOM· το ίδιο αρχείο τρέχει και εκεί (για τα
+  // κείμενα των ειδοποιήσεων) και στις σελίδες.
+  if (hasDOM()) document.documentElement?.setAttribute("lang", wanted);
   return wanted;
 }
 
@@ -80,21 +85,23 @@ export function t(key, vars) {
 }
 
 /** Εφαρμόζει τις μεταφράσεις σε ό,τι έχει data-i18n στο DOM. */
-export function applyTranslations(root = document) {
-  root.querySelectorAll("[data-i18n]").forEach((el) => {
+export function applyTranslations(root) {
+  const scope = root || (hasDOM() ? document : null);
+  if (!scope) return;                       // service worker: τίποτα να βάψουμε
+  scope.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.dataset.i18n);
   });
-  root.querySelectorAll("[data-i18n-ph]").forEach((el) => {
+  scope.querySelectorAll("[data-i18n-ph]").forEach((el) => {
     el.placeholder = t(el.dataset.i18nPh);
   });
-  root.querySelectorAll("[data-i18n-title]").forEach((el) => {
+  scope.querySelectorAll("[data-i18n-title]").forEach((el) => {
     el.title = t(el.dataset.i18nTitle);
   });
-  root.querySelectorAll("[data-i18n-html]").forEach((el) => {
+  scope.querySelectorAll("[data-i18n-html]").forEach((el) => {
     el.innerHTML = t(el.dataset.i18nHtml);
   });
-  const title = root.querySelector?.("title[data-i18n-doc]");
-  if (title) document.title = t(title.dataset.i18nDoc);
+  const title = scope.querySelector?.("title[data-i18n-doc]");
+  if (title && hasDOM()) document.title = t(title.dataset.i18nDoc);
 }
 
 /**

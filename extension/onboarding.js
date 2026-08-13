@@ -121,7 +121,10 @@ $("#next2").onclick = () => {
 };
 
 /* ── Step 3 ───────────────────────────────────────────────── */
-$("#industries").innerHTML = ALL_INDUSTRIES.map((i) => `<button class="pick" data-i="${i}">${i}</button>`).join("");
+const INDUSTRY_LABELS = { ai: "AI", hr: "HR", saas: "SaaS", fintech: "Fintech" };
+const industryLabel = (i) => INDUSTRY_LABELS[i] ?? i.charAt(0).toUpperCase() + i.slice(1);
+$("#industries").innerHTML = ALL_INDUSTRIES.map((i) =>
+  `<button class="pick" data-i="${i}">${esc(industryLabel(i))}</button>`).join("");
 $$("#industries .pick").forEach((p) => p.onclick = () => p.classList.toggle("on"));
 $("#back3").onclick = () => step(2);
 
