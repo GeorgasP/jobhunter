@@ -1,0 +1,55 @@
+{
+  "manifest_version": 3,
+  "name": "JobHunter — automatic job search",
+  "version": "1.0.0",
+  "description": "Finds jobs that match you every day and fills in the application forms for you. Your CV never leaves your browser.",
+  "minimum_chrome_version": "111",
+  "permissions": ["storage", "unlimitedStorage", "alarms", "notifications", "scripting", "activeTab"],
+  "host_permissions": [
+    "https://boards-api.greenhouse.io/*",
+    "https://api.lever.co/*",
+    "https://api.ashbyhq.com/*",
+    "https://apply.workable.com/*",
+    "https://api.smartrecruiters.com/*",
+    "https://*.recruitee.com/*",
+    "https://remotive.com/*",
+    "https://www.arbeitnow.com/*",
+    "https://remoteok.com/*",
+    "https://jobicy.com/*",
+    "https://himalayas.app/*",
+    "https://www.workingnomads.com/*",
+    "https://www.themuse.com/*",
+    "https://weworkremotely.com/*",
+    "https://cryptocurrencyjobs.co/*",
+    "https://landing.jobs/*",
+    "https://*.myworkdayjobs.com/*",
+    "https://*.teamtailor.com/*",
+    "https://*.breezy.hr/*",
+    "https://open.er-api.com/*",
+    "https://api.anthropic.com/*"
+  ],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_popup": "popup.html", "default_title": "JobHunter" },
+  "options_page": "app.html",
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.greenhouse.io/*",
+        "*://jobs.lever.co/*",
+        "*://jobs.ashbyhq.com/*",
+        "*://apply.workable.com/*",
+        "*://jobs.smartrecruiters.com/*",
+        "*://*.recruitee.com/*",
+        "*://*.teamtailor.com/*",
+        "*://*.bamboohr.com/*",
+        "*://*.myworkdayjobs.com/*",
+        "*://*.personio.de/*",
+        "*://*.jobvite.com/*",
+        "*://*.icims.com/*"
+      ],
+      "js": ["content/prefill.js", "content/button.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" }
+}

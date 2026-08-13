@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>JobHunter</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app">
+
+<aside>
+  <div class="brand">
+    <div class="mark">🎯</div>
+    <div><b>JobHunter</b><small id="brand-sub">automatic job search</small></div>
+  </div>
+  <nav>
+    <div class="nav-label">Search</div>
+    <a class="nav-item on" data-v="matches">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      Matches<span class="badge" id="nav-matches">0</span></a>
+    <a class="nav-item" data-v="pipeline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="11" y="4" width="6" height="10" rx="1.5"/><path d="M19 4h2v6h-2z"/></svg>
+      Pipeline<span class="badge" id="nav-apps">0</span></a>
+    <div class="nav-label">You</div>
+    <a class="nav-item" data-v="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
+      Settings</a>
+  </nav>
+  <div class="side-foot">
+    <div class="who">
+      <div class="avatar" id="avatar">?</div>
+      <div><b id="who-name">Not set up</b><span id="who-sub">no jobs yet</span></div>
+    </div>
+  </div>
+</aside>
+
+<main>
+<header>
+  <div>
+    <h1 id="ttl">Matches</h1>
+    <p id="sub">—</p>
+  </div>
+  <div class="spacer"></div>
+  <button class="btn primary" id="scan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
+    Scan now</button>
+  <button class="icon-btn" id="theme" title="Light / dark">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+</header>
+
+<div class="wrap">
+
+  <section class="view on" id="v-matches">
+    <div class="stats" id="stats"></div>
+    <div class="toolbar">
+      <button class="chip-filter on" data-f="all">All</button>
+      <button class="chip-filter" data-f="remote">Remote</button>
+      <button class="chip-filter" data-f="today">Posted today</button>
+      <button class="chip-filter" data-f="salary">Salary listed</button>
+      <span class="count" id="count"></span>
+    </div>
+    <div id="cards"></div>
+  </section>
+
+  <section class="view" id="v-pipeline">
+    <div class="board" id="board"></div>
+  </section>
+
+  <section class="view" id="v-settings">
+    <div class="sec">
+      <div class="sec-h"><b>Your CV</b><span>attached to every application</span></div>
+      <div class="sec-b">
+        <div class="cvbox" id="cvbox">
+          <div class="cvicon">📄</div>
+          <div class="info"><b id="cv-name">No CV uploaded yet</b><span id="cv-sub">PDF, DOCX, TXT or Markdown</span></div>
+          <button class="btn" id="cv-pick">Upload</button>
+        </div>
+        <input type="file" id="cv-file" accept=".pdf,.docx,.txt,.md" hidden>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><b>What you are looking for</b><span>drives every match score</span></div>
+      <div class="sec-b">
+        <div class="f-row">
+          <label>Job titles</label>
+          <div class="tagbox" data-tags="titles"><input placeholder="add a title and press Enter…"></div>
+          <div class="help">The strongest signal — 40 of the 100 points.</div>
+        </div>
+        <div class="f-row">
+          <label>Where you can work</label>
+          <div class="tagbox" data-tags="locations"><input placeholder="country, city or Remote…"></div>
+        </div>
+        <div class="f-row">
+          <label>Regions you cannot work in</label>
+          <div class="tagbox" data-tags="blockedLocations"><input placeholder="optional…"></div>
+        </div>
+        <div class="f-row">
+          <label>Keywords that disqualify a job</label>
+          <div class="tagbox" data-tags="excludeKeywords"><input placeholder="optional…"></div>
+        </div>
+        <div class="grid2">
+          <div class="f-row"><label>Minimum yearly salary</label>
+            <div style="display:flex;gap:8px">
+              <input class="txt" id="salaryMin" type="number" placeholder="optional" style="flex:1">
+              <select id="salaryCurrency" style="width:104px">
+                <option value="EUR">EUR €</option><option value="USD">USD $</option>
+                <option value="GBP">GBP £</option><option value="CHF">CHF</option>
+                <option value="PLN">PLN zł</option><option value="SEK">SEK kr</option>
+                <option value="NOK">NOK kr</option><option value="DKK">DKK kr</option>
+                <option value="CZK">CZK Kč</option><option value="RON">RON lei</option>
+                <option value="TRY">TRY ₺</option><option value="CAD">CAD $</option>
+                <option value="AUD">AUD $</option><option value="INR">INR ₹</option>
+                <option value="JPY">JPY ¥</option><option value="SGD">SGD $</option>
+                <option value="AED">AED</option><option value="ILS">ILS ₪</option>
+                <option value="BRL">BRL R$</option><option value="MXN">MXN $</option>
+                <option value="ZAR">ZAR R</option>
+              </select>
+            </div>
+            <div class="help">Salaries in other currencies are converted before comparing —
+              what you see on each job stays in the currency the employer used.</div></div>
+          <div class="f-row"><label>Experience level</label>
+            <select id="experienceLevel"><option value="entry">entry</option><option value="mid">mid</option><option value="senior">senior</option></select></div>
+        </div>
+        <div>
+          <div class="switch"><div><b>Remote only</b><span>Hide anything that needs an office</span></div>
+            <div class="tog" data-tog="remoteOnly"></div></div>
+          <div class="switch"><div><b>Hide jobs outside my locations</b><span>Drops “Remote — US only” style postings</span></div>
+            <div class="tog" data-tog="strictLocation"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><b>Industries</b><span>picks which company career pages get tracked</span></div>
+      <div class="sec-b"><div class="pickers" id="industries"></div></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><b>About you</b><span>used to fill the application forms</span></div>
+      <div class="sec-b">
+        <div class="grid2">
+          <div class="f-row"><label>Full name</label><input class="txt" id="name"></div>
+          <div class="f-row"><label>Email</label><input class="txt" id="email"></div>
+          <div class="f-row"><label>Phone</label><input class="txt" id="phone"></div>
+          <div class="f-row"><label>Where you live</label><input class="txt" id="location"></div>
+          <div class="f-row"><label>LinkedIn</label><input class="txt" id="linkedin"></div>
+          <div class="f-row"><label>Work authorization</label><input class="txt" id="workAuthorization" placeholder="e.g. EU citizen, no sponsorship needed"></div>
+          <div class="f-row"><label>Notice period</label><input class="txt" id="noticePeriod"></div>
+          <div class="f-row"><label>Cover letter language</label>
+            <select id="language">
+              <option value="en">English</option><option value="el">Ελληνικά</option>
+              <option value="es">Español</option><option value="de">Deutsch</option>
+              <option value="fr">Français</option><option value="it">Italiano</option>
+              <option value="pt">Português</option>
+            </select></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><b>Automation</b><span>optional</span></div>
+      <div class="sec-b">
+        <div>
+          <div class="switch"><div><b>Search automatically twice a day</b><span>Runs in the background, even when this tab is closed</span></div>
+            <div class="tog" data-tog="autoScan"></div></div>
+          <div class="switch"><div><b>Notify me about new matches</b><span>A desktop notification after each scan</span></div>
+            <div class="tog" data-tog="notify"></div></div>
+        </div>
+        <div class="f-row">
+          <label>Anthropic API key — optional</label>
+          <input class="txt" id="anthropicKey" type="password" placeholder="sk-ant-…">
+          <div class="help">With a key, Claude writes each cover letter from your CV and the job description.
+            Without one, a solid template is used. The key stays in this browser.</div>
+        </div>
+        <div class="f-row">
+          <label>Minimum score to show a job</label>
+          <input class="txt" id="minScore" type="number" min="0" max="100">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn primary" id="save" style="font-size:14.5px;padding:10px 20px">Save settings</button>
+  </section>
+
+</div>
+</main>
+</div>
+
+<div class="drawer" id="drawer">
+  <div class="veil"></div>
+  <div class="body" id="drawer-body"></div>
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

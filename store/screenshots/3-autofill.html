@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JobHunter — autofill</title>
+<style>
+html,body{width:1280px;height:800px;overflow:hidden;margin:0}
+body{background:#f4f6f9;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:#1b2029}
+.page{max-width:660px;margin:0 auto;padding:34px 24px}
+.crumb{color:#7a838f;font-size:13px;margin-bottom:6px}
+h1{font-size:24px;letter-spacing:-.5px;margin:0 0 4px}
+.sub{color:#5d6673;font-size:14px;margin-bottom:26px}
+label{display:block;font-size:12.5px;font-weight:650;color:#41495a;margin:15px 0 5px}
+input,textarea,select{width:100%;padding:9px 11px;font:inherit;font-size:14px;border:1px solid #cfd6df;
+  border-radius:7px;background:#fff;color:#1b2029;box-sizing:border-box}
+textarea{height:96px;resize:none}
+.filled{border-color:#5b8cff;box-shadow:0 0 0 3px rgba(91,140,255,.14);background:#fbfcff}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0 16px}
+.file{display:flex;align-items:center;gap:11px;padding:11px 13px;border:1px solid #5b8cff;border-radius:7px;
+  background:#fbfcff;font-size:13.5px}
+.file b{font-weight:600}
+.file .x{margin-left:auto;color:#7a838f;font-size:12.5px}
+.submit{margin-top:22px;background:#1b2029;color:#fff;border:none;border-radius:8px;padding:11px 22px;
+  font:inherit;font-weight:600;font-size:14.5px}
+.jh-btn{position:fixed;right:18px;bottom:18px;background:linear-gradient(135deg,#5b8cff,#7c5cff);color:#fff;
+  border:none;border-radius:10px;padding:11px 16px;font:600 14px/1 system-ui;box-shadow:0 6px 22px rgba(91,140,255,.4)}
+.jh-toast{position:fixed;right:18px;bottom:76px;max-width:330px;background:#161b24;color:#e8edf4;
+  border:1px solid #5b8cff;border-radius:10px;padding:14px 16px;font:14px/1.5 system-ui;
+  box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.jh-toast .dim{color:#9aa7b8;font-size:12.5px;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="crumb">Remote.com › Careers › Sales</div>
+  <h1>Senior Account Manager — EMEA</h1>
+  <div class="sub">Remote · EMEA · Full time</div>
+
+  <div class="two">
+    <div><label>First name *</label><input class="filled" value="Maria"></div>
+    <div><label>Last name *</label><input class="filled" value="Rossi"></div>
+  </div>
+  <div class="two">
+    <div><label>Email *</label><input class="filled" value="maria.rossi@example.com"></div>
+    <div><label>Phone</label><input class="filled" value="+39 340 555 1234"></div>
+  </div>
+  <div class="two">
+    <div><label>Current location</label><input class="filled" value="Milan, Italy"></div>
+    <div><label>LinkedIn profile</label><input class="filled" value="linkedin.com/in/mariarossi"></div>
+  </div>
+
+  <label>Resume / CV *</label>
+  <div class="file">📄 <b>CV_Maria_Rossi.pdf</b> <span class="x">attached by JobHunter · 214 KB</span></div>
+
+  <label>Cover letter</label>
+  <textarea class="filled">Dear Remote.com hiring team,
+
+I am applying for the Senior Account Manager — EMEA position. Five years of managing EMEA accounts in fintech lines up closely with what this role asks for.</textarea>
+
+  <label>Are you legally authorised to work in the EU? *</label>
+  <select><option>Select…</option><option>Yes</option><option>No</option></select>
+
+  <button class="submit">Submit application</button>
+</div>
+
+<div class="jh-toast">
+  <b>🎯 JobHunter</b><br>7 fields filled · CV attached
+  <div class="dim">Remote.com — Senior Account Manager — EMEA</div>
+  <div style="margin-top:8px;font-size:12.5px">Check everything, then press Submit yourself.</div>
+  <div class="dim">Left for you: work authorization</div>
+</div>
+<button class="jh-btn">🎯 Fill with JobHunter</button>
+</body></html>

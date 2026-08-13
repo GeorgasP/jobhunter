@@ -1,0 +1,47 @@
+# ════════════════════════════════════════════════════════════════
+#  ΠΡΟΣΩΠΙΚΑ ΔΕΔΟΜΕΝΑ ΚΑΙ ΜΥΣΤΙΚΑ — δεν ανεβαίνουν ποτέ
+# ════════════════════════════════════════════════════════════════
+
+# Ρυθμίσεις με API token, SMTP/IMAP κωδικούς, και το προφίλ σου
+data/
+
+# Αιτήσεις, cover letters, ημερήσιες αναφορές
+output/
+applications.json
+
+# Το βιογραφικό σου και ό,τι το συνοδεύει
+CV_*.md
+cv/*.html
+cv/*.pdf
+cv/*.docx
+cover_letters/
+LinkedIn_Profile.md
+HOW_TO_USE_CV.md
+friend_outreach_message.md
+
+# Ο παλιός προσωπικός scanner (στοχευμένος σε συγκεκριμένες εταιρείες)
+_job_hunter.py
+START.bat
+
+# ════════════════════════════════════════════════════════════════
+#  Build artifacts και σκουπίδια
+# ════════════════════════════════════════════════════════════════
+store/dist/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# Προσωρινά αρχεία δοκιμών
+_t/
+_fixtures/
+_nc.py
+_harness.html
+_preview_*
+_shim_*
+PERSONAL_NOTES.md

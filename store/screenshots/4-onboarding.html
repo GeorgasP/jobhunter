@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<title>JobHunter — setup</title>
+<link rel="stylesheet" href="../../extension/app.css">
+<style>
+html,body{width:1280px;height:800px;overflow:hidden}
+body{display:grid;place-items:center start;justify-content:center;padding:0}
+.ob{width:620px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+.top .mark{width:40px;height:40px;border-radius:11px;font-size:20px}
+.top b{font-size:19px;font-weight:680;letter-spacing:-.4px;display:block}
+.top span{color:var(--fg-3);font-size:13px}
+.bar{display:flex;gap:6px;margin-bottom:26px}
+.bar i{height:3px;flex:1;border-radius:3px;background:var(--line-2)}
+.bar i.on{background:var(--accent)}
+h2{font-size:22px;font-weight:680;letter-spacing:-.6px;margin-bottom:7px}
+.lead{color:var(--fg-2);font-size:14.5px;margin-bottom:22px}
+.drop{border:1.5px solid color-mix(in srgb,var(--ok) 40%,var(--line-2));border-radius:var(--r);
+  padding:34px 24px;text-align:center;background:var(--surface)}
+.drop .ic{font-size:36px;margin-bottom:10px}
+.drop b{display:block;font-size:15px;font-weight:620;margin-bottom:5px}
+.drop span{color:var(--fg-3);font-size:13px}
+.found{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;margin-top:16px}
+.found .cap{font-size:12px;color:var(--fg-3);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:8px}
+.found .row{display:flex;justify-content:space-between;gap:14px;padding:7px 0;font-size:13.5px;border-top:1px solid var(--line)}
+.found .row:first-of-type{border-top:none}
+.found .row span{color:var(--fg-3)}
+.found .row b{font-weight:600}
+.nav-btns{display:flex;gap:10px;margin-top:26px;align-items:center}
+.skip{color:var(--fg-3);font-size:13px;margin-left:auto}
+</style>
+</head>
+<body>
+<div class="ob">
+  <div class="top"><div class="mark">🎯</div>
+    <div><b>JobHunter</b><span>Three steps and it starts working for you</span></div></div>
+  <div class="bar"><i class="on"></i><i></i><i></i></div>
+
+  <h2>Upload your CV</h2>
+  <p class="lead">Everything else is filled in from it — and it gets attached to every application you send.
+    It stays in this browser and is never uploaded anywhere.</p>
+
+  <div class="drop">
+    <div class="ic">✅</div>
+    <b>CV_Maria_Rossi.pdf</b>
+    <span>214 KB · 4,812 characters read</span>
+  </div>
+
+  <div class="found">
+    <div class="cap">Read from your CV</div>
+    <div class="row"><span>Name</span><b>Maria Rossi</b></div>
+    <div class="row"><span>Email</span><b>maria.rossi@example.com</b></div>
+    <div class="row"><span>Phone</span><b>+39 340 555 1234</b></div>
+    <div class="row"><span>LinkedIn</span><b>linkedin.com/in/mariarossi</b></div>
+  </div>
+
+  <div class="nav-btns">
+    <button class="btn primary">Continue</button>
+    <span class="skip">Skip for now</span>
+  </div>
+</div>
+</body></html>
