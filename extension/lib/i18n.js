@@ -14,9 +14,9 @@ export const LANGUAGES = [
   { code: "es", name: "Español",    english: "Spanish" },
   { code: "de", name: "Deutsch",    english: "German" },
   { code: "fr", name: "Français",   english: "French" },
-  // Ιταλικά, Πορτογαλικά, Πολωνικά: μπαίνουν εδώ μόλις υπάρξει το αντίστοιχο
-  // locales/<code>.json. Αν προστεθούν νωρίτερα, ο χρήστης θα διάλεγε γλώσσα
-  // και θα έβλεπε αγγλικά.
+  { code: "it", name: "Italiano",   english: "Italian" },
+  { code: "pt", name: "Português",  english: "Portuguese" },
+  { code: "pl", name: "Polski",     english: "Polish" },
 ];
 
 const SUPPORTED = new Set(LANGUAGES.map((l) => l.code));
