@@ -227,8 +227,25 @@ async function fillSettings() {
 
   $$("[data-tog]").forEach((t) => t.classList.toggle("on", Boolean(profile[t.dataset.tog])));
 
-  $("#industries").innerHTML = ALL_INDUSTRIES.map((i) =>
-    `<button class="pick ${profile.industries?.includes(i) ? "on" : ""}" data-i="${i}">${i}</button>`).join("");
+const industryLabels = {
+  ai: "AI",
+  hr: "HR",
+  saas: "SaaS",
+  fintech: "Fintech",
+};
+
+const formatIndustry = (industry) =>
+  industryLabels[industry] ??
+  industry.charAt(0).toUpperCase() + industry.slice(1);
+
+$("#industries").innerHTML = ALL_INDUSTRIES.map((i) =>
+  `<button
+    class="pick ${profile.industries?.includes(i) ? "on" : ""}"
+    data-i="${i}"
+  >
+    ${formatIndustry(i)}
+  </button>`
+).join("");
   $$("#industries .pick").forEach((p) => p.onclick = () => p.classList.toggle("on"));
 
   const cv = await store.getCV();

@@ -1210,7 +1210,6 @@ textarea::placeholder {
 
 /* =========================================================
    CUSTOM SELECT DROPDOWNS
-   Removes the native white Windows / Chrome arrow area
    ========================================================= */
 
 select {
@@ -1935,4 +1934,21 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
+}
+
+.grid2 .f-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grid2 .f-row label {
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.grid2 .f-row input,
+.grid2 .f-row select {
+  margin: 0;
 }
