@@ -2,6 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Set up JobHunter</title>
 <link rel="stylesheet" href="app.css">
 <style>
@@ -40,6 +41,23 @@
   .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.35);
         border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* Μικρές οθόνες: λιγότερο κενό, κουμπιά σε πλήρες πλάτος */
+  @media (max-width: 560px) {
+    body { padding: 24px 16px 56px; }
+    .top { margin-bottom: 20px; }
+    .top .mark { width: 34px; height: 34px; font-size: 17px; }
+    .top b { font-size: 17px; }
+    .step h2 { font-size: 19px; }
+    .step .lead { font-size: 13.5px; margin-bottom: 18px; }
+    .drop { padding: 28px 16px; }
+    .drop .ic { font-size: 30px; }
+    .nav-btns { flex-wrap: wrap; gap: 8px; }
+    .nav-btns .btn { flex: 1; justify-content: center; padding: 11px 14px; }
+    .skip { width: 100%; text-align: center; margin: 4px 0 0; }
+    .found .row { flex-direction: column; gap: 2px; }
+    .found .row b { text-align: left; }
+  }
 </style>
 </head>
 <body>
