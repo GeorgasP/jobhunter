@@ -11,6 +11,7 @@
   "header.scan": "Buscar ahora",
   "header.scanning": "Buscando…",
   "header.theme": "Claro / oscuro",
+  "header.tone": "Intensidad",
   "header.matches.sub": "{count} puestos esperando · última búsqueda {when}",
   "header.pipeline.sub": "{count} candidaturas · arrastra una tarjeta para cambiar de etapa",
   "header.settings.sub": "Tú decides qué cuenta como coincidencia",

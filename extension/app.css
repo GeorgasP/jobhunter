@@ -8,13 +8,62 @@
    ========================================================= */
 
 :root {
-  --bg: #0a0f1c;
-  --surface: #101827;
-  --surface-2: #162033;
-  --surface-3: #1c2940;
+  /* Ενταση θέματος: 0 = το πιο σβηστό άκρο, 100 = το πιο φωτεινό.
+     Ο χρήστης το ρυθμίζει από τον επιλογέα δίπλα στο κουμπί θέματος. */
+  --tone: 50;
+  --tone-pct: calc(var(--tone) * 1%);
 
-  --line: #24324a;
-  --line-2: #344863;
+  --bg-lo: #04070d;
+  --bg-hi: #10172b;
+  --surface-lo: #070b12;
+  --surface-hi: #19253c;
+  --surface-2-lo: #0a0e17;
+  --surface-2-hi: #22324f;
+  --surface-3-lo: #0d121d;
+  --surface-3-hi: #2b4063;
+  --line-lo: #101621;
+  --line-hi: #384e73;
+  --line-2-lo: #17202d;
+  --line-2-hi: #517099;
+
+  --bg:
+    color-mix(
+      in oklab,
+      var(--bg-lo),
+      var(--bg-hi) var(--tone-pct)
+    );
+  --surface:
+    color-mix(
+      in oklab,
+      var(--surface-lo),
+      var(--surface-hi) var(--tone-pct)
+    );
+  --surface-2:
+    color-mix(
+      in oklab,
+      var(--surface-2-lo),
+      var(--surface-2-hi) var(--tone-pct)
+    );
+  --surface-3:
+    color-mix(
+      in oklab,
+      var(--surface-3-lo),
+      var(--surface-3-hi) var(--tone-pct)
+    );
+  --line:
+    color-mix(
+      in oklab,
+      var(--line-lo),
+      var(--line-hi) var(--tone-pct)
+    );
+  --line-2:
+    color-mix(
+      in oklab,
+      var(--line-2-lo),
+      var(--line-2-hi) var(--tone-pct)
+    );
+
+
 
   --fg: #f1f5f9;
   --fg-2: #c1cddd;
@@ -26,6 +75,13 @@
 
   --accent-soft: rgba(59, 130, 246, 0.14);
   --accent-border: rgba(59, 130, 246, 0.3);
+
+  /* Κείμενο πάνω σε --accent-soft, και πάνω σε συμπαγές --accent.
+     Ξεχωριστά tokens γιατί το ένα αλλάζει στο light θέμα και το άλλο όχι. */
+  --on-accent-soft: #dbeafe;
+  --on-accent: #ffffff;
+  --accent-solid: var(--accent-2);
+  --accent-deep: #1d4ed8;
 
   --ok: #34d399;
   --warn: #fbbf24;
@@ -46,19 +102,70 @@
    ========================================================= */
 
 html[data-theme="light"] {
-  --bg: #f7f8fa;
-  --surface: #ffffff;
-  --surface-2: #f3f5f8;
-  --surface-3: #e8edf4;
+  --bg-lo: #ebedf2;
+  --bg-hi: #fdfdfe;
+  --surface-lo: #f5f5f5;
+  --surface-hi: #ffffff;
+  --surface-2-lo: #e7ebf1;
+  --surface-2-hi: #f9fafc;
+  --surface-3-lo: #dbe3ee;
+  --surface-3-hi: #eef2f7;
+  --line-lo: #dbdfe8;
+  --line-hi: #eceef3;
+  --line-2-lo: #cbd2dd;
+  --line-2-hi: #dbe0e8;
 
-  --line: #e6e9ef;
-  --line-2: #d6dbe4;
+  --bg:
+    color-mix(
+      in oklab,
+      var(--bg-lo),
+      var(--bg-hi) var(--tone-pct)
+    );
+  --surface:
+    color-mix(
+      in oklab,
+      var(--surface-lo),
+      var(--surface-hi) var(--tone-pct)
+    );
+  --surface-2:
+    color-mix(
+      in oklab,
+      var(--surface-2-lo),
+      var(--surface-2-hi) var(--tone-pct)
+    );
+  --surface-3:
+    color-mix(
+      in oklab,
+      var(--surface-3-lo),
+      var(--surface-3-hi) var(--tone-pct)
+    );
+  --line:
+    color-mix(
+      in oklab,
+      var(--line-lo),
+      var(--line-hi) var(--tone-pct)
+    );
+  --line-2:
+    color-mix(
+      in oklab,
+      var(--line-2-lo),
+      var(--line-2-hi) var(--tone-pct)
+    );
+
+
 
   --fg: #151a21;
   --fg-2: #5b6675;
-  --fg-3: #778293;
+  --fg-3: #5f6978;
+
+  /* Τα πράσινο/κίτρινο/κόκκινο του σκούρου θέματος είναι φτιαγμένα να λάμπουν
+     σε μαύρο φόντο· πάνω σε λευκό έπεφταν στο 1.6–1.8 και δεν διαβάζονταν. */
+  --ok: #16684a;
+  --warn: #785703;
+  --bad: #e00b0b;
 
   --accent-soft: rgba(37, 99, 235, 0.1);
+  --on-accent-soft: #1d4ed8;
 
   --shadow:
     0 1px 2px rgba(16, 24, 40, 0.05),
@@ -180,8 +287,8 @@ aside {
   background:
     linear-gradient(
       135deg,
-      var(--accent),
-      var(--accent-2)
+      var(--accent-solid),
+      var(--accent-deep)
     );
 
   box-shadow:
@@ -313,8 +420,8 @@ nav {
 }
 
 .nav-item.on .badge {
-  color: #ffffff;
-  background: var(--accent);
+  color: var(--on-accent);
+  background: var(--accent-solid);
 }
 
 /* =========================================================
@@ -356,8 +463,8 @@ nav {
   background:
     linear-gradient(
       135deg,
-      var(--pink),
-      var(--accent-2)
+      var(--accent-solid),
+      var(--accent-deep)
     );
 
   font-size: 12px;
@@ -481,8 +588,8 @@ header p {
   background:
     linear-gradient(
       135deg,
-      var(--accent),
-      var(--accent-2)
+      var(--accent-solid),
+      var(--accent-deep)
     );
 
   border-color: transparent;
@@ -632,7 +739,7 @@ header p {
 }
 
 .chip-filter.on {
-  color: #dbeafe;
+  color: var(--on-accent-soft);
 
   background: var(--accent-soft);
 
@@ -1897,6 +2004,92 @@ html[data-theme="light"] .cvbox:hover {
    RESPONSIVE
    ========================================================= */
 
+
+/* =========================================================
+   THEME TONE
+   Κρατιέσαι πάνω από το κουμπί θέματος για τρία δευτερόλεπτα
+   και ανοίγει κάθετος ρυθμιστής: πόσο σβηστό ή πόσο φωτεινό
+   θα είναι το θέμα. Κρυφό μέχρι να το ζητήσεις — το κλικ
+   συνεχίζει απλώς να εναλλάσσει σκούρο/ανοιχτό.
+   ========================================================= */
+
+.theme-wrap {
+  position: relative;
+
+  display: inline-flex;
+}
+
+.tone-pop {
+  position: absolute;
+  z-index: 50;
+
+  top: calc(100% + 9px);
+  right: 0;
+
+  display: none;
+
+  padding: 14px 12px 12px;
+
+  background: var(--surface);
+
+  border: 1px solid var(--line-2);
+  border-radius: var(--r);
+
+  box-shadow: var(--shadow);
+
+  text-align: center;
+}
+
+.tone-pop.on {
+  display: block;
+
+  animation: rise var(--t-fast) var(--ease) both;
+}
+
+.tone-pop b {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: var(--fg-2);
+
+  font-size: 11px;
+  font-weight: 650;
+
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  white-space: nowrap;
+}
+
+.tone-pop input[type="range"] {
+  /* Κάθετος ρυθμιστής: το writing-mode ειναι ο σημερινος τροπος,
+     το slider-vertical o palios — kratame kai ta dyo. */
+  writing-mode: vertical-lr;
+  direction: rtl;
+  -webkit-appearance: slider-vertical;
+  appearance: slider-vertical;
+
+  width: 26px;
+  height: 116px;
+
+  margin: 0;
+
+  accent-color: var(--accent);
+
+  cursor: ns-resize;
+}
+
+.tone-pop .val {
+  display: block;
+
+  margin-top: 9px;
+
+  color: var(--fg-3);
+
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
 
 /* =========================================================
    MOTION

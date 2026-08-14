@@ -11,6 +11,7 @@
   "header.scan": "Szukaj teraz",
   "header.scanning": "Szukam…",
   "header.theme": "Jasny / ciemny",
+  "header.tone": "Intensywność",
   "header.matches.sub": "{count} stanowisk czeka · ostatnie szukanie {when}",
   "header.pipeline.sub": "{count} aplikacji · przeciągnij kartę, aby zmienić etap",
   "header.settings.sub": "To Ty decydujesz, co liczy się jako dopasowanie",

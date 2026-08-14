@@ -11,6 +11,7 @@
   "header.scan": "Jetzt suchen",
   "header.scanning": "Suche läuft…",
   "header.theme": "Hell / dunkel",
+  "header.tone": "Intensität",
   "header.matches.sub": "{count} Stellen warten · letzte Suche {when}",
   "header.pipeline.sub": "{count} Bewerbungen · Karte ziehen, um die Phase zu ändern",
   "header.settings.sub": "Du bestimmst, was als Treffer zählt",

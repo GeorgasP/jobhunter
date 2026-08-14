@@ -11,6 +11,7 @@
   "header.scan": "Scan now",
   "header.scanning": "Scanning…",
   "header.theme": "Light / dark",
+  "header.tone": "Intensity",
   "header.matches.sub": "{count} roles waiting · last scan {when}",
   "header.pipeline.sub": "{count} applications · drag a card to change its stage",
   "header.settings.sub": "You decide what counts as a match",

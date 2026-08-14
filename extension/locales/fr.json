@@ -11,6 +11,7 @@
   "header.scan": "Lancer la recherche",
   "header.scanning": "Recherche…",
   "header.theme": "Clair / sombre",
+  "header.tone": "Intensité",
   "header.matches.sub": "{count} postes en attente · dernière recherche {when}",
   "header.pipeline.sub": "{count} candidatures · faites glisser une carte pour changer d'étape",
   "header.settings.sub": "C'est vous qui décidez ce qui compte",

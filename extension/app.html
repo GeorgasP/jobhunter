@@ -45,9 +45,17 @@
   <button class="btn primary" id="scan">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
     <span data-i18n="header.scan">Scan now</span></button>
-  <button class="icon-btn" id="theme" data-i18n-title="header.theme" title="Light / dark">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
-  </button>
+  <div class="theme-wrap" id="theme-wrap">
+    <button class="icon-btn" id="theme" data-i18n-title="header.theme" title="Light / dark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <div class="tone-pop" id="tone-pop">
+      <b data-i18n="header.tone">Intensity</b>
+      <input type="range" id="tone" min="0" max="100" step="1" value="50"
+             data-i18n-title="header.tone">
+      <span class="val" id="tone-val">50</span>
+    </div>
+  </div>
 </header>
 
 <div class="wrap">

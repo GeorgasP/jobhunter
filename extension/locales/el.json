@@ -11,6 +11,7 @@
   "header.scan": "Νέα αναζήτηση",
   "header.scanning": "Ψάχνει…",
   "header.theme": "Φωτεινό / σκοτεινό",
+  "header.tone": "Ένταση",
   "header.matches.sub": "{count} θέσεις σε αναμονή · τελευταία αναζήτηση {when}",
   "header.pipeline.sub": "{count} αιτήσεις · σύρε μια κάρτα για να αλλάξεις στάδιο",
   "header.settings.sub": "Εσύ ορίζεις τι μετράει ως ταίριασμα",
