@@ -102,18 +102,18 @@
    ========================================================= */
 
 html[data-theme="light"] {
-  --bg-lo: #ebedf2;
-  --bg-hi: #fdfdfe;
-  --surface-lo: #f5f5f5;
+  --bg-lo: #cbd1d8;
+  --bg-hi: #f8f9fa;
+  --surface-lo: #d4d9e0;
   --surface-hi: #ffffff;
-  --surface-2-lo: #e7ebf1;
-  --surface-2-hi: #f9fafc;
-  --surface-3-lo: #dbe3ee;
-  --surface-3-hi: #eef2f7;
-  --line-lo: #dbdfe8;
-  --line-hi: #eceef3;
-  --line-2-lo: #cbd2dd;
-  --line-2-hi: #dbe0e8;
+  --surface-2-lo: #cdd3dd;
+  --surface-2-hi: #fcfdfd;
+  --surface-3-lo: #c1c9d6;
+  --surface-3-hi: #eff1f4;
+  --line-lo: #b9c1ce;
+  --line-hi: #e4e7ec;
+  --line-2-lo: #a8b1bf;
+  --line-2-hi: #ced3db;
 
   --bg:
     color-mix(
@@ -155,17 +155,17 @@ html[data-theme="light"] {
 
 
   --fg: #151a21;
-  --fg-2: #5b6675;
-  --fg-3: #5f6978;
+  --fg-2: #4e5865;
+  --fg-3: #4f5764;
 
   /* Τα πράσινο/κίτρινο/κόκκινο του σκούρου θέματος είναι φτιαγμένα να λάμπουν
      σε μαύρο φόντο· πάνω σε λευκό έπεφταν στο 1.6–1.8 και δεν διαβάζονταν. */
-  --ok: #16684a;
-  --warn: #785703;
-  --bad: #e00b0b;
+  --ok: #11543b;
+  --warn: #6b4d03;
+  --bad: #af0909;
 
   --accent-soft: rgba(37, 99, 235, 0.1);
-  --on-accent-soft: #1d4ed8;
+  --on-accent-soft: #1e40af;
 
   --shadow:
     0 1px 2px rgba(16, 24, 40, 0.05),

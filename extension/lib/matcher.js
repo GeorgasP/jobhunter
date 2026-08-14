@@ -12,6 +12,39 @@ const SENIOR = ["senior", "sr.", "lead", "principal", "staff", "head of", "direc
                 "vp ", "vice president", "chief"];
 const ENTRY = ["junior", "jr.", "entry", "graduate", "trainee", "intern", "apprentice"];
 
+/**
+ * Πόσα χρόνια εμπειρίας ζητάει η αγγελία, ή null αν δεν το λέει.
+ *
+ * Πιάνει «5+ years of experience», «3-5 years experience», «at least 2 years».
+ * Απαιτεί να ακολουθεί η λέξη experience μέσα σε λίγους χαρακτήρες, αλλιώς
+ * θα μετρούσαμε φράσεις όπως «founded 10 years ago» ως απαίτηση.
+ */
+function requiredYears(text) {
+  if (!text) return null;
+  const re = /(\d{1,2})\s*(?:\+|-|–|to)?\s*(\d{1,2})?\s*\+?\s*years?[^.]{0,24}?experience/gi;
+  let m, low = null;
+  while ((m = re.exec(text)) !== null) {
+    const n = Number(m[1]);
+    if (Number.isFinite(n) && n <= 30 && (low === null || n < low)) low = n;
+  }
+  return low;
+}
+
+/**
+ * Το επίπεδο της θέσης: πρώτα από τον τίτλο, που είναι το πιο αξιόπιστο,
+ * αλλιώς από τα χρόνια που ζητάει η περιγραφή. Επιστρέφει null όταν η
+ * αγγελία δεν το δηλώνει πουθενά — και τότε δεν την κρίνουμε.
+ */
+function jobLevel(title, description) {
+  if (SENIOR.some((m) => title.includes(m))) return "senior";
+  if (ENTRY.some((m) => title.includes(m))) return "entry";
+  const years = requiredYears(description);
+  if (years === null) return null;
+  if (years >= 5) return "senior";
+  if (years >= 3) return "mid";
+  return "entry";
+}
+
 const GLOBAL_WORDS = ["worldwide", "anywhere", "global", "fully remote"];
 const REMOTE_WORDS = ["remote", "anywhere", "worldwide", "work from home", "distributed"];
 
@@ -198,16 +231,25 @@ export function scoreJob(jobItem, p) {
     }
   }
 
-  const isSenior = SENIOR.some((m) => title.includes(m));
-  const isEntry = ENTRY.some((m) => title.includes(m));
-  if (p.experienceLevel === "entry" && isSenior) {
-    score -= 25; reasons.chips.push({ kind: "warn", text: "senior role" });
-  } else if (p.experienceLevel === "senior" && isEntry) {
-    score -= 20; reasons.chips.push({ kind: "warn", text: "entry-level role" });
-  } else if (p.experienceLevel === "mid" &&
-             ["director", "vp ", "chief", "head of"].some((m) => title.includes(m))) {
-    score -= 15; reasons.chips.push({ kind: "warn", text: "leadership role" });
+  /* Επίπεδο εμπειρίας — απόρριψη, όχι απλή ποινή.
+     Αν διαλέξεις «αρχάριος», οι senior θέσεις δεν έχουν λόγο να εμφανίζονται.
+     Οι αγγελίες που δεν δηλώνουν επίπεδο πουθενά περνάνε: είναι η πλειοψηφία,
+     και το να τις κόβαμε θα άδειαζε τη λίστα αντί να τη φιλτράρει. */
+  const level = jobLevel(title, jobItem.description);
+  const wants = p.experienceLevel || "mid";
+
+  if (level !== null && level !== wants) {
+    const years = requiredYears(jobItem.description);
+    const why = years !== null
+      ? `${level}-level · asks for ${years}+ years`
+      : `${level}-level role`;
+    return { score: 0, rejected: why, reasons };
   }
+  if (level === wants) {
+    reasons.chips.push({ kind: "good", text: `${wants}-level` });
+  }
+  // Οι αγγελίες που δεν δηλώνουν επίπεδο πουθενά (level === null) περνάνε
+  // χωρίς μπόνους: δεν έχουμε στοιχείο για να τις κρίνουμε προς καμία μεριά.
 
   return { score: Math.max(0, Math.min(100, Math.round(score))), rejected: null, reasons };
 }
