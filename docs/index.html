@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JobHunter — automatic job search</title>
+<meta name="description" content="A browser extension that searches job boards for you, scores every posting against what you actually want, and fills in the application forms. Free, no account, nothing leaves your browser.">
+<style>
+  :root {
+    --bg: #0a0f1c; --surface: #101827; --line: #24324a;
+    --fg: #f1f5f9; --fg-2: #c1cddd; --fg-3: #899bb2;
+    --accent: #3b82f6; --accent-deep: #1d4ed8;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #e3e6ea; --surface: #edeff2; --line: #d0d5de;
+      --fg: #151a21; --fg-2: #4e5865; --fg-3: #4f5764;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg); color: var(--fg);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    padding: 60px 22px 80px;
+  }
+  main { max-width: 660px; margin: 0 auto; }
+  .mark {
+    display: inline-grid; place-items: center;
+    width: 46px; height: 46px; border-radius: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+    font-size: 23px; margin-bottom: 22px;
+  }
+  h1 { font-size: 30px; font-weight: 700; letter-spacing: -0.6px; }
+  .lead { margin-top: 12px; color: var(--fg-2); font-size: 17.5px; }
+  h2 { margin-top: 40px; font-size: 15px; font-weight: 650;
+       letter-spacing: 0.8px; text-transform: uppercase; color: var(--fg-3); }
+  ul { margin-top: 12px; padding-left: 20px; color: var(--fg-2); }
+  li { margin-bottom: 7px; }
+  a { color: var(--accent); }
+  .card {
+    margin-top: 16px; padding: 18px 20px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 11px;
+    color: var(--fg-2);
+  }
+  footer { margin-top: 48px; padding-top: 22px; border-top: 1px solid var(--line);
+           color: var(--fg-3); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+  <div class="mark">🎯</div>
+  <h1>JobHunter</h1>
+  <p class="lead">A browser extension that searches job boards for you, scores every
+  posting against what you actually want, and fills in the application forms.</p>
+
+  <h2>How it works</h2>
+  <ul>
+    <li>Reads your CV once and fills in the rest from it.</li>
+    <li>Searches twice a day across job boards and company career pages.</li>
+    <li>Scores each posting out of 100 — title, location, salary, freshness — and
+        shows you why, so it is never a black box.</li>
+    <li>Prepares the application and fills the form. You review it and press submit.</li>
+  </ul>
+
+  <h2>What it does not do</h2>
+  <div class="card">
+    Nothing leaves your browser. There is no account, no server, and no analytics.
+    Your CV and your applications are stored on your own machine and are never
+    uploaded anywhere.
+  </div>
+
+  <h2>Links</h2>
+  <ul>
+    <li><a href="privacy.html">Privacy policy</a></li>
+    <li><a href="https://github.com/GeorgasP/jobhunter">Source code</a></li>
+  </ul>
+
+  <footer>
+    Free and open source. Built by Panos Georgas.
+  </footer>
+</main>
+</body>
+</html>
