@@ -8,15 +8,21 @@ echo   JobHunter - screenshots gia to Chrome Web Store
 echo   ===============================================
 echo.
 echo   Anoigei topiko server kai tis 4 selides sto Chrome.
-echo   Gia kathe mia:
 echo.
-echo     1. F12  (anoigei ta DevTools)
-echo     2. Ctrl+Shift+P
-echo     3. grapse:  screenshot
-echo     4. dialekse "Capture screenshot"
+echo   PROSOXI: to sketo "Capture screenshot" travaei to PARATHYRO sou,
+echo   ara ta pixel exartwntai apo to zoom kai to megethos tou. Gia na
+echo   vgei akrivws 1280x800 xreiazetai emulation. Gia kathe selida:
+echo.
+echo     1. F12                 anoigei ta DevTools
+echo     2. Ctrl+Shift+M        anoigei ti mpara syskeuwn
+echo     3. Panw-aristera dialekse "Responsive" kai grapse
+echo          platos 1280   ypsos 800
+echo     4. Sto zoom diple dipla vale 100%%
+echo     5. Ctrl+Shift+P  ^>  grapse "screenshot"  ^>
+echo          "Capture screenshot"
 echo.
 echo   To arxeio pefteti sta Downloads se akrivws 1280x800.
-echo   Meta valta sto store\screenshots\ os 1.png, 2.png, 3.png, 4.png
+echo   Afise ta ekei - tha ta vrw kai tha ta valw sti thesi tous.
 echo.
 echo   ---------------------------------------------------------
 echo.
