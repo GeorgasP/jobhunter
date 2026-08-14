@@ -52,11 +52,11 @@
   "drawer.history": "Ιστορικό",
   "drawer.folder": "Φάκελος αίτησης:",
   "drawer.movedTo": "Μετακινήθηκε σε: {stage}",
-  "drawer.letterCopied": "Η επιστολή αντιγράφηκε",
   "settings.cv.title": "Το βιογραφικό σου",
   "settings.cv.hint": "επισυνάπτεται σε κάθε αίτηση",
   "settings.cv.none": "Δεν έχεις ανεβάσει βιογραφικό",
   "settings.cv.formats": "PDF, DOCX, TXT ή Markdown",
+  "settings.cv.drop": "Άσε το βιογραφικό σου εδώ",
   "settings.cv.upload": "Ανέβασμα",
   "settings.cv.replace": "Αντικατάσταση",
   "settings.cv.read": "{kb} KB · διαβάστηκαν {chars} χαρακτήρες",
@@ -191,5 +191,6 @@
   "settings.update.hint": "αφού κατεβάσεις αλλαγές από το git",
   "settings.update.help": "Ο Chrome δεν φορτώνει ποτέ κώδικα από το internet — διαβάζει τα αρχεία στον δίσκο σου. Τρέξε το update.bat για να κατέβουν οι αλλαγές, και μετά πάτα αυτό το κουμπί για να ξαναξεκινήσει το extension με αυτές.",
   "settings.update.button": "Εφαρμογή ενημέρωσης",
-  "settings.update.reloading": "Επανεκκίνηση του extension…"
+  "settings.update.reloading": "Επανεκκίνηση του extension…",
+  "drawer.letterCopied": "Η επιστολή αντιγράφηκε"
 }

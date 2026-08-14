@@ -18,6 +18,10 @@ function setupCvDragAndDrop() {
   const fileInput = $("#cv-file");
   if (!dropZone || !fileInput) return;
 
+  // Το μήνυμα «άσε το εδώ» ζωγραφίζεται από το CSS με content: attr(data-drop).
+  // Το CSS δεν βλέπει τα λεξικά, οπότε του δίνουμε τη μετάφραση από εδώ.
+  dropZone.dataset.drop = t("settings.cv.drop");
+
   let dragDepth = 0;
 
   dropZone.addEventListener("dragenter", (e) => {
@@ -287,19 +291,8 @@ async function fillSettings() {
 
   $$("[data-tog]").forEach((el) => el.classList.toggle("on", Boolean(profile[el.dataset.tog])));
 
-  const industryLabels = {
-    ai: "AI",
-    hr: "HR",
-    saas: "SaaS",
-    fintech: "Fintech",
-  };
-
-  const formatIndustry = (industry) =>
-    industryLabels[industry] ??
-    industry.charAt(0).toUpperCase() + industry.slice(1);
-
   $("#industries").innerHTML = ALL_INDUSTRIES.map((i) =>
-    `<button class="pick ${profile.industries?.includes(i) ? "on" : ""}" data-i="${i}">${formatIndustry(i)}</button>`).join("");
+    `<button class="pick ${profile.industries?.includes(i) ? "on" : ""}" data-i="${i}">${esc(industryLabel(i))}</button>`).join("");
   $$("#industries .pick").forEach((p) => p.onclick = () => p.classList.toggle("on"));
 
   fillLanguageSelect(currentLanguage());
@@ -443,8 +436,25 @@ chrome.storage.local.get("theme").then(({ theme }) => {
   if (theme) document.documentElement.dataset.theme = theme;
 });
 
-store.isOnboarded().then((ok) => {
-  if (!ok) location.href = "onboarding.html";
+/* ── Γλώσσα διεπαφής ──────────────────────────────────────── */
+function fillLanguageSelect(active) {
+  const select = $("#uiLanguage");
+  if (!select) return;
+  select.innerHTML = LANGUAGES.map((l) =>
+    `<option value="${l.code}" ${l.code === active ? "selected" : ""}>${esc(l.name)}</option>`).join("");
+  select.onchange = async () => {
+    await loadLanguage(select.value);
+    await store.saveProfile({ uiLanguage: select.value });
+    applyTranslations();
+    await load();
+  };
+}
+
+store.getProfile().then(async (p) => {
+  const active = await initI18n(p.uiLanguage);
+  if (!p.uiLanguage) await store.saveProfile({ uiLanguage: active });
+  fillLanguageSelect(active);
+  if (!(await store.isOnboarded())) location.href = "onboarding.html";
   else {
     setupCvDragAndDrop();
     load();

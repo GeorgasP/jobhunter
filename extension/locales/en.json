@@ -56,6 +56,7 @@
   "settings.cv.hint": "attached to every application",
   "settings.cv.none": "No CV uploaded yet",
   "settings.cv.formats": "PDF, DOCX, TXT or Markdown",
+  "settings.cv.drop": "Drop your CV here",
   "settings.cv.upload": "Upload",
   "settings.cv.replace": "Replace",
   "settings.cv.read": "{kb} KB · {chars} characters read",
