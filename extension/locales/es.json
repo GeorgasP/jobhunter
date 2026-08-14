@@ -56,6 +56,7 @@
   "settings.cv.hint": "se adjunta a cada candidatura",
   "settings.cv.none": "Aún no has subido un CV",
   "settings.cv.formats": "PDF, DOCX, TXT o Markdown",
+  "settings.cv.drop": "Suelta aquí tu CV",
   "settings.cv.upload": "Subir",
   "settings.cv.replace": "Reemplazar",
   "settings.cv.read": "{kb} KB · {chars} caracteres leídos",

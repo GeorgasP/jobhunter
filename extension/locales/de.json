@@ -56,6 +56,7 @@
   "settings.cv.hint": "wird jeder Bewerbung angehängt",
   "settings.cv.none": "Noch kein Lebenslauf hochgeladen",
   "settings.cv.formats": "PDF, DOCX, TXT oder Markdown",
+  "settings.cv.drop": "Lebenslauf hier ablegen",
   "settings.cv.upload": "Hochladen",
   "settings.cv.replace": "Ersetzen",
   "settings.cv.read": "{kb} KB · {chars} Zeichen gelesen",

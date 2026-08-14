@@ -56,6 +56,7 @@
   "settings.cv.hint": "anexado a cada candidatura",
   "settings.cv.none": "Ainda não carregaste o CV",
   "settings.cv.formats": "PDF, DOCX, TXT ou Markdown",
+  "settings.cv.drop": "Larga aqui o teu CV",
   "settings.cv.upload": "Carregar",
   "settings.cv.replace": "Substituir",
   "settings.cv.read": "{kb} KB · {chars} caracteres lidos",

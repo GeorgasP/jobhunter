@@ -56,6 +56,7 @@
   "settings.cv.hint": "dołączane do każdej aplikacji",
   "settings.cv.none": "Nie wgrano jeszcze CV",
   "settings.cv.formats": "PDF, DOCX, TXT lub Markdown",
+  "settings.cv.drop": "Upuść tutaj swoje CV",
   "settings.cv.upload": "Wgraj",
   "settings.cv.replace": "Zamień",
   "settings.cv.read": "{kb} KB · odczytano {chars} znaków",

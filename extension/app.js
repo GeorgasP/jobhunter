@@ -13,6 +13,57 @@ const send = (msg) => chrome.runtime.sendMessage(msg);
 const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
+function setupCvDragAndDrop() {
+  const dropZone = $("#cvbox");
+  const fileInput = $("#cv-file");
+  if (!dropZone || !fileInput) return;
+
+  // Το μήνυμα «άσε το εδώ» ζωγραφίζεται από το CSS με content: attr(data-drop).
+  // Το CSS δεν βλέπει τα λεξικά, οπότε του δίνουμε τη μετάφραση από εδώ.
+  dropZone.dataset.drop = t("settings.cv.drop");
+
+  let dragDepth = 0;
+
+  dropZone.addEventListener("dragenter", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth++;
+    dropZone.classList.add("dragging-file");
+  });
+
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    e.dataTransfer.dropEffect = "copy";
+    dropZone.classList.add("dragging-file");
+  });
+
+  dropZone.addEventListener("dragleave", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth--;
+    if (dragDepth <= 0) {
+      dragDepth = 0;
+      dropZone.classList.remove("dragging-file");
+    }
+  });
+
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    dragDepth = 0;
+    dropZone.classList.remove("dragging-file");
+
+    const file = e.dataTransfer.files?.[0];
+    if (!file) return;
+
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    fileInput.files = transfer.files;
+    fileInput.dispatchEvent(new Event("change", { bubbles: true }));
+  });
+}
+
 let profile = null, matches = [], apps = [], state = null, filter = "all";
 // Λεξιλόγιο από τις κατεβασμένες αγγελίες — έτσι οι προτάσεις είναι η γραφή
 // που χρησιμοποιούν όντως οι εταιρείες.
@@ -207,6 +258,7 @@ async function openDrawer(id) {
     renderBoard(); openDrawer(id);
   }));
 }
+
 $("#drawer").addEventListener("click", (e) => {
   if (e.target.classList.contains("veil")) $("#drawer").classList.remove("on");
 });
@@ -362,6 +414,7 @@ const TITLES = {
   pipeline: () => [t("nav.pipeline"), t("header.pipeline.sub", { count: apps.length })],
   settings: () => [t("nav.settings"), t("header.settings.sub")],
 };
+
 $$(".nav-item").forEach((a) => a.onclick = () => {
   $$(".nav-item").forEach((x) => x.classList.remove("on"));
   a.classList.add("on");
@@ -378,6 +431,7 @@ $("#theme").onclick = async () => {
   root.dataset.theme = root.dataset.theme === "dark" ? "light" : "dark";
   await chrome.storage.local.set({ theme: root.dataset.theme });
 };
+
 chrome.storage.local.get("theme").then(({ theme }) => {
   if (theme) document.documentElement.dataset.theme = theme;
 });
@@ -401,5 +455,8 @@ store.getProfile().then(async (p) => {
   if (!p.uiLanguage) await store.saveProfile({ uiLanguage: active });
   fillLanguageSelect(active);
   if (!(await store.isOnboarded())) location.href = "onboarding.html";
-  else load();
+  else {
+    setupCvDragAndDrop();
+    load();
+  }
 });
