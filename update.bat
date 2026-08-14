@@ -10,7 +10,7 @@ echo.
 
 git rev-parse --is-inside-work-tree >nul 2>&1
 if errorlevel 1 (
-  echo   [!] Auto o fakelos den einai git repository.
+  echo   [^!] Auto o fakelos den einai git repository.
   echo       Trekse: git clone https://github.com/GeorgasP/jobhunter.git
   echo.
   pause
@@ -27,7 +27,7 @@ echo.
 REM --- Adiavastes allages: den ta patame, rotame ---------------------
 git diff --quiet && git diff --cached --quiet
 if errorlevel 1 (
-  echo   [!] Exeis alages pou den exoun ginei commit:
+  echo   [^!] Exeis alages pou den exoun ginei commit:
   echo.
   git status --short
   echo.
@@ -46,7 +46,7 @@ echo   [2/4] Enimerwnw to diko sou branch (!MINE!)...
 git merge --ff-only "origin/!MINE!"
 if errorlevel 1 (
   echo.
-  echo   [!] To !MINE! den paei mprosta me fast-forward.
+  echo   [^!] To !MINE! den paei mprosta me fast-forward.
   echo       Exeis dika sou commits pou den exoun anevei. Kane:  git push origin !MINE!
   echo.
 )
@@ -69,7 +69,7 @@ if "!COUNT!"=="0" (
 )
 
 echo.
-git log --oneline --no-merges "HEAD..origin/!THEIRS!"
+git log --oneline "HEAD..origin/!THEIRS!"
 echo.
 echo   !COUNT! commit^(s^) apo to !THEIRS!.
 echo.
@@ -85,7 +85,7 @@ echo   [4/4] Kanw merge to origin/!THEIRS!...
 git merge --no-edit "origin/!THEIRS!"
 if errorlevel 1 (
   echo.
-  echo   [!] Sygkroush - dyo anthropoi allaksan tin idia grammi.
+  echo   [^!] Sygkroush - dyo anthropoi allaksan tin idia grammi.
   echo       Anoixe ta arxeia pou leei to git status, dialekse ti krataei,
   echo       kai meta:   git add .   ^&^&   git commit
   echo       Akyrwsi:    git merge --abort
@@ -115,7 +115,7 @@ exit /b 0
 
 :neterror
 echo.
-echo   [!] Den mporesa na syndetho sto GitHub. Elegkse to internet sou.
+echo   [^!] Den mporesa na syndetho sto GitHub. Elegkse to internet sou.
 echo.
 pause
 exit /b 1
