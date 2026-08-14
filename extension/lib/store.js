@@ -18,6 +18,7 @@ export const DEFAULT_PROFILE = {
   name: "", email: "", phone: "", location: "",
   linkedin: "", github: "", workAuthorization: "", noticePeriod: "Immediately available",
   language: "en",
+  uiLanguage: "",
   titles: [],
   locations: ["Remote"],
   blockedLocations: [],

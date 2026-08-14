@@ -2,15 +2,20 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
-<title>Set up JobHunter</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n-doc="onboarding.title">Set up JobHunter</title>
 <link rel="stylesheet" href="app.css">
 <style>
   body{display:grid;place-items:start center;padding:48px 20px 80px}
   .ob{width:min(620px,100%)}
-  .top{display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  .top{display:flex;align-items:center;gap:12px;margin-bottom:26px;flex-wrap:wrap}
   .top .mark{width:40px;height:40px;border-radius:11px;font-size:20px}
   .top b{font-size:19px;font-weight:680;letter-spacing:-.4px;display:block}
   .top span{color:var(--fg-3);font-size:13px}
+  .lang{margin-left:auto;display:flex;align-items:center;gap:8px}
+  .lang > span{font-size:12px;color:var(--fg-3)}
+  .lang select{width:auto;min-width:118px;padding:7px 10px;font-size:13px}
+  @media (max-width:560px){.lang{width:100%;margin:10px 0 0;justify-content:space-between}}
   .bar{display:flex;gap:6px;margin-bottom:26px}
   .bar i{height:3px;flex:1;border-radius:3px;background:var(--line-2);transition:.25s}
   .bar i.on{background:var(--accent)}
@@ -40,77 +45,96 @@
   .spin{display:inline-block;width:15px;height:15px;border:2px solid rgba(255,255,255,.35);
         border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite}
   @keyframes sp{to{transform:rotate(360deg)}}
+
+  /* Μικρές οθόνες: λιγότερο κενό, κουμπιά σε πλήρες πλάτος */
+  @media (max-width: 560px) {
+    body { padding: 24px 16px 56px; }
+    .top { margin-bottom: 20px; }
+    .top .mark { width: 34px; height: 34px; font-size: 17px; }
+    .top b { font-size: 17px; }
+    .step h2 { font-size: 19px; }
+    .step .lead { font-size: 13.5px; margin-bottom: 18px; }
+    .drop { padding: 28px 16px; }
+    .drop .ic { font-size: 30px; }
+    .nav-btns { flex-wrap: wrap; gap: 8px; }
+    .nav-btns .btn { flex: 1; justify-content: center; padding: 11px 14px; }
+    .skip { width: 100%; text-align: center; margin: 4px 0 0; }
+    .found .row { flex-direction: column; gap: 2px; }
+    .found .row b { text-align: left; }
+  }
 </style>
 </head>
 <body>
 <div class="ob">
   <div class="top">
     <div class="mark">🎯</div>
-    <div><b>JobHunter</b><span>Three steps and it starts working for you</span></div>
+    <div><b>JobHunter</b><span data-i18n="onboarding.brandSub">Three steps and it starts working for you</span></div>
+    <label class="lang">
+      <span data-i18n="onboarding.language">Language</span>
+      <select id="uiLanguage"></select>
+    </label>
   </div>
   <div class="bar"><i class="on"></i><i></i><i></i></div>
 
   <!-- 1: CV -->
   <section class="step on" id="s1">
-    <h2>Upload your CV</h2>
-    <p class="lead">Everything else is filled in from it — and it gets attached to every application you send.
-      It stays in this browser and is never uploaded anywhere.</p>
+    <h2 data-i18n="onboarding.step1.title">Upload your CV</h2>
+    <p class="lead" data-i18n="onboarding.step1.lead"></p>
 
     <div class="drop" id="drop">
       <div class="ic">📄</div>
-      <b>Drop your CV here, or click to choose</b>
-      <span>PDF, DOCX, TXT or Markdown · up to 8 MB</span>
+      <b data-i18n="onboarding.drop">Drop your CV here, or click to choose</b>
+      <span data-i18n="onboarding.dropFormats">PDF, DOCX, TXT or Markdown · up to 8 MB</span>
     </div>
     <input type="file" id="file" accept=".pdf,.docx,.txt,.md" hidden>
     <div id="found"></div>
 
     <div class="nav-btns">
-      <button class="btn primary" id="next1" disabled>Continue</button>
-      <span class="skip" id="skip1">Skip for now</span>
+      <button class="btn primary" id="next1" disabled data-i18n="onboarding.continue">Continue</button>
+      <span class="skip" id="skip1" data-i18n="onboarding.skip">Skip for now</span>
     </div>
   </section>
 
   <!-- 2: what & where -->
   <section class="step" id="s2">
-    <h2>What are you looking for?</h2>
-    <p class="lead">Job titles matter most — they carry 40 of the 100 match points.</p>
+    <h2 data-i18n="onboarding.step2.title">What are you looking for?</h2>
+    <p class="lead" data-i18n="onboarding.step2.lead"></p>
 
     <div class="f-row">
-      <label>Job titles</label>
-      <div class="tagbox" data-tags="titles"><input placeholder="e.g. Data Analyst — press Enter"></div>
+      <label data-i18n="settings.titles">Job titles</label>
+      <div class="tagbox" data-tags="titles"><input data-i18n-ph="onboarding.titles.ph" placeholder="e.g. Data Analyst — press Enter"></div>
       <div class="sug" id="sug"></div>
     </div>
 
     <div class="f-row" style="margin-top:20px">
-      <label>Where can you work?</label>
-      <div class="tagbox" data-tags="locations"><input placeholder="country, city, or Remote"></div>
-      <div class="help">Write <b>Remote</b> for remote roles, or <b>Worldwide</b> if location does not matter.</div>
+      <label data-i18n="onboarding.where">Where can you work?</label>
+      <div class="tagbox" data-tags="locations"><input data-i18n-ph="onboarding.where.ph" placeholder="country, city, or Remote"></div>
+      <div class="help" data-i18n-html="onboarding.where.help"></div>
     </div>
 
     <div style="margin-top:6px">
-      <div class="switch"><div><b>Remote only</b><span>Hide anything that needs an office</span></div>
+      <div class="switch"><div><b data-i18n="settings.remoteOnly">Remote only</b><span data-i18n="settings.remoteOnly.help">Hide anything that needs an office</span></div>
         <div class="tog" data-tog="remoteOnly"></div></div>
-      <div class="switch"><div><b>Hide jobs outside those locations</b><span>Drops “Remote — US only” style postings</span></div>
+      <div class="switch"><div><b data-i18n="onboarding.hideOutside">Hide jobs outside those locations</b><span data-i18n="settings.strictLocation.help"></span></div>
         <div class="tog on" data-tog="strictLocation"></div></div>
     </div>
 
     <div class="nav-btns">
-      <button class="btn" id="back2">Back</button>
-      <button class="btn primary" id="next2">Continue</button>
+      <button class="btn" id="back2" data-i18n="onboarding.back">Back</button>
+      <button class="btn primary" id="next2" data-i18n="onboarding.continue">Continue</button>
     </div>
   </section>
 
   <!-- 3: industries + finish -->
   <section class="step" id="s3">
-    <h2>Which industries?</h2>
-    <p class="lead">This picks which company career pages get watched. Leave it empty and JobHunter
-      searches the open job boards only — that already covers most of the world.</p>
+    <h2 data-i18n="onboarding.step3.title">Which industries?</h2>
+    <p class="lead" data-i18n="onboarding.step3.lead"></p>
 
     <div class="pickers" id="industries"></div>
 
     <div class="nav-btns">
-      <button class="btn" id="back3">Back</button>
-      <button class="btn primary" id="finish">Start searching</button>
+      <button class="btn" id="back3" data-i18n="onboarding.back">Back</button>
+      <button class="btn primary" id="finish" data-i18n="onboarding.start">Start searching</button>
     </div>
   </section>
 
@@ -118,9 +142,9 @@
   <section class="step" id="s4">
     <div class="done">
       <div class="ic">🎯</div>
-      <h2 id="done-h">Searching…</h2>
-      <p class="lead" id="done-p">Going through job boards and company career pages. Takes about half a minute.</p>
-      <button class="btn primary" id="open-app" style="display:none">Open my matches</button>
+      <h2 id="done-h" data-i18n="onboarding.searching">Searching…</h2>
+      <p class="lead" id="done-p" data-i18n="onboarding.searchingLead"></p>
+      <button class="btn primary" id="open-app" style="display:none" data-i18n="onboarding.openApp">Open my matches</button>
     </div>
   </section>
 </div>

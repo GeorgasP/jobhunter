@@ -2,6 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>JobHunter</title>
 <link rel="stylesheet" href="app.css">
 </head>
@@ -11,25 +12,25 @@
 <aside>
   <div class="brand">
     <div class="mark">🎯</div>
-    <div><b>JobHunter</b><small id="brand-sub">automatic job search</small></div>
+    <div><b>JobHunter</b><small id="brand-sub" data-i18n="app.tagline">automatic job search</small></div>
   </div>
   <nav>
-    <div class="nav-label">Search</div>
+    <div class="nav-label" data-i18n="nav.search">Search</div>
     <a class="nav-item on" data-v="matches">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      Matches<span class="badge" id="nav-matches">0</span></a>
+      <span class="label" data-i18n="nav.matches">Matches</span><span class="badge" id="nav-matches">0</span></a>
     <a class="nav-item" data-v="pipeline">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="11" y="4" width="6" height="10" rx="1.5"/><path d="M19 4h2v6h-2z"/></svg>
-      Pipeline<span class="badge" id="nav-apps">0</span></a>
-    <div class="nav-label">You</div>
+      <span class="label" data-i18n="nav.pipeline">Pipeline</span><span class="badge" id="nav-apps">0</span></a>
+    <div class="nav-label" data-i18n="nav.you">You</div>
     <a class="nav-item" data-v="settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
-      Settings</a>
+      <span class="label" data-i18n="nav.settings">Settings</span></a>
   </nav>
   <div class="side-foot">
     <div class="who">
       <div class="avatar" id="avatar">?</div>
-      <div><b id="who-name">Not set up</b><span id="who-sub">no jobs yet</span></div>
+      <div><b id="who-name" data-i18n="nav.notSetUp">Not set up</b><span id="who-sub" data-i18n="nav.noJobs">no jobs yet</span></div>
     </div>
   </div>
 </aside>
@@ -37,14 +38,14 @@
 <main>
 <header>
   <div>
-    <h1 id="ttl">Matches</h1>
+    <h1 id="ttl" data-i18n="nav.matches">Matches</h1>
     <p id="sub">—</p>
   </div>
   <div class="spacer"></div>
   <button class="btn primary" id="scan">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg>
-    Scan now</button>
-  <button class="icon-btn" id="theme" title="Light / dark">
+    <span data-i18n="header.scan">Scan now</span></button>
+  <button class="icon-btn" id="theme" data-i18n-title="header.theme" title="Light / dark">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
   </button>
 </header>
@@ -54,10 +55,10 @@
   <section class="view on" id="v-matches">
     <div class="stats" id="stats"></div>
     <div class="toolbar">
-      <button class="chip-filter on" data-f="all">All</button>
-      <button class="chip-filter" data-f="remote">Remote</button>
-      <button class="chip-filter" data-f="today">Posted today</button>
-      <button class="chip-filter" data-f="salary">Salary listed</button>
+      <button class="chip-filter on" data-f="all" data-i18n="filter.all">All</button>
+      <button class="chip-filter" data-f="remote" data-i18n="filter.remote">Remote</button>
+      <button class="chip-filter" data-f="today" data-i18n="filter.today">Posted today</button>
+      <button class="chip-filter" data-f="salary" data-i18n="filter.salary">Salary listed</button>
       <span class="count" id="count"></span>
     </div>
     <div id="cards"></div>
@@ -69,41 +70,41 @@
 
   <section class="view" id="v-settings">
     <div class="sec">
-      <div class="sec-h"><b>Your CV</b><span>attached to every application</span></div>
+      <div class="sec-h"><b data-i18n="settings.cv.title">Your CV</b><span data-i18n="settings.cv.hint">attached to every application</span></div>
       <div class="sec-b">
         <div class="cvbox" id="cvbox">
           <div class="cvicon">📄</div>
-          <div class="info"><b id="cv-name">No CV uploaded yet</b><span id="cv-sub">PDF, DOCX, TXT or Markdown</span></div>
-          <button class="btn" id="cv-pick">Upload</button>
+          <div class="info"><b id="cv-name" data-i18n="settings.cv.none">No CV uploaded yet</b><span id="cv-sub" data-i18n="settings.cv.formats">PDF, DOCX, TXT or Markdown</span></div>
+          <button class="btn" id="cv-pick" data-i18n="settings.cv.upload">Upload</button>
         </div>
         <input type="file" id="cv-file" accept=".pdf,.docx,.txt,.md" hidden>
       </div>
     </div>
 
     <div class="sec">
-      <div class="sec-h"><b>What you are looking for</b><span>drives every match score</span></div>
+      <div class="sec-h"><b data-i18n="settings.looking.title">What you are looking for</b><span data-i18n="settings.looking.hint">drives every match score</span></div>
       <div class="sec-b">
         <div class="f-row">
-          <label>Job titles</label>
-          <div class="tagbox" data-tags="titles"><input placeholder="add a title and press Enter…"></div>
-          <div class="help">The strongest signal — 40 of the 100 points.</div>
+          <label data-i18n="settings.titles">Job titles</label>
+          <div class="tagbox" data-tags="titles"><input data-i18n-ph="settings.titles.ph" placeholder="add a title and press Enter…"></div>
+          <div class="help" data-i18n="settings.titles.help">The strongest signal — 40 of the 100 points.</div>
         </div>
         <div class="f-row">
-          <label>Where you can work</label>
-          <div class="tagbox" data-tags="locations"><input placeholder="country, city or Remote…"></div>
+          <label data-i18n="settings.locations">Where you can work</label>
+          <div class="tagbox" data-tags="locations"><input data-i18n-ph="settings.locations.ph" placeholder="country, city or Remote…"></div>
         </div>
         <div class="f-row">
-          <label>Regions you cannot work in</label>
-          <div class="tagbox" data-tags="blockedLocations"><input placeholder="optional…"></div>
+          <label data-i18n="settings.blocked">Regions you cannot work in</label>
+          <div class="tagbox" data-tags="blockedLocations"><input data-i18n-ph="settings.optional.ph" placeholder="optional…"></div>
         </div>
         <div class="f-row">
-          <label>Keywords that disqualify a job</label>
+          <label data-i18n="settings.exclude">Keywords that disqualify a job</label>
           <div class="tagbox" data-tags="excludeKeywords"><input placeholder="optional…"></div>
         </div>
         <div class="grid2">
-          <div class="f-row"><label>Minimum yearly salary</label>
+          <div class="f-row"><label data-i18n="settings.salaryMin">Minimum yearly salary</label>
             <div style="display:flex;gap:8px">
-              <input class="txt" id="salaryMin" type="number" placeholder="optional" style="flex:1">
+              <input class="txt" id="salaryMin" type="number" data-i18n-ph="settings.salaryMin.ph" placeholder="optional" style="flex:1">
               <select id="salaryCurrency" style="width:104px">
                 <option value="EUR">EUR €</option><option value="USD">USD $</option>
                 <option value="GBP">GBP £</option><option value="CHF">CHF</option>
@@ -118,37 +119,39 @@
                 <option value="ZAR">ZAR R</option>
               </select>
             </div>
-            <div class="help">Salaries in other currencies are converted before comparing —
-              what you see on each job stays in the currency the employer used.</div></div>
-          <div class="f-row"><label>Experience level</label>
-            <select id="experienceLevel"><option value="entry">entry</option><option value="mid">mid</option><option value="senior">senior</option></select></div>
+            <div class="help" data-i18n="settings.salaryMin.help"></div></div>
+          <div class="f-row"><label data-i18n="settings.experience">Experience level</label>
+            <select id="experienceLevel"><option value="entry" data-i18n="settings.experience.entry">entry</option><option value="mid" data-i18n="settings.experience.mid">mid</option><option value="senior" data-i18n="settings.experience.senior">senior</option></select></div>
         </div>
         <div>
-          <div class="switch"><div><b>Remote only</b><span>Hide anything that needs an office</span></div>
+          <div class="switch"><div><b data-i18n="settings.remoteOnly">Remote only</b><span data-i18n="settings.remoteOnly.help">Hide anything that needs an office</span></div>
             <div class="tog" data-tog="remoteOnly"></div></div>
-          <div class="switch"><div><b>Hide jobs outside my locations</b><span>Drops “Remote — US only” style postings</span></div>
+          <div class="switch"><div><b data-i18n="settings.strictLocation">Hide jobs outside my locations</b><span data-i18n="settings.strictLocation.help">Drops “Remote — US only” style postings</span></div>
             <div class="tog" data-tog="strictLocation"></div></div>
         </div>
       </div>
     </div>
 
     <div class="sec">
-      <div class="sec-h"><b>Industries</b><span>picks which company career pages get tracked</span></div>
+      <div class="sec-h"><b data-i18n="settings.industries.title">Industries</b><span data-i18n="settings.industries.hint">picks which company career pages get tracked</span></div>
       <div class="sec-b"><div class="pickers" id="industries"></div></div>
     </div>
 
     <div class="sec">
-      <div class="sec-h"><b>About you</b><span>used to fill the application forms</span></div>
+      <div class="sec-h"><b data-i18n="settings.about.title">About you</b><span data-i18n="settings.about.hint">used to fill the application forms</span></div>
       <div class="sec-b">
         <div class="grid2">
-          <div class="f-row"><label>Full name</label><input class="txt" id="name"></div>
-          <div class="f-row"><label>Email</label><input class="txt" id="email"></div>
-          <div class="f-row"><label>Phone</label><input class="txt" id="phone"></div>
-          <div class="f-row"><label>Where you live</label><input class="txt" id="location"></div>
-          <div class="f-row"><label>LinkedIn</label><input class="txt" id="linkedin"></div>
-          <div class="f-row"><label>Work authorization</label><input class="txt" id="workAuthorization" placeholder="e.g. EU citizen, no sponsorship needed"></div>
-          <div class="f-row"><label>Notice period</label><input class="txt" id="noticePeriod"></div>
-          <div class="f-row"><label>Cover letter language</label>
+          <div class="f-row"><label data-i18n="settings.name">Full name</label><input class="txt" id="name"></div>
+          <div class="f-row"><label data-i18n="settings.email">Email</label><input class="txt" id="email"></div>
+          <div class="f-row"><label data-i18n="settings.phone">Phone</label><input class="txt" id="phone"></div>
+          <div class="f-row"><label data-i18n="settings.location">Where you live</label><input class="txt" id="location"></div>
+          <div class="f-row"><label data-i18n="settings.linkedin">LinkedIn</label><input class="txt" id="linkedin"></div>
+          <div class="f-row"><label data-i18n="settings.workAuth">Work authorization</label><input class="txt" id="workAuthorization" data-i18n-ph="settings.workAuth.ph" placeholder="e.g. EU citizen, no sponsorship needed"></div>
+          <div class="f-row"><label data-i18n="settings.notice">Notice period</label><input class="txt" id="noticePeriod"></div>
+          <div class="f-row"><label data-i18n="settings.uiLanguage">Interface language</label>
+            <select id="uiLanguage"></select>
+            <div class="help" data-i18n="settings.uiLanguage.help"></div></div>
+          <div class="f-row"><label data-i18n="settings.letterLanguage">Cover letter language</label>
             <select id="language">
               <option value="en">English</option><option value="el">Ελληνικά</option>
               <option value="es">Español</option><option value="de">Deutsch</option>
@@ -160,28 +163,35 @@
     </div>
 
     <div class="sec">
-      <div class="sec-h"><b>Automation</b><span>optional</span></div>
+      <div class="sec-h"><b data-i18n="settings.automation.title">Automation</b><span data-i18n="settings.automation.hint">optional</span></div>
       <div class="sec-b">
         <div>
-          <div class="switch"><div><b>Search automatically twice a day</b><span>Runs in the background, even when this tab is closed</span></div>
+          <div class="switch"><div><b data-i18n="settings.autoScan">Search automatically twice a day</b><span data-i18n="settings.autoScan.help">Runs in the background, even when this tab is closed</span></div>
             <div class="tog" data-tog="autoScan"></div></div>
-          <div class="switch"><div><b>Notify me about new matches</b><span>A desktop notification after each scan</span></div>
+          <div class="switch"><div><b data-i18n="settings.notify">Notify me about new matches</b><span data-i18n="settings.notify.help">A desktop notification after each scan</span></div>
             <div class="tog" data-tog="notify"></div></div>
         </div>
         <div class="f-row">
-          <label>Anthropic API key — optional</label>
+          <label data-i18n="settings.apiKey">Anthropic API key — optional</label>
           <input class="txt" id="anthropicKey" type="password" placeholder="sk-ant-…">
-          <div class="help">With a key, Claude writes each cover letter from your CV and the job description.
-            Without one, a solid template is used. The key stays in this browser.</div>
+          <div class="help" data-i18n="settings.apiKey.help"></div>
         </div>
         <div class="f-row">
-          <label>Minimum score to show a job</label>
+          <label data-i18n="settings.minScore">Minimum score to show a job</label>
           <input class="txt" id="minScore" type="number" min="0" max="100">
         </div>
       </div>
     </div>
 
-    <button class="btn primary" id="save" style="font-size:14.5px;padding:10px 20px">Save settings</button>
+    <div class="sec">
+      <div class="sec-h"><b data-i18n="settings.update.title">Updates</b><span data-i18n="settings.update.hint">after pulling changes from git</span></div>
+      <div class="sec-b">
+        <div class="help" data-i18n="settings.update.help"></div>
+        <button class="btn" id="reload-ext" style="justify-self:start" data-i18n="settings.update.button">Apply update</button>
+      </div>
+    </div>
+
+    <button class="btn primary" id="save" style="font-size:14.5px;padding:10px 20px" data-i18n="settings.save">Save settings</button>
   </section>
 
 </div>

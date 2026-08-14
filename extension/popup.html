@@ -2,6 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="stylesheet" href="app.css">
 <style>
   body{width:288px;padding:16px}
@@ -26,15 +27,15 @@
     <div><b>JobHunter</b><span id="last">—</span></div>
   </div>
 
-  <div class="big"><div class="n" id="m">0</div><div class="l">jobs match you right now</div></div>
+  <div class="big"><div class="n" id="m">0</div><div class="l" data-i18n="popup.matchNow">jobs match you right now</div></div>
   <div class="row">
-    <div class="big"><div class="n" id="a">0</div><div class="l">applications</div></div>
-    <div class="big"><div class="n" id="j">0</div><div class="l">jobs tracked</div></div>
+    <div class="big"><div class="n" id="a">0</div><div class="l" data-i18n="popup.applications">applications</div></div>
+    <div class="big"><div class="n" id="j">0</div><div class="l" data-i18n="popup.jobsTracked">jobs tracked</div></div>
   </div>
 
-  <button class="btn primary" id="open">Open dashboard</button>
-  <button class="btn" id="scan">Scan now</button>
-  <div class="foot">Runs by itself twice a day</div>
+  <button class="btn primary" id="open" data-i18n="popup.open">Open dashboard</button>
+  <button class="btn" id="scan" data-i18n="popup.scan">Scan now</button>
+  <div class="foot" data-i18n="popup.runsTwice">Runs by itself twice a day</div>
 
   <script type="module" src="popup.js"></script>
 </body>
