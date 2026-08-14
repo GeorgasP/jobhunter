@@ -359,11 +359,104 @@ export const BOARDS = {
     }));
   },
   async arbeitnow() {
-    const d = await getJSON("https://www.arbeitnow.com/api/job-board-api");
-    return (d.data || []).map((j) => job("arbeitnow", j.slug, j.company_name, j.title, j.url, {
-      location: j.location, description: stripHtml(j.description),
-      postedAt: iso(j.created_at), remote: j.remote,
-    }));
+    // Η πρώτη σελίδα δίνει 175 αγγελίες, αλλά υπάρχουν άλλες έξι από πίσω —
+    // 739 μοναδικές συνολικά. Είναι και η μόνη μας πηγή με πραγματικές θέσεις
+    // εκτός γραφείου (νοσηλευτές, οδηγοί, τεχνίτες), οπότε αξίζει τα αιτήματα.
+    const seen = new Set();
+    const out = [];
+    for (let page = 1; page <= 7; page++) {
+      let d;
+      try {
+        d = await getJSON(`https://www.arbeitnow.com/api/job-board-api?page=${page}`);
+      } catch { break; }
+      const rows = d.data || [];
+      if (!rows.length) break;
+      let fresh = 0;
+      for (const j of rows) {
+        if (seen.has(j.slug)) continue;
+        seen.add(j.slug);
+        fresh++;
+        out.push(job("arbeitnow", j.slug, j.company_name, j.title, j.url, {
+          location: j.location, description: stripHtml(j.description),
+          postedAt: iso(j.created_at), remote: j.remote,
+        }));
+      }
+      if (!fresh) break;
+    }
+    return out;
+  },
+
+  /*
+   * Adzuna — η μόνη πηγή που φέρνει ολόκληρη την αγορά μιας χώρας, όχι μόνο
+   * τεχνολογία: νοσηλευτές, οδηγούς, μάγειρες, τεχνίτες. Καλύπτει 44 χώρες,
+   * ανάμεσά τους την Ελλάδα.
+   *
+   * Θέλει κλειδί του ίδιου του χρήστη, δωρεάν από το developer.adzuna.com.
+   * Χωρίς κλειδί βγαίνει σιωπηλά από τη σάρωση — δεν χαλάει τίποτα.
+   *
+   * Τα όριά τους είναι 25 αιτήματα/λεπτό και 250/ημέρα: με δύο σαρώσεις την
+   * ημέρα και τρεις χώρες μένουμε πολύ χαμηλά.
+   */
+  async adzuna(query, opts = {}) {
+    const cfg = (opts && opts.adzuna) || {};
+    if (!cfg.appId || !cfg.appKey) return [];
+
+    const countries = (cfg.countries || []).map((c) => c.trim().toLowerCase())
+      .filter(Boolean).slice(0, 3);
+    if (!countries.length) return [];
+
+    const CURRENCY_OF = {
+      gb: "GBP", us: "USD", ca: "CAD", au: "AUD", nz: "NZD", in: "INR", sg: "SGD",
+      za: "ZAR", ch: "CHF", pl: "PLN", se: "SEK", no: "NOK", dk: "DKK", cz: "CZK",
+      hu: "HUF", ro: "RON", tr: "TRY", br: "BRL", mx: "MXN", ar: "ARS", cl: "CLP",
+      co: "COP", jp: "JPY", kr: "KRW", cn: "CNY", ae: "AED", ru: "RUB",
+    };
+    const out = [];
+
+    for (const country of countries) {
+      const currency = CURRENCY_OF[country] || "EUR";
+      const params = new URLSearchParams({
+        app_id: cfg.appId, app_key: cfg.appKey,
+        results_per_page: "50", max_days_old: "30", content_type: "application/json",
+      });
+      if (query) params.set("what", query);
+
+      for (let page = 1; page <= 2; page++) {
+        let d;
+        try {
+          d = await getJSON(
+            `https://api.adzuna.com/v1/api/jobs/${country}/search/${page}?${params}`);
+        } catch { break; }
+        const rows = d.results || [];
+        if (!rows.length) break;
+        for (const j of rows) {
+          out.push(job("adzuna", j.id, j.company?.display_name, j.title, j.redirect_url, {
+            location: j.location?.display_name || country.toUpperCase(),
+            description: stripHtml(j.description),
+            postedAt: iso(j.created),
+            salary: [j.salary_min || null, j.salary_max || null, currency, "year"],
+          }));
+        }
+        if (rows.length < 50) break;
+      }
+    }
+    return out;
+  },
+
+  /* Βρετανική αγορά με μισθό και επίπεδο εμπειρίας δηλωμένα σε κάθε αγγελία —
+     δύο πεδία που οι περισσότερες πηγές τα αφήνουν κενά. */
+  async devitjobs() {
+    const d = await getJSON("https://devitjobs.uk/api/jobsLight");
+    return (Array.isArray(d) ? d : []).filter((j) => j.name && j.jobUrl && !j.isPaused)
+      .map((j) => job("devitjobs", j._id, j.company, j.name,
+        `https://devitjobs.uk/jobs/${j.jobUrl}`, {
+        location: [j.actualCity || j.cityCategory, "UK"].filter(Boolean).join(", "),
+        description: [j.jobType, j.expLevel, (j.technologies || []).join(", ")]
+          .filter(Boolean).join(" · "),
+        postedAt: iso(j.activeFrom),
+        remote: /remote/i.test(j.workplace || "") || /remote/i.test(j.remoteType || ""),
+        salary: [j.annualSalaryFrom || null, j.annualSalaryTo || null, "GBP", "year"],
+      }));
   },
   async remoteok() {
     const d = await getJSON("https://remoteok.com/api");
@@ -407,7 +500,7 @@ export const BOARDS = {
  * Τραβάει τα πάντα παράλληλα. Μια πηγή που πέφτει δεν ρίχνει ποτέ το scan.
  * onProgress(label, count, error) για ζωντανή ένδειξη στο UI.
  */
-export async function fetchAll(targets = [], boards = [], query = "", onProgress = () => {}) {
+export async function fetchAll(targets = [], boards = [], query = "", onProgress = () => {}, opts = {}) {
   const tasks = [];
 
   for (const t of targets) {
@@ -423,7 +516,7 @@ export async function fetchAll(targets = [], boards = [], query = "", onProgress
     const fn = BOARDS[b];
     if (!fn) continue;
     tasks.push(
-      fn(query)
+      fn(query, opts)
         .then((r) => { onProgress(b, r.length, null); return r; })
         .catch((e) => { onProgress(b, 0, String(e.message || e)); return []; })
     );

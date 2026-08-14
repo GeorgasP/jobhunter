@@ -471,6 +471,23 @@ nav {
   font-weight: 700;
 }
 
+/* Χωρίς όνομα το πλαίσιο είναι σύνδεσμος προς τις ρυθμίσεις, όχι ταμπέλα. */
+.who.needs-setup {
+  cursor: pointer;
+
+  border: 1px dashed var(--line-2);
+
+  transition:
+    background var(--t-fast) var(--ease-soft),
+    border-color var(--t-fast) var(--ease-soft);
+}
+
+.who.needs-setup:hover {
+  background: var(--surface-2);
+
+  border-color: var(--accent);
+}
+
 .who b {
   display: block;
 

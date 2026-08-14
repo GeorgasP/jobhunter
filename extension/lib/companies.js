@@ -54,6 +54,32 @@ export const LIBRARY = [
   { provider: "workday", slug: "salesforce/wd12/External_Career_Site", name: "Salesforce", industries: ["tech", "saas"] },
   { provider: "workday", slug: "adobe/wd5/external_experienced", name: "Adobe", industries: ["tech", "design"] },
   { provider: "workday", slug: "sonyglobal/wd1/SonyGlobalCareers", name: "Sony", industries: ["media", "gaming", "consumer"] },
+
+  /* ── Εκτός τεχνολογίας ────────────────────────────────────────────────
+     Όλες δοκιμασμένες ότι απαντούν και επιστρέφουν θέσεις. Χωρίς αυτές, ο
+     κατάλογος κάλυπτε μόνο λογισμικό — και ο κλάδος στις ρυθμίσεις δεν είχε
+     τι να διαλέξει για όποιον δουλεύει σε νοσοκομείο, ξενοδοχείο ή εργοστάσιο. */
+  { provider: "smartrecruiters", slug: "BoschGroup", name: "Bosch", industries: ["manufacturing", "automotive"] },
+  { provider: "greenhouse", slug: "samsara", name: "Samsara", industries: ["logistics", "manufacturing"] },
+  { provider: "greenhouse", slug: "flexport", name: "Flexport", industries: ["logistics", "transport"] },
+  { provider: "greenhouse", slug: "doctolib", name: "Doctolib", industries: ["health"] },
+  { provider: "greenhouse", slug: "talkspace", name: "Talkspace", industries: ["health"] },
+  { provider: "greenhouse", slug: "instacart", name: "Instacart", industries: ["retail", "logistics"] },
+  { provider: "greenhouse", slug: "faire", name: "Faire", industries: ["retail"] },
+  { provider: "workable", slug: "skroutz", name: "Skroutz", industries: ["retail"] },
+  { provider: "greenhouse", slug: "opentable", name: "OpenTable", industries: ["hospitality", "food"] },
+  { provider: "greenhouse", slug: "sweetgreen", name: "Sweetgreen", industries: ["hospitality", "food"] },
+  { provider: "greenhouse", slug: "thefarmersdog", name: "The Farmer's Dog", industries: ["food"] },
+  { provider: "greenhouse", slug: "duolingo", name: "Duolingo", industries: ["education"] },
+  { provider: "greenhouse", slug: "coursera", name: "Coursera", industries: ["education"] },
+  { provider: "greenhouse", slug: "cabify", name: "Cabify", industries: ["mobility", "transport"] },
+  { provider: "greenhouse", slug: "peloton", name: "Peloton", industries: ["fitness", "consumer"] },
+  { provider: "workable", slug: "blueground", name: "Blueground", industries: ["realestate", "hospitality"] },
+  { provider: "lever", slug: "jobandtalent", name: "Jobandtalent", industries: ["hr"] },
+  { provider: "greenhouse", slug: "wikimedia", name: "Wikimedia", industries: ["nonprofit", "media"] },
+  { provider: "greenhouse", slug: "codeforamerica", name: "Code for America", industries: ["nonprofit", "public"] },
+  { provider: "greenhouse", slug: "typeform", name: "Typeform", industries: ["saas"] },
+  { provider: "workable", slug: "persado", name: "Persado", industries: ["ai", "marketing"] },
 ];
 
 export const ALL_INDUSTRIES = [...new Set(LIBRARY.flatMap((c) => c.industries))].sort();

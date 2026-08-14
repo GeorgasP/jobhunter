@@ -32,11 +32,17 @@ export const DEFAULT_PROFILE = {
   maxAgeDays: 45,
   minScore: 55,
   boards: ["remotive", "arbeitnow", "remoteok", "jobicy", "himalayas", "workingnomads",
-           "themuse", "weworkremotely", "landingjobs", "cryptojobs"],
+           "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna"],
   targets: [],
   autoScan: true,
   notify: true,
   anthropicKey: "",
+
+  // Adzuna: προαιρετικό, δωρεάν κλειδί του ίδιου του χρήστη. Είναι η μόνη πηγή
+  // που φέρνει ολόκληρη την αγορά μιας χώρας αντί μόνο για remote τεχνολογία.
+  adzunaAppId: "",
+  adzunaKey: "",
+  adzunaCountries: [],
 };
 
 const get = async (keys) => chrome.storage.local.get(keys);

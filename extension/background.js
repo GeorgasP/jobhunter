@@ -24,6 +24,7 @@ let scanning = false;
  */
 const MIGRATIONS = [
   { version: 2, boards: ["themuse", "weworkremotely", "landingjobs", "cryptojobs"] },
+  { version: 3, boards: ["devitjobs", "adzuna"] },
 ];
 const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
 
@@ -103,6 +104,12 @@ async function runScan({ silent = false } = {}) {
 
     const jobs = await fetchAll(targets, profile.boards, "", (label, count, error) => {
       sources.push({ label, count, error });
+    }, {
+      adzuna: {
+        appId: profile.adzunaAppId,
+        appKey: profile.adzunaKey,
+        countries: profile.adzunaCountries,
+      },
     });
 
     const { added, total } = await store.mergeJobs(jobs);

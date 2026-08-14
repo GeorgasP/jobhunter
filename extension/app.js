@@ -81,6 +81,11 @@ const stageName = (key) => t(`stage.${key}`);
 
 // Οι κλάδοι αποθηκεύονται πεζοί («saas»), αλλά διαβάζονται άσχημα έτσι.
 // Τα ακρωνύμια θέλουν χειροκίνητη γραφή· στα υπόλοιπα αρκεί κεφαλαίο αρχικό.
+// Οι όροι του Adzuna ζητούν κάθε αγγελία τους να φέρει «Jobs by Adzuna».
+// Είναι το τίμημα του δωρεάν κλειδιού και είναι δίκαιο: τα δεδομένα δικά τους.
+const SOURCE_LABELS = { adzuna: "Jobs by Adzuna", devitjobs: "DevITjobs" };
+const sourceLabel = (s) => SOURCE_LABELS[s] || s;
+
 const INDUSTRY_LABELS = { ai: "AI", hr: "HR", saas: "SaaS", fintech: "Fintech" };
 const industryLabel = (industry) =>
   INDUSTRY_LABELS[industry] ?? industry.charAt(0).toUpperCase() + industry.slice(1);
@@ -113,9 +118,26 @@ async function load() {
   const allJobs = await store.getJobs();
   vocab = buildVocabulary(allJobs);
 
+  if (!profile.name || !profile.email) {
+    const cv = await store.getCV();
+    if (cv?.text) {
+      const found = guessFromCV(cv.text);
+      const patch = {};
+      for (const k of ["name", "email", "phone", "linkedin", "github"]) {
+        if (!profile[k] && found[k]) patch[k] = found[k];
+      }
+      if (Object.keys(patch).length) profile = await store.saveProfile(patch);
+    }
+  }
+
   const initials = (profile.name || "?").split(/\s+/).map((w) => w[0]).slice(0, 2).join("").toUpperCase();
   $("#avatar").textContent = initials || "?";
   $("#who-name").textContent = profile.name || t("nav.notSetUp");
+  // Χωρίς όνομα, το πλαίσιο είναι αδιέξοδο: ας οδηγεί εκεί που συμπληρώνεται.
+  const who = $(".who");
+  who.classList.toggle("needs-setup", !profile.name);
+  who.onclick = profile.name ? null
+    : () => $$(".nav-item").find((a) => a.dataset.v === "settings")?.click();
   const jobs = allJobs;
   $("#who-sub").textContent = t("nav.jobsTracked", { count: jobs.length });
   $("#nav-matches").textContent = matches.length;
@@ -180,7 +202,7 @@ function renderCards() {
         <h3><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.title)}</a></h3>
         <div class="meta"><span class="co">${esc(m.company)}</span>
           ${m.location ? `<i class="dot"></i>${esc(m.location)}` : ""}
-          <i class="dot"></i><span class="src">${esc(m.source)}</span></div>
+          <i class="dot"></i><span class="src">${esc(sourceLabel(m.source))}</span></div>
         <div class="chips">${(m.chips || []).map((c) => `<span class="chip ${c.kind}">${esc(c.text)}</span>`).join("")}</div>
         <div class="acts">
           <button class="btn primary" data-act="apply">${esc(t("cards.apply"))}</button>
@@ -274,7 +296,8 @@ const VOCAB_FOR = {
 const tagValues = (name) => (fields[name] ? fields[name].values : []);
 
 async function fillSettings() {
-  for (const key of ["titles", "locations", "blockedLocations", "excludeKeywords"]) {
+  for (const key of ["titles", "locations", "blockedLocations", "excludeKeywords",
+                     "adzunaCountries"]) {
     const box = document.querySelector(`[data-tags="${key}"]`);
     if (!fields[key]) {
       fields[key] = createTagField(box, { values: profile[key] || [], vocabulary: VOCAB_FOR[key] });
@@ -345,8 +368,12 @@ $("#save").onclick = async () => {
     minScore: parseInt($("#minScore").value, 10) || 55,
   };
   ["name", "email", "phone", "location", "linkedin", "workAuthorization",
-   "noticePeriod", "language", "experienceLevel", "anthropicKey", "salaryCurrency"]
+   "noticePeriod", "language", "experienceLevel", "anthropicKey", "salaryCurrency",
+   "adzunaAppId", "adzunaKey"]
     .forEach((k) => { patch[k] = $("#" + k).value.trim(); });
+  // Οι κωδικοί χωρών είναι δύο γράμματα, πεζά — «GR» και «gr» είναι το ίδιο.
+  patch.adzunaCountries = tagValues("adzunaCountries")
+    .map((c) => c.trim().toLowerCase()).filter((c) => /^[a-z]{2}$/.test(c));
   $$("[data-tog]").forEach((el) => { patch[el.dataset.tog] = el.classList.contains("on"); });
 
   profile = await store.saveProfile(patch);
