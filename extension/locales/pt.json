@@ -11,6 +11,7 @@
   "header.scan": "Procurar agora",
   "header.scanning": "A procurar…",
   "header.theme": "Claro / escuro",
+  "header.tone": "Intensidade",
   "header.matches.sub": "{count} vagas à espera · última procura {when}",
   "header.pipeline.sub": "{count} candidaturas · arrasta um cartão para mudar de fase",
   "header.settings.sub": "És tu que decides o que conta como correspondência",

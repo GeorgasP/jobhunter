@@ -432,9 +432,59 @@ $("#theme").onclick = async () => {
   await chrome.storage.local.set({ theme: root.dataset.theme });
 };
 
+/* ── Ενταση θέματος ────────────────────────────────────────
+   Το κλικ εναλλάσσει σκούρο/ανοιχτό όπως πάντα. Αν όμως μείνεις
+   πάνω από το κουμπί τρία δευτερόλεπτα, ανοίγει ο ρυθμιστής:
+   πόσο σβηστό ή πόσο φωτεινό. Ο,τι διαλέξεις γράφεται σε μία
+   μεταβλητή CSS και όλες οι επιφάνειες την ακολουθούν.        */
+const HOLD_MS = 3000;
+
+function setupTone() {
+  const wrap = $("#theme-wrap"), pop = $("#tone-pop");
+  const slider = $("#tone"), readout = $("#tone-val");
+  if (!wrap || !pop || !slider) return;
+
+  let openTimer = null, closeTimer = null;
+
+  const apply = (v) => {
+    document.documentElement.style.setProperty("--tone", v);
+    readout.textContent = v;
+  };
+  const open = () => { clearTimeout(closeTimer); pop.classList.add("on"); };
+  const close = () => { clearTimeout(openTimer); pop.classList.remove("on"); };
+
+  wrap.addEventListener("pointerenter", () => {
+    clearTimeout(closeTimer);
+    openTimer = setTimeout(open, HOLD_MS);
+  });
+  wrap.addEventListener("pointerleave", () => {
+    clearTimeout(openTimer);
+    // Μικρή χάρη: το ποντίκι περνάει έξω από το κουμπί για να φτάσει
+    // στον ρυθμιστή, και δεν πρέπει να κλείνει στη διαδρομή.
+    closeTimer = setTimeout(close, 400);
+  });
+
+  // Το κλικ αλλάζει θέμα· δεν θέλουμε να ανοίγει και ο ρυθμιστής από πάνω.
+  $("#theme").addEventListener("pointerdown", () => clearTimeout(openTimer));
+
+  slider.addEventListener("input", () => apply(slider.value));
+  slider.addEventListener("change", () =>
+    chrome.storage.local.set({ tone: Number(slider.value) }));
+
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") close(); });
+
+  chrome.storage.local.get("tone").then(({ tone }) => {
+    const v = Number.isFinite(tone) ? tone : 50;
+    slider.value = v;
+    apply(v);
+  });
+}
+
 chrome.storage.local.get("theme").then(({ theme }) => {
   if (theme) document.documentElement.dataset.theme = theme;
 });
+
+setupTone();
 
 /* ── Γλώσσα διεπαφής ──────────────────────────────────────── */
 function fillLanguageSelect(active) {

@@ -11,6 +11,7 @@
   "header.scan": "Cerca ora",
   "header.scanning": "Ricerca in corso…",
   "header.theme": "Chiaro / scuro",
+  "header.tone": "Intensità",
   "header.matches.sub": "{count} posizioni in attesa · ultima ricerca {when}",
   "header.pipeline.sub": "{count} candidature · trascina una scheda per cambiare fase",
   "header.settings.sub": "Sei tu a decidere cosa conta come corrispondenza",
