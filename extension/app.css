@@ -1899,6 +1899,197 @@ html[data-theme="light"] .cvbox:hover {
 
 
 /* =========================================================
+   MOTION
+   Κοινές καμπύλες και διάρκειες, ώστε ό,τι κινείται στην
+   εφαρμογή να κινείται με τον ίδιο ρυθμό.
+   ========================================================= */
+
+:root {
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --t-fast: 0.13s;
+  --t-mid: 0.22s;
+  --t-slow: 0.3s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+
+    transform: translateY(9px);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes panel-in {
+  from {
+    transform: translateX(26px);
+
+    opacity: 0;
+  }
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.86);
+
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   ENTRANCES
+   Ό,τι ζωγραφίζεται ξανά (κάρτες, πλακίδια, ενότητες)
+   μπαίνει με μια σύντομη ανάδυση αντί να πετάγεται.
+   ========================================================= */
+
+.card,
+.stat,
+.sec,
+.col,
+.empty {
+  animation: rise var(--t-slow) var(--ease) both;
+}
+
+/* Κλιμάκωση: η λίστα ξεδιπλώνεται αντί να εμφανίζεται μονομιάς.
+   Μόνο για τα πρώτα ορατά — παρακάτω δεν θα το έβλεπε κανείς. */
+.card:nth-child(1)  { animation-delay: 0ms; }
+.card:nth-child(2)  { animation-delay: 35ms; }
+.card:nth-child(3)  { animation-delay: 70ms; }
+.card:nth-child(4)  { animation-delay: 105ms; }
+.card:nth-child(5)  { animation-delay: 140ms; }
+.card:nth-child(6)  { animation-delay: 175ms; }
+.card:nth-child(n + 7) { animation-delay: 205ms; }
+
+.stat:nth-child(2) { animation-delay: 40ms; }
+.stat:nth-child(3) { animation-delay: 80ms; }
+.stat:nth-child(4) { animation-delay: 120ms; }
+
+.col:nth-child(2) { animation-delay: 45ms; }
+.col:nth-child(3) { animation-delay: 90ms; }
+.col:nth-child(4) { animation-delay: 135ms; }
+.col:nth-child(5) { animation-delay: 180ms; }
+
+/* Η βαθμολογία είναι το πρώτο που κοιτάει κανείς στην κάρτα. */
+.ring {
+  animation: pop var(--t-slow) var(--ease) both;
+}
+
+/* Οι γραμμές του ιστορικού πέφτουν η μία μετά την άλλη. */
+.tl li {
+  animation: rise var(--t-mid) var(--ease) both;
+}
+
+.tl li:nth-child(2) { animation-delay: 45ms; }
+.tl li:nth-child(3) { animation-delay: 90ms; }
+.tl li:nth-child(4) { animation-delay: 135ms; }
+.tl li:nth-child(n + 5) { animation-delay: 170ms; }
+
+/* =========================================================
+   OVERLAYS
+   Το συρτάρι και οι προτάσεις έμπαιναν με display:block —
+   δηλαδή καρέ-καρέ, χωρίς μετάβαση.
+   ========================================================= */
+
+.drawer.on .body {
+  animation: panel-in var(--t-mid) var(--ease) both;
+}
+
+/* Το πέπλο σβήνει μέσα, το φύλλο γλιστράει — όχι το αντίστροφο. */
+.drawer.on .veil {
+  animation: fade var(--t-mid) var(--ease) both;
+}
+
+.sugbox.on {
+  animation: rise var(--t-fast) var(--ease) both;
+
+  transform-origin: top center;
+}
+
+/* =========================================================
+   INTERACTION
+   Οι μικρές αποκρίσεις που έλειπαν: φίλτρα, ετικέτες,
+   διακόπτες, και η αίσθηση του πατήματος.
+   ========================================================= */
+
+.chip-filter {
+  transition:
+    color var(--t-fast) var(--ease-soft),
+    background var(--t-fast) var(--ease-soft),
+    border-color var(--t-fast) var(--ease-soft);
+}
+
+.chip {
+  transition:
+    color var(--t-fast) var(--ease-soft),
+    background var(--t-fast) var(--ease-soft),
+    border-color var(--t-fast) var(--ease-soft);
+}
+
+.switch {
+  transition: background var(--t-fast) var(--ease-soft);
+}
+
+.avatar,
+.mark {
+  transition: transform var(--t-mid) var(--ease);
+}
+
+.who:hover .avatar,
+.brand:hover .mark {
+  transform: scale(1.06);
+}
+
+/* Το κουμπί υποχωρεί ελάχιστα όταν το πατάς — η μόνη ένδειξη
+   ότι το κλικ καταγράφηκε, πριν προλάβει να απαντήσει η ενέργεια. */
+.btn:active,
+.chip-filter:active,
+.pick:active {
+  transform: translateY(1px);
+}
+
+.card:active {
+  transform: none;
+}
+
+/* Όσο τρέχει η αναζήτηση, το εικονίδιο γυρίζει. */
+.btn.busy svg,
+.btn[disabled] svg {
+  animation: spin 0.9s linear infinite;
+}
+
+/* =========================================================
+   REDUCED MOTION
+   Όποιος έχει ζητήσει λιγότερη κίνηση από το λειτουργικό του
+   δεν πρέπει να τη βλέπει εδώ — για κάποιους προκαλεί ζάλη.
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================================================
    NAV LABEL
    Χωριστό στοιχείο ώστε να κρύβεται όταν η πλοήγηση
    συμπτύσσεται σε στήλη εικονιδίων.
