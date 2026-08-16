@@ -1,3 +1,5 @@
+import { ALL_PROFESSIONS } from "./professions.js";
+
 /*
  * CV upload + parsing, χωρίς καμία εξωτερική βιβλιοθήκη.
  *
@@ -292,26 +294,12 @@ const PHONE_RE = /(\+\d{1,3}[\s.-]?)?\(?\d{2,4}\)?[\s.-]?\d{3}[\s.-]?\d{3,4}/;
 const LINKEDIN_RE = /(?:https?:\/\/)?(?:[a-z]{2,3}\.)?linkedin\.com\/in\/[\w\-%]+/i;
 const GITHUB_RE = /(?:https?:\/\/)?(?:www\.)?github\.com\/[\w\-]+/i;
 
-const COMMON_TITLES = [
-  "Customer Success", "Customer Support", "Customer Service", "Account Manager",
-  "Account Executive", "Business Development", "Sales Manager", "Sales Representative",
-  "Project Manager", "Product Manager", "Program Manager", "Operations Manager",
-  "Software Engineer", "Frontend Engineer", "Backend Engineer", "Full Stack Engineer",
-  "Data Analyst", "Data Scientist", "Data Engineer", "Business Analyst",
-  "Marketing Manager", "Digital Marketing", "Content Writer", "Social Media Manager",
-  "Graphic Designer", "Product Designer", "UX Designer", "UI Designer",
-  "Accountant", "Financial Analyst", "Bookkeeper", "Controller",
-  "Human Resources", "Recruiter", "Talent Acquisition", "Office Manager",
-  "Nurse", "Care Assistant", "Medical Assistant", "Pharmacist",
-  "Teacher", "Tutor", "Instructor", "Trainer",
-  "Chef", "Waiter", "Bartender", "Hotel Manager", "Receptionist",
-  "Driver", "Warehouse Operative", "Logistics Coordinator", "Supply Chain",
-  "Electrician", "Mechanic", "Technician", "Engineer",
-  "Legal Counsel", "Paralegal", "Consultant", "Analyst",
-  "Virtual Assistant", "Translator", "Community Manager", "QA Engineer",
-];
 
 /** Μαντεύει στοιχεία επικοινωνίας + πιθανούς τίτλους από το κείμενο του CV. */
+// Το ίδιο λεξιλόγιο με τις προτάσεις: ό,τι μπορεί να προταθεί μπορεί και να
+// αναγνωριστεί μέσα στο βιογραφικό.
+const COMMON_TITLES = ALL_PROFESSIONS;
+
 export function guessFromCV(text) {
   const out = { name: "", email: "", phone: "", linkedin: "", github: "", titles: [] };
   if (!text) return out;

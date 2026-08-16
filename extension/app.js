@@ -116,7 +116,7 @@ async function load() {
   matches = res?.matches || [];
 
   const allJobs = await store.getJobs();
-  vocab = buildVocabulary(allJobs);
+  vocab = buildVocabulary(allJobs, { industries: profile.industries });
 
   if (!profile.name || !profile.email) {
     const cv = await store.getCV();

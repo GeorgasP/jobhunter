@@ -7,6 +7,8 @@
  * Δίπλα σε κάθε πρόταση φαίνεται σε πόσες αγγελίες εμφανίζεται.
  */
 
+import { ALL_PROFESSIONS, professionsFor } from "./professions.js";
+
 /* ── Καθάρισμα τίτλου ─────────────────────────────────────── */
 const SENIORITY = /^(senior|sr\.?|junior|jr\.?|lead|principal|staff|head of|chief|vp|vice president|intern|trainee|graduate|entry[- ]level|mid[- ]level)\s+/i;
 const GENDER = /\((?:[mwfdhx]\s*\/\s*)+[mwfdhx]\)|\s*\(?[mwfdhx]\/[mwfdhx](?:\/[mwfdhx])?\)?\s*$/gi;
@@ -63,27 +65,6 @@ export function splitLocations(raw) {
 }
 
 /* ── Σπόροι για την πρώτη φορά, πριν κατέβει οτιδήποτε ────── */
-export const SEED_TITLES = [
-  "Customer Success Manager", "Customer Support Specialist", "Customer Service Representative",
-  "Account Manager", "Account Executive", "Business Development Representative",
-  "Sales Manager", "Sales Representative", "Partnerships Manager",
-  "Project Manager", "Product Manager", "Program Manager", "Operations Manager",
-  "Software Engineer", "Frontend Engineer", "Backend Engineer", "Full Stack Engineer",
-  "Data Analyst", "Data Scientist", "Data Engineer", "Business Analyst", "Financial Analyst",
-  "Marketing Manager", "Content Writer", "Social Media Manager", "SEO Specialist",
-  "Graphic Designer", "Product Designer", "UX Designer",
-  "Accountant", "Bookkeeper", "Controller", "Payroll Specialist",
-  "Recruiter", "Talent Acquisition Specialist", "HR Manager", "Office Manager",
-  "Registered Nurse", "Care Assistant", "Medical Assistant", "Pharmacist",
-  "Teacher", "Tutor", "Instructor", "Training Specialist",
-  "Chef", "Waiter", "Bartender", "Hotel Manager", "Receptionist",
-  "Driver", "Warehouse Operative", "Logistics Coordinator", "Supply Chain Manager",
-  "Electrician", "Mechanic", "Technician", "Maintenance Engineer",
-  "Paralegal", "Legal Counsel", "Compliance Officer", "Risk Analyst",
-  "Virtual Assistant", "Translator", "Community Manager", "QA Engineer",
-  "Onboarding Specialist", "Client Relationship Manager", "Customer Experience Manager",
-];
-
 export const SEED_LOCATIONS = [
   "Remote", "Worldwide", "Europe", "EU", "EMEA", "APAC", "LATAM", "ANZ",
   "United Kingdom", "Ireland", "Germany", "France", "Spain", "Portugal", "Italy",
@@ -111,12 +92,19 @@ function tally(values) {
   return [...counts.values()].sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
-export function buildVocabulary(jobs = []) {
+export function buildVocabulary(jobs = [], { industries = [] } = {}) {
   const titles = tally(jobs.map((j) => normalizeTitle(j.title)));
   const locations = tally(jobs.flatMap((j) => splitLocations(j.location)));
 
+  // Πρώτα τα επαγγέλματα των κλάδων που διάλεξε ο χρήστης, μετά τα υπόλοιπα:
+  // όποιος δήλωσε «υγεία» πρέπει να βλέπει φυσικοθεραπευτή πριν από λογιστή.
+  const seeds = [...professionsFor(industries), ...ALL_PROFESSIONS];
   const seen = new Set(titles.map((t) => t.label.toLowerCase()));
-  for (const s of SEED_TITLES) if (!seen.has(s.toLowerCase())) titles.push({ label: s, count: 0 });
+  for (const s of seeds) {
+    if (seen.has(s.toLowerCase())) continue;
+    seen.add(s.toLowerCase());
+    titles.push({ label: s, count: 0 });
+  }
 
   const seenLoc = new Set(locations.map((l) => l.label.toLowerCase()));
   for (const s of SEED_LOCATIONS) if (!seenLoc.has(s.toLowerCase())) locations.push({ label: s, count: 0 });

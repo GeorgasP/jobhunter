@@ -42,6 +42,13 @@ function step(n) {
 let vocab = buildVocabulary([]);
 store.getJobs().then((jobs) => { if (jobs.length) vocab = buildVocabulary(jobs); });
 
+// Μόλις διαλέξει κλάδους στο βήμα 3, οι προτάσεις τίτλων ξαναχτίζονται ώστε
+// να βγαίνουν πρώτα τα επαγγέλματα εκείνου του κλάδου.
+function refreshVocabForIndustries() {
+  const industries = $$("#industries .pick.on").map((p) => p.dataset.i);
+  store.getJobs().then((jobs) => { vocab = buildVocabulary(jobs, { industries }); });
+}
+
 const fields = {
   titles: createTagField(document.querySelector('[data-tags="titles"]'),
                          { values: [], vocabulary: () => vocab.titles }),
@@ -125,7 +132,10 @@ const INDUSTRY_LABELS = { ai: "AI", hr: "HR", saas: "SaaS", fintech: "Fintech" }
 const industryLabel = (i) => INDUSTRY_LABELS[i] ?? i.charAt(0).toUpperCase() + i.slice(1);
 $("#industries").innerHTML = ALL_INDUSTRIES.map((i) =>
   `<button class="pick" data-i="${i}">${esc(industryLabel(i))}</button>`).join("");
-$$("#industries .pick").forEach((p) => p.onclick = () => p.classList.toggle("on"));
+$$("#industries .pick").forEach((p) => p.onclick = () => {
+  p.classList.toggle("on");
+  refreshVocabForIndustries();
+});
 $("#back3").onclick = () => step(2);
 
 $("#finish").onclick = async () => {
