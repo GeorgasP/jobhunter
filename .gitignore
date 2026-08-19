@@ -46,3 +46,10 @@ _preview_*
 _shim_*
 PERSONAL_NOTES.md
 update-jobhunter.bat
+
+# Πρόχειρα scripts της στιγμής
+_g*.py
+_wire.py
+_ui.py
+_loc.py
+_tmp/
