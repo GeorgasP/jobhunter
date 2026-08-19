@@ -5,6 +5,7 @@
  */
 
 import { annualIn } from "./fx.js";
+import { aliasesFor } from "./professions.js";
 
 const W = { title: 40, location: 25, industry: 10, language: 10, fresh: 10, salary: 5 };
 
@@ -162,8 +163,12 @@ export function scoreJob(jobItem, p) {
 
   let score = 0;
 
-  const titleHits = (p.titles || []).filter((t) => phraseIn(t, title));
-  const descHits = (p.titles || []).filter((t) => !titleHits.includes(t) && phraseIn(t, description));
+  // Ο τίτλος μπορεί να είναι σε άλλη γλώσσα από αυτήν που έγραψε ο χρήστης:
+  // «Ζητείται φυσικοθεραπευτής» πρέπει να πιάνεται από το «Physiotherapist».
+  const matchesTitle = (wanted, hay) =>
+    phraseIn(wanted, hay) || aliasesFor(wanted).some((a) => hay.includes(a));
+  const titleHits = (p.titles || []).filter((t) => matchesTitle(t, title));
+  const descHits = (p.titles || []).filter((t) => !titleHits.includes(t) && matchesTitle(t, description));
   if (titleHits.length) {
     score += W.title;
     reasons.chips.push({ kind: "good", text: titleHits[0] });
@@ -255,9 +260,12 @@ export function scoreJob(jobItem, p) {
 }
 
 /** Η ίδια θέση ανεβαίνει συχνά σε πολλά boards — κρατάμε μία φορά την καθεμία. */
+// Το [^a-z0-9] έσβηνε ολόκληρο το ελληνικό κείμενο: κάθε ελληνική αγγελία
+// κατέληγε με το ίδιο κενό κλειδί και δώδεκα διαφορετικές θέσεις γίνονταν μία.
+const keyPart = (s) => (s || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+
 const dedupeKey = (j) =>
-  `${(j.company || "").toLowerCase().replace(/[^a-z0-9]/g, "")}|` +
-  `${(j.title || "").toLowerCase().replace(/\(.*?\)/g, "").replace(/[^a-z0-9]/g, "")}`;
+  `${keyPart(j.company)}|${keyPart((j.title || "").replace(/\(.*?\)/g, ""))}`;
 
 /** Βαθμολογεί όλα τα jobs και επιστρέφει ταξινομημένα τα matches. */
 export function rankJobs(jobs, profile, { dismissed = [], appliedIds = [] } = {}) {
@@ -266,7 +274,9 @@ export function rankJobs(jobs, profile, { dismissed = [], appliedIds = [] } = {}
   for (const j of jobs) {
     if (skip.has(j.id)) continue;
     const { score, rejected, reasons } = scoreJob(j, profile);
-    if (rejected || score < (profile.minScore || 55)) continue;
+    // ?? και όχι ||: το μηδέν είναι έγκυρο κατώφλι («δείξε τα πάντα»),
+    // αλλά είναι falsy — με το || γινόταν σιωπηλά 55.
+    if (rejected || score < (profile.minScore ?? 55)) continue;
     out.push({ ...j, score, chips: reasons.chips });
   }
 

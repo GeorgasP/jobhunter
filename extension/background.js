@@ -25,6 +25,7 @@ let scanning = false;
 const MIGRATIONS = [
   { version: 2, boards: ["themuse", "weworkremotely", "landingjobs", "cryptojobs"] },
   { version: 3, boards: ["devitjobs", "adzuna"] },
+  { version: 4, boards: ["psf"] },
 ];
 const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
 

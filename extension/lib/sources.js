@@ -445,6 +445,64 @@ export const BOARDS = {
 
   /* Βρετανική αγορά με μισθό και επίπεδο εμπειρίας δηλωμένα σε κάθε αγγελία —
      δύο πεδία που οι περισσότερες πηγές τα αφήνουν κενά. */
+  /*
+   * Πανελλήνιος Σύλλογος Φυσικοθεραπευτών — αγγελίες μελών.
+   *
+   * Είναι η μόνη μας πηγή με ελληνικές κλινικές θέσεις: φυσικοθεραπευτήρια,
+   * κέντρα αποκατάστασης, ιδιωτικά ιατρεία. Καμία δεν εμφανίζεται στα διεθνή
+   * boards, γιατί κανένα φυσικοθεραπευτήριο δεν τρέχει Greenhouse.
+   *
+   * Το robots.txt τους επιτρέπει ρητά αυτή τη διαδρομή. Οι αγγελίες ζουν όλες
+   * σε μία σελίδα χωρίς δικό τους σύνδεσμο, οπότε δείχνουμε τη σελίδα.
+   */
+  async psf() {
+    const html = await getText("https://www.psf.org.gr/ergasia.php");
+    const PAGE = "https://www.psf.org.gr/ergasia.php";
+    const MONTHS = {
+      "Ιανουαρίου": 1, "Φεβρουαρίου": 2, "Μαρτίου": 3, "Απριλίου": 4,
+      "Μαΐου": 5, "Ιουνίου": 6, "Ιουλίου": 7, "Αυγούστου": 8,
+      "Σεπτεμβρίου": 9, "Οκτωβρίου": 10, "Νοεμβρίου": 11, "Δεκεμβρίου": 12,
+    };
+
+    const out = [];
+    const parts = html.split('<div class="div_news_list_container_ads">').slice(1);
+    for (const part of parts) {
+      const titleRaw = /id="new_title_ads">([\s\S]*?)<\/div>/.exec(part);
+      if (!titleRaw) continue;
+      const title = stripHtml(titleRaw[1]);
+      if (!title) continue;
+
+      const dateRaw = /aggelies_span_date"><b>([\s\S]*?)<\/b>/.exec(part);
+      let postedAt = null;
+      if (dateRaw) {
+        const d = /(\d{1,2})\s+([Α-Ωα-ωίΐϊ]+)\s+(\d{4})/.exec(stripHtml(dateRaw[1]));
+        if (d && MONTHS[d[2]]) {
+          postedAt = new Date(Date.UTC(+d[3], MONTHS[d[2]] - 1, +d[1])).toISOString();
+        }
+      }
+
+      const bodyRaw = /id="news_data">([\s\S]*?)(?=<div class="div_news_list_container_ads"|$)/.exec(part);
+      const description = bodyRaw ? stripHtml(bodyRaw[1]) : "";
+
+      // Η περιοχή γράφεται στον τίτλο, μετά το «Περιοχή» ή μετά το κόμμα.
+      const area = /Περιοχ[ήη]\s*[:\s]\s*(.+?)\s*$/.exec(title)
+        || /,\s*([^,]{3,40})\s*$/.exec(title)
+        || /στ[ηοι][νς]?\s+([Α-ΩΆΈΉΊΌΎΏ][\wΑ-Ωα-ωίΐϊόάέύϋΰήώ.\s]{2,28})/.exec(description);
+      const location = ((area && area[1]) || "Ελλάδα").replace(/\.$/, "").trim();
+
+      // Ο εργοδότης δεν δηλώνεται σε δικό του πεδίο· τα περισσότερα κέντρα
+      // υπογράφουν με λατινική επωνυμία μέσα στο κείμενο.
+      const brand = /\b([A-Z][A-Za-z]{2,}(?:[A-Z][A-Za-z]*)?)\b/.exec(
+        description.replace(/\b(McKenzie|Pilates|Manual|Therapy|CV|Bobath)\b/g, " "));
+
+      out.push(job("psf", `${postedAt || ""}|${title}`.slice(0, 90),
+        brand ? brand[1] : "Φυσικοθεραπευτήριο", title, PAGE, {
+        location, description, postedAt,
+      }));
+    }
+    return out;
+  },
+
   async devitjobs() {
     const d = await getJSON("https://devitjobs.uk/api/jobsLight");
     return (Array.isArray(d) ? d : []).filter((j) => j.name && j.jobUrl && !j.isPaused)

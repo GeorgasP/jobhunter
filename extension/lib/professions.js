@@ -206,3 +206,42 @@ export function professionsFor(industries = []) {
   const picked = wanted.flatMap((i) => BY_INDUSTRY[i] || []);
   return [...new Set([...picked, ...CROSS_INDUSTRY])];
 }
+
+/*
+ * Οι ελληνικές αγγελίες γράφουν «φυσικοθεραπευτής», όχι «Physiotherapist».
+ * Χωρίς γέφυρα, μια πηγή σαν τον ΠΣΦ κατεβαίνει και δεν ταιριάζει ποτέ.
+ * Κρατάμε ρίζες, όχι πλήρεις λέξεις: πιάνουν και τα «-τρια», «-τή», «-είας».
+ */
+export const ALIASES = {
+  "Physiotherapist": ["φυσικοθεραπευτ", "φυσιοθεραπευτ", "φυσικοθεραπε"],
+  "Occupational Therapist": ["εργοθεραπευτ"],
+  "Speech and Language Therapist": ["λογοθεραπευτ"],
+  "Registered Nurse": ["νοσηλευτ"],
+  "Midwife": ["μαιευτ", "μαία"],
+  "Psychologist": ["ψυχολόγ"],
+  "Psychotherapist": ["ψυχοθεραπευτ"],
+  "Dentist": ["οδοντίατρ"],
+  "Pharmacist": ["φαρμακοποι"],
+  "Dietitian": ["διαιτολόγ"],
+  "Nutritionist": ["διατροφολόγ"],
+  "Personal Trainer": ["γυμναστ", "personal trainer"],
+  "Veterinarian": ["κτηνίατρ"],
+  "Teacher": ["εκπαιδευτικ", "δάσκαλ", "καθηγητ"],
+  "Chef": ["μάγειρ", "σεφ"],
+  "Waiter": ["σερβιτόρ"],
+  "Bartender": ["μπάρμαν"],
+  "Driver": ["οδηγ"],
+  "Electrician": ["ηλεκτρολόγ"],
+  "Plumber": ["υδραυλικ"],
+  "Accountant": ["λογιστ"],
+  "Receptionist": ["ρεσεψιονίστ", "υποδοχ"],
+  "Sales Assistant": ["πωλητ"],
+  "Security Officer": ["φύλακ", "σεκιούριτι"],
+  "Social Worker": ["κοινωνικ λειτουργ"],
+};
+
+/** Οι ρίζες που πρέπει να ψάξουμε για έναν τίτλο — ο ίδιος συν τα συνώνυμά του. */
+export function aliasesFor(title) {
+  const key = Object.keys(ALIASES).find((k) => k.toLowerCase() === String(title).toLowerCase());
+  return key ? ALIASES[key] : [];
+}
