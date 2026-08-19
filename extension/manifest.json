@@ -76,5 +76,13 @@
     "32": "icons/32.png",
     "48": "icons/48.png",
     "128": "icons/128.png"
-  }
+  },
+  "optional_host_permissions": [
+    "*://*.facebook.com/*",
+    "*://*.instagram.com/*",
+    "*://*.reddit.com/*",
+    "*://x.com/*",
+    "*://*.twitter.com/*",
+    "*://*.threads.net/*"
+  ]
 }

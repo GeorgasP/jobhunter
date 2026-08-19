@@ -29,7 +29,7 @@ export const DEFAULT_PROFILE = {
   experienceLevel: "mid",
   strictLocation: true,
   remoteOnly: false,
-  maxAgeDays: 45,
+  maxAgeDays: 60,
   minScore: 55,
   boards: ["remotive", "arbeitnow", "remoteok", "jobicy", "himalayas", "workingnomads",
            "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna", "psf"],
@@ -43,6 +43,11 @@ export const DEFAULT_PROFILE = {
   adzunaAppId: "",
   adzunaKey: "",
   adzunaCountries: [],
+
+  // Το κουμπί «Αποθήκευση» σε κοινωνικά δίκτυα: κλειστό εξ ορισμού, γιατί
+  // απαιτεί πρόσβαση σε αυτούς τους ιστότοπους. Ο χρήστης το ανοίγει και
+  // τότε μόνο ζητείται η άδεια.
+  saveOnSocial: false,
 };
 
 const get = async (keys) => chrome.storage.local.get(keys);

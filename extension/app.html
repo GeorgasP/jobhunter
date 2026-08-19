@@ -204,6 +204,15 @@
           <input class="txt" id="anthropicKey" type="password" placeholder="sk-ant-…">
           <div class="help" data-i18n="settings.apiKey.help"></div>
         </div>
+        <div>
+          <div class="switch"><div><b data-i18n="settings.social">Save button on social posts</b><span data-i18n="settings.social.help">A button appears when you are looking at a post that reads like a job ad</span></div>
+            <div class="tog" id="tog-social" data-tog="saveOnSocial"></div></div>
+        </div>
+        <div class="f-row">
+          <label data-i18n="settings.maxAge">Hide jobs older than</label>
+          <input class="txt" id="maxAgeDays" type="number" min="1" max="365">
+          <div class="help" data-i18n="settings.maxAge.help"></div>
+        </div>
         <div class="f-row">
           <label data-i18n="settings.minScore">Minimum score to show a job</label>
           <input class="txt" id="minScore" type="number" min="0" max="100">

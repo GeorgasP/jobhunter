@@ -234,6 +234,30 @@ const HANDLERS = {
   prefill: (msg) => prefillFor(msg.url),
   dismiss: async (msg) => { await store.dismissJob(msg.jobId); await refreshBadge(); return { ok: true }; },
   refreshBadge: async () => ({ ok: true, count: await refreshBadge() }),
+  /* Αγγελία που είδε ο χρήστης κάπου χωρίς API και θέλησε να κρατήσει.
+     Μπαίνει στην ίδια λίστα με τις υπόλοιπες και βαθμολογείται κανονικά. */
+  saveJob: async (msg) => {
+    const j = msg.job || {};
+    if (!j.title || !j.url) return { ok: false, error: "missing title or url" };
+    const id = `saved:${j.url}|${j.title}`.slice(0, 120);
+    const { added } = await store.mergeJobs([{
+      id, source: "saved",
+      company: (j.company || "—").trim(),
+      title: j.title.trim(),
+      location: (j.location || "").trim(),
+      description: [j.description, j.contactEmail && `
+${j.contactEmail}`]
+        .filter(Boolean).join(""),
+      url: j.url,
+      postedAt: new Date().toISOString(),
+      remote: /remote|εξ αποστάσεως/i.test(`${j.title} ${j.location}`),
+      salaryMin: null, salaryMax: null, salaryCurrency: null, salaryPeriod: "year",
+      lastSeen: new Date().toISOString(),
+    }]);
+    await refreshBadge();
+    return { ok: true, added };
+  },
+
   markSent: async (msg) => {
     await store.updateApp(msg.applicationId, { status: "sent", sentAt: new Date().toISOString() },
                           "Submitted from the application page");

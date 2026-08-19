@@ -311,6 +311,7 @@ async function fillSettings() {
     .forEach((k) => { if ($("#" + k)) $("#" + k).value = profile[k] ?? ""; });
   $("#salaryMin").value = profile.salaryMin ?? "";
   $("#minScore").value = profile.minScore ?? 55;
+  $("#maxAgeDays").value = profile.maxAgeDays ?? 60;
 
   $$("[data-tog]").forEach((el) => el.classList.toggle("on", Boolean(profile[el.dataset.tog])));
 
@@ -366,6 +367,7 @@ $("#save").onclick = async () => {
     targets: pickCompanies(industries),
     salaryMin: parseInt($("#salaryMin").value, 10) || null,
     minScore: parseInt($("#minScore").value, 10) || 55,
+    maxAgeDays: parseInt($("#maxAgeDays").value, 10) || 60,
   };
   ["name", "email", "phone", "location", "linkedin", "workAuthorization",
    "noticePeriod", "language", "experienceLevel", "anthropicKey", "salaryCurrency",
@@ -513,6 +515,49 @@ chrome.storage.local.get("theme").then(({ theme }) => {
 
 setupTone();
 
+
+/* ── Κουμπί αποθήκευσης σε κοινωνικά δίκτυα ────────────────
+   Η άδεια ζητείται τη στιγμή που ανοίγει ο διακόπτης, όχι κατά την
+   εγκατάσταση: κανείς δεν πρέπει να δίνει πρόσβαση στο Facebook για ένα
+   εργαλείο αναζήτησης εργασίας που μπορεί να μην τη χρησιμοποιήσει ποτέ. */
+const SOCIAL_HOSTS = [
+  "*://*.facebook.com/*", "*://*.instagram.com/*", "*://*.reddit.com/*",
+  "*://x.com/*", "*://*.twitter.com/*", "*://*.threads.net/*",
+];
+
+async function registerSocialButton(on) {
+  try {
+    const existing = await chrome.scripting.getRegisteredContentScripts({ ids: ["jh-save"] });
+    if (existing.length) await chrome.scripting.unregisterContentScripts({ ids: ["jh-save"] });
+  } catch { /* δεν ήταν καταχωρημένο */ }
+  if (!on) return;
+  await chrome.scripting.registerContentScripts([{
+    id: "jh-save",
+    matches: SOCIAL_HOSTS,
+    js: ["content/save.js"],
+    runAt: "document_idle",
+  }]);
+}
+
+async function setupSocialToggle() {
+  const tog = $("#tog-social");
+  if (!tog) return;
+  tog.onclick = async (e) => {
+    e.stopPropagation();
+    const turningOn = !tog.classList.contains("on");
+    if (turningOn) {
+      const granted = await chrome.permissions.request({ origins: SOCIAL_HOSTS });
+      if (!granted) { toast(t("settings.social.denied"), "warn"); return; }
+    } else {
+      await chrome.permissions.remove({ origins: SOCIAL_HOSTS }).catch(() => {});
+    }
+    tog.classList.toggle("on", turningOn);
+    await store.saveProfile({ saveOnSocial: turningOn });
+    await registerSocialButton(turningOn);
+    toast(t(turningOn ? "settings.social.on" : "settings.social.off"), "ok");
+  };
+}
+
 /* ── Γλώσσα διεπαφής ──────────────────────────────────────── */
 function fillLanguageSelect(active) {
   const select = $("#uiLanguage");
@@ -531,6 +576,7 @@ store.getProfile().then(async (p) => {
   const active = await initI18n(p.uiLanguage);
   if (!p.uiLanguage) await store.saveProfile({ uiLanguage: active });
   fillLanguageSelect(active);
+  setupSocialToggle();
   if (!(await store.isOnboarded())) location.href = "onboarding.html";
   else {
     setupCvDragAndDrop();
