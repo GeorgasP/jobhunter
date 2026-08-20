@@ -22,7 +22,7 @@ export async function generateLetter(job, profile, cv) {
   const lang = profile.language || "en";
   const cvText = (cv && cv.text) || "";
 
-  if (profile.anthropicKey && cvText) {
+  if (profile.anthropicKey && (cvText || profile.about)) {
     try {
       return { text: await viaClaude(job, profile, cvText, lang), model: "claude" };
     } catch (e) {
@@ -58,7 +58,10 @@ ${(job.description || "").slice(0, 4000)}
 
 CANDIDATE CV:
 ${cvText.slice(0, 8000)}
-
+${profile.about ? `
+IN THE CANDIDATE'S OWN WORDS:
+${profile.about.slice(0, 1500)}
+` : ""}
 Return only the letter.`,
       }],
     }),

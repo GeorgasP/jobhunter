@@ -2109,6 +2109,182 @@ html[data-theme="light"] .cvbox:hover {
 }
 
 /* =========================================================
+   PROFILE
+   ========================================================= */
+
+.avatar {
+  overflow: hidden;
+}
+
+.avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+}
+
+.pcard {
+  display: flex;
+  align-items: center;
+
+  gap: 20px;
+}
+
+.pphoto {
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  width: 96px;
+  height: 96px;
+
+  flex: none;
+
+  border-radius: 50%;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--accent-solid),
+      var(--accent-deep)
+    );
+
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+
+  box-shadow:
+    0 6px 20px -8px var(--accent);
+}
+
+/* Η εικόνα ζωγραφίζεται πάνω από τα αρχικά, οπότε τα αρχικά δεν χρειάζεται
+   να κρυφτούν — φαίνονται μόνο όσο δεν υπάρχει φωτογραφία. */
+.pphoto img {
+  display: none;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.pphoto.has img {
+  display: block;
+}
+
+.pphoto.has #photo-initials {
+  display: none;
+}
+
+.pphoto-edit {
+  position: absolute;
+
+  right: -2px;
+  bottom: -2px;
+
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+
+  color: var(--fg-2);
+  background: var(--surface-3);
+
+  transition:
+    color var(--t-fast) var(--ease-soft),
+    background var(--t-fast) var(--ease-soft),
+    transform var(--t-fast) var(--ease-soft);
+}
+
+.pphoto-edit:hover {
+  color: var(--fg);
+  background: var(--surface-2);
+
+  transform: scale(1.08);
+}
+
+.pphoto-edit svg {
+  width: 15px;
+  height: 15px;
+}
+
+.pmeta {
+  display: grid;
+
+  gap: 4px;
+
+  min-width: 0;
+}
+
+.pmeta b {
+  font-size: 20px;
+  font-weight: 650;
+
+  letter-spacing: -0.3px;
+}
+
+.pmeta > span {
+  color: var(--fg-3);
+
+  font-size: 13.5px;
+}
+
+.pmeta .help {
+  margin-top: 2px;
+}
+
+.prow {
+  display: flex;
+
+  gap: 8px;
+
+  margin-top: 8px;
+}
+
+.btn.ghost {
+  color: var(--fg-3);
+  background: none;
+}
+
+.btn.ghost:hover:not([disabled]) {
+  color: var(--fg);
+}
+
+#about {
+  min-height: 130px;
+
+  line-height: 1.6;
+
+  resize: vertical;
+}
+
+@media (max-width: 620px) {
+  .pcard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.save-state {
+  min-height: 20px;
+
+  color: var(--fg-3);
+
+  font-size: 13px;
+
+  transition: color var(--t-fast) var(--ease-soft);
+}
+
+/* =========================================================
    MOTION
    Κοινές καμπύλες και διάρκειες, ώστε ό,τι κινείται στην
    εφαρμογή να κινείται με τον ίδιο ρυθμό.

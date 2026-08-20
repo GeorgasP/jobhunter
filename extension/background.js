@@ -26,6 +26,7 @@ const MIGRATIONS = [
   { version: 2, boards: ["themuse", "weworkremotely", "landingjobs", "cryptojobs"] },
   { version: 3, boards: ["devitjobs", "adzuna"] },
   { version: 4, boards: ["psf"] },
+  { version: 5, boards: ["skywalker"] },
 ];
 const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
 
@@ -48,9 +49,15 @@ async function migrate() {
   return added;
 }
 
-migrate().then((added) => {
-  if (added?.length) console.info(`JobHunter: added new job boards — ${added.join(", ")}`);
-});
+/* Κρατάμε την υπόσχεση, δεν την πετάμε. Ο service worker ξυπνάει τη στιγμή που
+   πατάς «Αναζήτηση» — αν η σάρωση διαβάσει το profile πριν προλάβει να γραφτεί
+   η μεταφορά, τρέχει με τις παλιές πηγές και δεν βρίσκει τίποτα. Έχει ξανασυμβεί:
+   είναι ακριβώς η πρώτη σάρωση μετά από ενημέρωση, δηλαδή η μόνη που κοιτάς. */
+const migrated = migrate()
+  .then((added) => {
+    if (added?.length) console.info(`JobHunter: added new job boards — ${added.join(", ")}`);
+  })
+  .catch((e) => console.warn("JobHunter: migration failed —", e));
 
 /* ── Lifecycle ────────────────────────────────────────────── */
 chrome.runtime.onInstalled.addListener(async (details) => {
@@ -82,6 +89,7 @@ async function refreshBadge() {
 
 /* ── Matches ──────────────────────────────────────────────── */
 async function currentMatches() {
+  await migrated;
   await refreshRates();
   const [profile, jobs, apps, state] = await Promise.all([
     store.getProfile(), store.getJobs(), store.getApps(), store.getState(),
@@ -99,6 +107,7 @@ async function runScan({ silent = false } = {}) {
   const started = Date.now();
 
   try {
+    await migrated;
     const profile = await store.getProfile();
     const targets = profile.targets?.length ? profile.targets : pickCompanies(profile.industries);
     const sources = [];
@@ -106,6 +115,7 @@ async function runScan({ silent = false } = {}) {
     const jobs = await fetchAll(targets, profile.boards, "", (label, count, error) => {
       sources.push({ label, count, error });
     }, {
+      maxAgeDays: profile.maxAgeDays,
       adzuna: {
         appId: profile.adzunaAppId,
         appKey: profile.adzunaKey,

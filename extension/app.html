@@ -23,6 +23,9 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="6" height="16" rx="1.5"/><rect x="11" y="4" width="6" height="10" rx="1.5"/><path d="M19 4h2v6h-2z"/></svg>
       <span class="label" data-i18n="nav.pipeline">Pipeline</span><span class="badge" id="nav-apps">0</span></a>
     <div class="nav-label" data-i18n="nav.you">You</div>
+    <a class="nav-item" data-v="profile">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
+      <span class="label" data-i18n="nav.profile">Profile</span></a>
     <a class="nav-item" data-v="settings">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg>
       <span class="label" data-i18n="nav.settings">Settings</span></a>
@@ -76,7 +79,46 @@
     <div class="board" id="board"></div>
   </section>
 
-  <section class="view" id="v-settings">
+  <section class="view" id="v-profile">
+    <div class="sec">
+      <div class="sec-b">
+        <div class="pcard">
+          <div class="pphoto" id="pphoto">
+            <img id="photo-img" alt="">
+            <span id="photo-initials">?</span>
+            <button class="pphoto-edit" id="photo-pick" data-i18n-title="profile.photo.change" title="Change photo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 8h3l1.4-2h7.2L17 8h3v11H4z"/><circle cx="12" cy="13" r="3.4"/></svg>
+            </button>
+          </div>
+          <div class="pmeta">
+            <b id="p-name" data-i18n="nav.notSetUp">Not set up</b>
+            <span id="p-headline"></span>
+            <div class="prow">
+              <button class="btn" id="photo-upload" data-i18n="profile.photo.upload">Upload a photo</button>
+              <button class="btn ghost" id="photo-clear" data-i18n="profile.photo.remove">Remove</button>
+            </div>
+            <div class="help" data-i18n="profile.photo.help"></div>
+          </div>
+        </div>
+        <input type="file" id="photo-file" accept="image/*" hidden>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-h"><b data-i18n="profile.story.title">Your story</b><span data-i18n="profile.story.hint">only you and your cover letters see this</span></div>
+      <div class="sec-b">
+        <div class="f-row">
+          <label data-i18n="profile.headline">Headline</label>
+          <input class="txt" id="headline" data-i18n-ph="profile.headline.ph" placeholder="Physiotherapist · Athens · open to relocation">
+        </div>
+        <div class="f-row">
+          <label data-i18n="profile.about">About you</label>
+          <textarea class="txt" id="about" rows="7" data-i18n-ph="profile.about.ph" placeholder="What you do, what you are good at, what you are looking for…"></textarea>
+          <div class="help" data-i18n="profile.about.help"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="sec">
       <div class="sec-h"><b data-i18n="settings.cv.title">Your CV</b><span data-i18n="settings.cv.hint">attached to every application</span></div>
       <div class="sec-b">
@@ -89,6 +131,25 @@
       </div>
     </div>
 
+    <div class="sec">
+      <div class="sec-h"><b data-i18n="profile.contact.title">Contact details</b><span data-i18n="profile.contact.hint">used to fill the application forms</span></div>
+      <div class="sec-b">
+        <div class="grid2">
+          <div class="f-row"><label data-i18n="settings.name">Full name</label><input class="txt" id="name"></div>
+          <div class="f-row"><label data-i18n="settings.email">Email</label><input class="txt" id="email"></div>
+          <div class="f-row"><label data-i18n="settings.phone">Phone</label><input class="txt" id="phone"></div>
+          <div class="f-row"><label data-i18n="settings.location">Where you live</label><input class="txt" id="location"></div>
+          <div class="f-row"><label data-i18n="settings.linkedin">LinkedIn</label><input class="txt" id="linkedin"></div>
+          <div class="f-row"><label data-i18n="settings.workAuth">Work authorization</label><input class="txt" id="workAuthorization" data-i18n-ph="settings.workAuth.ph" placeholder="e.g. EU citizen, no sponsorship needed"></div>
+          <div class="f-row"><label data-i18n="settings.notice">Notice period</label><input class="txt" id="noticePeriod"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-state" id="save-state-profile"></div>
+  </section>
+
+  <section class="view" id="v-settings">
     <div class="sec">
       <div class="sec-h"><b data-i18n="settings.looking.title">What you are looking for</b><span data-i18n="settings.looking.hint">drives every match score</span></div>
       <div class="sec-b">
@@ -146,16 +207,9 @@
     </div>
 
     <div class="sec">
-      <div class="sec-h"><b data-i18n="settings.about.title">About you</b><span data-i18n="settings.about.hint">used to fill the application forms</span></div>
+      <div class="sec-h"><b data-i18n="settings.languages.title">Languages</b><span data-i18n="settings.languages.hint">interface and cover letters</span></div>
       <div class="sec-b">
         <div class="grid2">
-          <div class="f-row"><label data-i18n="settings.name">Full name</label><input class="txt" id="name"></div>
-          <div class="f-row"><label data-i18n="settings.email">Email</label><input class="txt" id="email"></div>
-          <div class="f-row"><label data-i18n="settings.phone">Phone</label><input class="txt" id="phone"></div>
-          <div class="f-row"><label data-i18n="settings.location">Where you live</label><input class="txt" id="location"></div>
-          <div class="f-row"><label data-i18n="settings.linkedin">LinkedIn</label><input class="txt" id="linkedin"></div>
-          <div class="f-row"><label data-i18n="settings.workAuth">Work authorization</label><input class="txt" id="workAuthorization" data-i18n-ph="settings.workAuth.ph" placeholder="e.g. EU citizen, no sponsorship needed"></div>
-          <div class="f-row"><label data-i18n="settings.notice">Notice period</label><input class="txt" id="noticePeriod"></div>
           <div class="f-row"><label data-i18n="settings.uiLanguage">Interface language</label>
             <select id="uiLanguage"></select>
             <div class="help" data-i18n="settings.uiLanguage.help"></div></div>
@@ -228,7 +282,7 @@
       </div>
     </div>
 
-    <button class="btn primary" id="save" style="font-size:14.5px;padding:10px 20px" data-i18n="settings.save">Save settings</button>
+    <div class="save-state" id="save-state"></div>
   </section>
 
 </div>

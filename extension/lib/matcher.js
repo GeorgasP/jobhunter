@@ -60,6 +60,18 @@ const REGION_ALIASES = {
   apac: ["apac", "asia", "asia-pacific", "asia pacific"],
   latam: ["latam", "latin america", "south america"],
   anz: ["anz", "australia", "new zealand"],
+  greece: ["greece", "ελλάδα", "ελλας", "ελλάς", "hellas", "athens", "αθήνα",
+           "athina", "thessaloniki", "θεσσαλονίκη", "thessalonik", "gr"],
+  ελλάδα: ["greece", "ελλάδα", "ελλας", "ελλάς", "hellas", "athens", "αθήνα",
+           "thessaloniki", "θεσσαλονίκη"],
+  αθήνα: ["αθήνα", "athina", "athens", "αττικ", "attik"],
+  θεσσαλονίκη: ["θεσσαλονίκη", "thessalonik", "salonica"],
+  germany: ["germany", "deutschland", "berlin", "münchen", "munich", "hamburg", "de"],
+  spain: ["spain", "españa", "madrid", "barcelona", "es"],
+  italy: ["italy", "italia", "rome", "roma", "milan", "milano", "it"],
+  france: ["france", "paris", "lyon", "fr"],
+  netherlands: ["netherlands", "nederland", "amsterdam", "rotterdam", "nl"],
+  poland: ["poland", "polska", "warsaw", "warszawa", "pl"],
 };
 
 const LANGUAGE_SIGNALS = {
@@ -116,7 +128,7 @@ function ageDays(postedAt) {
   return isNaN(t) ? null : (Date.now() - t) / 86400000;
 }
 
-function locationHits(location, wanted) {
+function locationHits(location, wanted, country = null, title = "") {
   const hits = [];
   for (const loc of wanted) {
     const low = loc.trim().toLowerCase();
@@ -126,7 +138,14 @@ function locationHits(location, wanted) {
       continue;
     }
     const variants = REGION_ALIASES[low] || [low];
-    if (variants.some((v) => location.includes(v))) hits.push(loc);
+    // Η χώρα της πηγής μετράει όσο και το κείμενο της αγγελίας: ένα αγγελτήριο
+    // για την Κερατέα δεν γράφει «Ελλάδα», αλλά στην Ελλάδα είναι. Και ο τίτλος
+    // μετράει: πολλοί ελληνικοί πίνακες γράφουν την περιοχή μέσα στον τίτλο και
+    // αφήνουν το πεδίο τοποθεσίας κενό.
+    if (variants.some((v) => location.includes(v) || title.includes(v)
+                             || (country && country.includes(v)))) {
+      hits.push(loc);
+    }
   }
   return hits;
 }
@@ -147,7 +166,8 @@ export function scoreJob(jobItem, p) {
     return { score: 0, rejected: "not remote", reasons };
   }
 
-  const geo = locationHits(location, p.locations || []);
+  const geo = locationHits(location, p.locations || [],
+                           (jobItem.country || "").toLowerCase(), title);
   const globallyOpen = !location || GLOBAL_WORDS.some((w) => location.includes(w));
 
   const blocked = (p.blockedLocations || []).find((b) => location.includes(b.toLowerCase()));
@@ -264,8 +284,13 @@ export function scoreJob(jobItem, p) {
 // κατέληγε με το ίδιο κενό κλειδί και δώδεκα διαφορετικές θέσεις γίνονταν μία.
 const keyPart = (s) => (s || "").toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
 
-const dedupeKey = (j) =>
-  `${keyPart(j.company)}|${keyPart((j.title || "").replace(/\(.*?\)/g, ""))}`;
+const dedupeKey = (j) => {
+  // Χωρίς όνομα εταιρείας δεν υπάρχει τρόπος να ξέρουμε αν δύο «Σερβιτόρος»
+  // είναι η ίδια αγγελία — και μάλλον δεν είναι. Μένουν χωριστές.
+  const company = keyPart(j.company);
+  if (!company || company === "unknown") return j.id;
+  return `${company}|${keyPart((j.title || "").replace(/\(.*?\)/g, ""))}`;
+};
 
 /** Βαθμολογεί όλα τα jobs και επιστρέφει ταξινομημένα τα matches. */
 export function rankJobs(jobs, profile, { dismissed = [], appliedIds = [] } = {}) {

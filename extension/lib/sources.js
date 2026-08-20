@@ -154,6 +154,13 @@ export function parseSalary(text) {
   return [build(m[2], m[3], m[4]), build(m[5], m[6], m[7]), currency, period];
 }
 
+/** «fysikotherapeftis-ria--athina2» → «Fysikotherapeftis ria athina». */
+const deslug = (s) => (s || "")
+  .replace(/\d+$/, "")
+  .replace(/[-_]+/g, " ")
+  .trim()
+  .replace(/^./, (c) => c.toUpperCase());
+
 function job(source, externalId, company, title, url, opts = {}) {
   const location = opts.location || "";
   let [smin, smax, currency, period] = opts.salary || [null, null, null, null];
@@ -165,6 +172,9 @@ function job(source, externalId, company, title, url, opts = {}) {
     id: `${source}:${externalId}`,
     source, company: (company || "Unknown").trim(), title: (title || "").trim(),
     location: location.trim(), description: opts.description || "", url,
+    // Μια εθνική πηγή ξέρει τη χώρα της ακόμα κι όταν η αγγελία γράφει μόνο
+    // «Νέα Φιλαδέλφεια». Χωρίς αυτό, όποιος έβαζε «Ελλάδα» δεν έβρισκε τίποτα.
+    country: opts.country || null,
     postedAt: opts.postedAt || null,
     remote: Boolean(opts.remote) || /remote|anywhere|worldwide/i.test(location),
     salaryMin: smin, salaryMax: smax,
@@ -497,7 +507,56 @@ export const BOARDS = {
 
       out.push(job("psf", `${postedAt || ""}|${title}`.slice(0, 90),
         brand ? brand[1] : "Φυσικοθεραπευτήριο", title, PAGE, {
-        location, description, postedAt,
+        location, description, postedAt, country: "greece",
+      }));
+    }
+    return out;
+  },
+
+  /*
+   * Skywalker.gr — ο μεγαλύτερος ελληνικός πίνακας αγγελιών.
+   *
+   * Δεν έχει API, έχει όμως sitemap: τον μηχανισμό που υπάρχει ακριβώς για να
+   * τον διαβάζουν μηχανές. Το robots.txt τους τον δημοσιεύει και επιτρέπει τη
+   * διαδρομή των αγγελιών σε όλους. Κατεβάζουμε ΜΟΝΟ το τελευταίο αρχείο —
+   * εκεί προστίθενται οι καινούριες — και στέλνουμε τον χρήστη πίσω στη δική
+   * τους σελίδα. Καμία αγγελία δεν κατεβαίνει ξεχωριστά.
+   *
+   * Ο τίτλος βγαίνει από το slug, που είναι γραμμένο σε greeklish
+   * («fysikotherapeftis»). Γι' αυτό οι τίτλοι στο professions.js έχουν και
+   * greeklish ρίζες — αλλιώς δεν θα έπιανε τίποτα.
+   */
+  async skywalker(query, opts = {}) {
+    const index = await getText(
+      "https://www.skywalker.gr/sitemaps/index/sitemap-big-ads-index.xml");
+    const maps = [...index.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    if (!maps.length) return [];
+
+    const xml = await getText(maps[maps.length - 1]);
+    const cutoff = Date.now() - (opts.maxAgeDays || 60) * 86400000;
+    const out = [];
+
+    for (const m of xml.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+      const url = /<loc>([^<]+)<\/loc>/.exec(m[1])?.[1];
+      const mod = /<lastmod>([^<]+)<\/lastmod>/.exec(m[1])?.[1];
+      // Κάθε αγγελία υπάρχει δύο φορές, /el/ και /en/ — κρατάμε τη μία.
+      if (!url || !mod || !url.includes("/el/aggelia-ergasias/")) continue;
+      const at = Date.parse(mod);
+      if (!at || at < cutoff) continue;
+
+      const parts = url.split("/");
+      const slug = decodeURIComponent(parts.pop() || "");
+      const id = parts.pop() || slug;
+      // Το slug είναι ολόκληρος ο τίτλος της αγγελίας — τα «---» είναι απλώς
+      // παύλες μέσα στον τίτλο («polites---politries» = «πωλητές - πωλήτριες»),
+      // όχι χωρίσματα πεδίων. Εργοδότη και περιοχή τα λέει μόνο η σελίδα τους.
+      const title = deslug(slug);
+      if (!title) continue;
+
+      out.push(job("skywalker", id, "", title, url, {
+        location: "Ελλάδα",
+        postedAt: new Date(at).toISOString(),
+        country: "greece",
       }));
     }
     return out;
@@ -509,6 +568,7 @@ export const BOARDS = {
       .map((j) => job("devitjobs", j._id, j.company, j.name,
         `https://devitjobs.uk/jobs/${j.jobUrl}`, {
         location: [j.actualCity || j.cityCategory, "UK"].filter(Boolean).join(", "),
+        country: "uk",
         description: [j.jobType, j.expLevel, (j.technologies || []).join(", ")]
           .filter(Boolean).join(" · "),
         postedAt: iso(j.activeFrom),

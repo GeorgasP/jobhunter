@@ -9,14 +9,19 @@
  *   state        { lastScan, lastCounts, seenIds }
  */
 
-// Ένα scan φέρνει ~2.000 αγγελίες. Αν το όριο είναι κάτω από αυτό, κάθε scan
-// πετάει και ξαναγράφει τις ίδιες θέσεις — και όλες μοιάζουν «νέες».
-export const MAX_JOBS = 5000;
+// Ένα scan φέρνει ~8.000 αγγελίες, οι μισές από τον ελληνικό πίνακα. Αν το
+// όριο είναι κάτω από αυτό, κάθε scan πετάει και ξαναγράφει τις ίδιες θέσεις
+// — και όλες μοιάζουν «νέες». Το unlimitedStorage είναι δηλωμένο γι' αυτό.
+export const MAX_JOBS = 12000;
 export const DESC_LIMIT = 2500;
 
 export const DEFAULT_PROFILE = {
   name: "", email: "", phone: "", location: "",
   linkedin: "", github: "", workAuthorization: "", noticePeriod: "Immediately available",
+
+  // Προφίλ: η φωτογραφία είναι data URL 256×256 (JPEG, ~15KB) — μένει εδώ
+  // όπως και τα υπόλοιπα, δηλαδή στον υπολογιστή του χρήστη και πουθενά αλλού.
+  photo: "", headline: "", about: "",
   language: "en",
   uiLanguage: "",
   titles: [],
@@ -32,7 +37,7 @@ export const DEFAULT_PROFILE = {
   maxAgeDays: 60,
   minScore: 55,
   boards: ["remotive", "arbeitnow", "remoteok", "jobicy", "himalayas", "workingnomads",
-           "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna", "psf"],
+           "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna", "psf", "skywalker"],
   targets: [],
   autoScan: true,
   notify: true,
@@ -93,6 +98,7 @@ export async function mergeJobs(incoming) {
       Object.assign(stored, {
         title: job.title, company: job.company, location: job.location,
         url: job.url, postedAt: job.postedAt || stored.postedAt, remote: job.remote,
+        country: job.country ?? stored.country ?? null,
         salaryMin: job.salaryMin, salaryMax: job.salaryMax,
         salaryCurrency: job.salaryCurrency, salaryPeriod: job.salaryPeriod,
         lastSeen: job.lastSeen,
