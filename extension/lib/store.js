@@ -77,6 +77,7 @@ export async function getCV() {
   return cv || null;
 }
 export const saveCV = (cv) => set({ cv });
+export const deleteCV = () => chrome.storage.local.remove("cv");
 
 export async function getJobs() {
   const { jobs } = await get("jobs");

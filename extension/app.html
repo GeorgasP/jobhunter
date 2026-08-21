@@ -126,6 +126,7 @@
           <div class="cvicon">📄</div>
           <div class="info"><b id="cv-name" data-i18n="settings.cv.none">No CV uploaded yet</b><span id="cv-sub" data-i18n="settings.cv.formats">PDF, DOCX, TXT or Markdown</span></div>
           <button class="btn" id="cv-pick" data-i18n="settings.cv.upload">Upload</button>
+          <button class="btn ghost" id="cv-clear" data-i18n="settings.cv.remove" hidden>Remove</button>
         </div>
         <input type="file" id="cv-file" accept=".pdf,.docx,.txt,.md" hidden>
       </div>
@@ -138,10 +139,30 @@
           <div class="f-row"><label data-i18n="settings.name">Full name</label><input class="txt" id="name"></div>
           <div class="f-row"><label data-i18n="settings.email">Email</label><input class="txt" id="email"></div>
           <div class="f-row"><label data-i18n="settings.phone">Phone</label><input class="txt" id="phone"></div>
-          <div class="f-row"><label data-i18n="settings.location">Where you live</label><input class="txt" id="location"></div>
+          <div class="f-row"><label data-i18n="settings.location">Where you live</label>
+            <input class="txt" id="location" list="location-options" autocomplete="off">
+            <datalist id="location-options"></datalist></div>
           <div class="f-row"><label data-i18n="settings.linkedin">LinkedIn</label><input class="txt" id="linkedin"></div>
-          <div class="f-row"><label data-i18n="settings.workAuth">Work authorization</label><input class="txt" id="workAuthorization" data-i18n-ph="settings.workAuth.ph" placeholder="e.g. EU citizen, no sponsorship needed"></div>
-          <div class="f-row"><label data-i18n="settings.notice">Notice period</label><input class="txt" id="noticePeriod"></div>
+          <div class="f-row"><label data-i18n="settings.workAuth">Work authorization</label>
+            <select id="workAuthorization">
+              <option value="" data-i18n="settings.workAuth.unset">Prefer not to say</option>
+              <option value="Citizen or permanent resident" data-i18n="settings.workAuth.citizen">Citizen or permanent resident</option>
+              <option value="Work permit already held" data-i18n="settings.workAuth.permit">Work permit already held</option>
+              <option value="Need visa sponsorship" data-i18n="settings.workAuth.sponsorship">Need visa sponsorship</option>
+              <option value="Working holiday visa" data-i18n="settings.workAuth.holiday">Working holiday visa</option>
+              <option value="Student visa, limited hours" data-i18n="settings.workAuth.student">Student visa, limited hours</option>
+            </select>
+            <div class="help" data-i18n="settings.workAuth.help"></div></div>
+          <div class="f-row"><label data-i18n="settings.notice">Notice period</label>
+            <select id="noticePeriod">
+              <option value="Immediately available" data-i18n="settings.notice.now">Immediately available</option>
+              <option value="1 week" data-i18n="settings.notice.w1">1 week</option>
+              <option value="2 weeks" data-i18n="settings.notice.w2">2 weeks</option>
+              <option value="1 month" data-i18n="settings.notice.m1">1 month</option>
+              <option value="2 months" data-i18n="settings.notice.m2">2 months</option>
+              <option value="3 months" data-i18n="settings.notice.m3">3 months</option>
+              <option value="Negotiable" data-i18n="settings.notice.negotiable">Negotiable</option>
+            </select></div>
         </div>
       </div>
     </div>

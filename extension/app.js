@@ -327,6 +327,35 @@ const VOCAB_FOR = {
 
 const tagValues = (name) => (fields[name] ? fields[name].values : []);
 
+/* Ένα <select> πετάει σιωπηλά κάθε τιμή που δεν είναι στη λίστα του. Όποιος
+   είχε γράψει «45 μέρες» όσο το πεδίο ήταν ελεύθερο θα το έχανε χωρίς να το
+   καταλάβει — οπότε η δική του τιμή γίνεται κι αυτή επιλογή. */
+function ensureOption(select, value) {
+  if (!select || !value) return;
+  if ([...select.options].some((o) => o.value === value)) return;
+  const opt = document.createElement("option");
+  opt.value = value;
+  opt.textContent = value;
+  select.insertBefore(opt, select.firstChild);
+}
+
+/* Το «πού μένεις» δεν μπορεί να είναι κλειστή λίστα — η εφαρμογή δουλεύει
+   παντού. Είναι λίστα προτάσεων: γράφεις ό,τι θέλεις, αλλά οι τοποθεσίες που
+   εμφανίζονται όντως στις αγγελίες που κατέβηκαν προτείνονται πρώτες. */
+function fillLocationOptions() {
+  const dl = $("#location-options");
+  if (!dl) return;
+  const names = [...(profile.locations || []), ...vocab.locations.map((l) => l.label)];
+  const seen = new Set();
+  const list = names.filter((n) => {
+    const key = String(n || "").trim().toLowerCase();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  }).slice(0, 150);
+  dl.innerHTML = list.map((n) => `<option value="${esc(n)}"></option>`).join("");
+}
+
 async function fillSettings() {
   for (const key of ["titles", "locations", "blockedLocations", "excludeKeywords",
                      "adzunaCountries"]) {
@@ -340,6 +369,12 @@ async function fillSettings() {
       fields[key].values = profile[key] || [];
     }
   }
+
+  // Τα δύο πεδία που έγιναν λίστες μπορεί να κρατούν ό,τι έγραψε κάποιος όσο
+  // ήταν ελεύθερο κείμενο. Το βάζουμε στη λίστα πριν το επιλέξουμε.
+  ensureOption($("#workAuthorization"), profile.workAuthorization);
+  ensureOption($("#noticePeriod"), profile.noticePeriod);
+  fillLocationOptions();
 
   ["name", "email", "phone", "location", "linkedin", "workAuthorization",
    "noticePeriod", "language", "experienceLevel", "anthropicKey", "salaryCurrency",
@@ -358,15 +393,23 @@ async function fillSettings() {
 
   fillLanguageSelect(currentLanguage());
 
-  const cv = await store.getCV();
-  if (cv) {
-    $("#cvbox").classList.add("has");
-    $("#cv-name").textContent = cv.filename;
-    $("#cv-sub").textContent = cv.text
-      ? t("settings.cv.read", { kb: Math.round(cv.size / 1024), chars: cv.text.length.toLocaleString() })
-      : t("settings.cv.unreadable", { kb: Math.round(cv.size / 1024) });
-    $("#cv-pick").textContent = t("settings.cv.replace");
+  renderCvBox(await store.getCV());
+}
+
+/* Και οι δύο καταστάσεις σε ένα σημείο. Πριν υπήρχε μόνο η «έχει βιογραφικό»,
+   που φτάνει όσο το βιογραφικό δεν φεύγει ποτέ — τώρα φεύγει. */
+function renderCvBox(cv) {
+  $("#cvbox").classList.toggle("has", Boolean(cv));
+  $("#cv-clear").hidden = !cv;
+  $("#cv-pick").textContent = t(cv ? "settings.cv.replace" : "settings.cv.upload");
+  $("#cv-name").textContent = cv ? cv.filename : t("settings.cv.none");
+  if (!cv) {
+    $("#cv-sub").textContent = t("settings.cv.formats");
+    return;
   }
+  $("#cv-sub").textContent = cv.text
+    ? t("settings.cv.read", { kb: Math.round(cv.size / 1024), chars: cv.text.length.toLocaleString() })
+    : t("settings.cv.unreadable", { kb: Math.round(cv.size / 1024) });
 }
 
 const pickPhoto = () => $("#photo-file").click();
@@ -394,6 +437,15 @@ $("#photo-clear").onclick = async () => {
 };
 
 $("#cv-pick").onclick = () => $("#cv-file").click();
+
+/* Το βιογραφικό φεύγει, τα στοιχεία που συμπλήρωσε μένουν: το όνομα και το
+   τηλέφωνό σου δεν παύουν να ισχύουν επειδή άλλαξες αρχείο. */
+$("#cv-clear").onclick = async () => {
+  await store.deleteCV();
+  $("#cv-file").value = "";
+  renderCvBox(null);
+  toast(t("settings.cv.removed"), "ok");
+};
 $("#cv-file").onchange = async (e) => {
   const file = e.target.files[0];
   if (!file) return;

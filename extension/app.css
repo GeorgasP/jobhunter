@@ -2250,6 +2250,10 @@ html[data-theme="light"] .cvbox:hover {
   margin-top: 8px;
 }
 
+.btn[hidden] {
+  display: none;
+}
+
 .btn.ghost {
   color: var(--fg-3);
   background: none;
