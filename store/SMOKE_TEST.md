@@ -32,7 +32,7 @@ Also try a **DOCX** and a **TXT** CV — three different formats, three parsers.
 - [ ] Clicking the icon shows the popup with matches / applications / jobs
 - [ ] "Scan now" in the popup finishes and the numbers change
 - [ ] `chrome://extensions` → **service worker** → Console shows no red errors
-- [ ] All **21 sources** succeed — no "Failed to fetch"
+- [ ] All **20 sources** succeed — no "Failed to fetch"
 
 > The last one matters. Himalayas and WorkingNomads failed in my page-based
 > test because of CORS. From the service worker with host permissions they

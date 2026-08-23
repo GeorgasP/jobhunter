@@ -108,7 +108,16 @@ else:
 # ── Πολιτική απορρήτου ──────────────────────────────────────────────
 if (R / "store/PRIVACY.html").exists(): ok("PRIVACY.html υπάρχει τοπικά")
 else: bad("λείπει το PRIVACY.html")
-warn("η πολιτική πρέπει να είναι σε ΔΗΜΟΣΙΟ URL — το τοπικό αρχείο δεν αρκεί")
+# Δεν αρκεί το τοπικό αρχείο: η Google ζητάει URL που ανοίγει χωρίς login.
+# Το ελέγχουμε αντί να το υπενθυμίζουμε κάθε φορά.
+PRIVACY_URL = "https://georgasp.github.io/jobhunter/privacy.html"
+try:
+    import urllib.request
+    with urllib.request.urlopen(PRIVACY_URL, timeout=15) as r:
+        if r.status == 200: ok(f"η πολιτική είναι δημόσια: {PRIVACY_URL}")
+        else: warn(f"η πολιτική απάντησε {r.status} — {PRIVACY_URL}")
+except Exception as e:
+    warn(f"η πολιτική δεν ανοίγει δημόσια ({type(e).__name__}) — {PRIVACY_URL}")
 
 # ── Locales ─────────────────────────────────────────────────────────
 locs = list((E / "locales").glob("*.json"))
