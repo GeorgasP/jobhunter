@@ -606,13 +606,19 @@ $("#scan").onclick = async () => {
   // «1 πηγή δεν απάντησε» δεν βοηθάει κανέναν να καταλάβει τι λείπει —
   // το όνομα και το σφάλμα το κάνουν.
   const failed = (res.sources || []).filter((s) => s.error);
+  // Μηδέν ευρήματα χωρίς εξήγηση είναι το χειρότερο μήνυμα που μπορεί να δει
+  // κανείς: μοιάζει με χαλασμένη εφαρμογή, ενώ φταίει ένα φίλτρο.
+  const why = res.why
+    ? t("toast.scanWhy", { n: res.why.count, reason: t(`reject.${res.why.kind}`) })
+    : "";
   toast(t("toast.scanDone", { seen: res.seen, added: res.added, seconds: res.seconds, matches: res.matches })
+        + why
         + (failed.length
             ? t("toast.scanSourcesFailed", {
                 n: failed.length,
                 which: failed.slice(0, 3).map((s) => `${s.label} (${s.error})`).join(", "),
               })
-            : ""), failed.length ? "warn" : "ok");
+            : ""), failed.length || res.why ? "warn" : "ok");
   await load();
 };
 

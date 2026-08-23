@@ -89,7 +89,7 @@ async function refreshBadge() {
 }
 
 /* ── Matches ──────────────────────────────────────────────── */
-async function currentMatches() {
+async function currentMatches(tally = null) {
   await migrated;
   await refreshRates();
   const [profile, jobs, apps, state] = await Promise.all([
@@ -98,6 +98,7 @@ async function currentMatches() {
   return rankJobs(jobs, profile, {
     dismissed: state.dismissed || [],
     appliedIds: apps.map((a) => a.jobId),
+    tally,
   });
 }
 
@@ -125,7 +126,8 @@ async function runScan({ silent = false } = {}) {
     });
 
     const { added, total } = await store.mergeJobs(jobs);
-    const matches = await currentMatches();
+    const tally = new Map();
+    const matches = await currentMatches(tally);
 
     const history = (await store.getState()).history || [];
     history.push({ at: new Date().toISOString(), seen: jobs.length, added, matches: matches.length });
@@ -154,9 +156,14 @@ async function runScan({ silent = false } = {}) {
       }
     }
 
+    // Χωρίς ευρήματα, ο πιο συχνός λόγος απόρριψης είναι πιο χρήσιμος από
+    // οποιονδήποτε αριθμό: σχεδόν πάντα δείχνει ποιο φίλτρο φταίει.
+    const [topReject] = [...tally.entries()].sort((a, b) => b[1] - a[1]);
+
     return {
       ok: true, seen: jobs.length, added, total,
       matches: matches.length, sources,
+      why: matches.length || !topReject ? null : { kind: topReject[0], count: topReject[1] },
       seconds: Math.round((Date.now() - started) / 1000),
     };
   } catch (e) {

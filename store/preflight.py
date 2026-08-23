@@ -204,7 +204,10 @@ for s in stages:
 
 # ── 3. Κλειδιά που υπάρχουν αλλά δεν χρησιμοποιούνται πουθενά ────────
 print("3 · Κλειδιά που δεν χρησιμοποιούνται")
-dyn_prefixes = ("stage.", "settings.experience.", "time.", "popup.", "notify.", "error.", "fill.")
+# «reject.» χτίζεται με template literal από την κατηγορία απόρριψης,
+# οπότε καμία αναζήτηση κειμένου δεν θα το δει ως χρήση.
+dyn_prefixes = ("stage.", "settings.experience.", "time.", "popup.", "notify.",
+                "error.", "fill.", "reject.")
 unused = [k for k in en if k not in used and not k.startswith(dyn_prefixes)]
 if unused: warn(f"{len(unused)} αχρησιμοποίητα: {', '.join(unused[:6])}{'…' if len(unused) > 6 else ''}")
 print(f"   {len(unused)}\n")

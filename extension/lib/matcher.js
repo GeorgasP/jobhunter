@@ -159,26 +159,30 @@ export function scoreJob(jobItem, p) {
 
   for (const kw of p.excludeKeywords || []) {
     if (phraseIn(kw, title) || phraseIn(kw, description.slice(0, 1500))) {
-      return { score: 0, rejected: `excluded keyword: ${kw}`, reasons };
+      return { score: 0, rejected: `excluded keyword: ${kw}`, kind: "keyword", reasons };
     }
   }
   if (p.remoteOnly && !(jobItem.remote || hay.includes("remote"))) {
-    return { score: 0, rejected: "not remote", reasons };
+    return { score: 0, rejected: "not remote", kind: "remote", reasons };
   }
 
   const geo = locationHits(location, p.locations || [],
                            (jobItem.country || "").toLowerCase(), title);
   const globallyOpen = !location || GLOBAL_WORDS.some((w) => location.includes(w));
 
-  const blocked = (p.blockedLocations || []).find((b) => location.includes(b.toLowerCase()));
-  if (blocked && !geo.length) return { score: 0, rejected: `blocked location: ${blocked}`, reasons };
+  // Το ίδιο λεξιλόγιο με το πεδίο «πού μπορείς να δουλέψεις». Χωρίς αυτό,
+  // «Greece» δεν έκοβε τίποτα και «Ελλάδα» τα έκοβε όλα — δύο γραφές της ίδιας
+  // λέξης, δύο διαφορετικές συμπεριφορές, και καμία εξήγηση στον χρήστη.
+  const blocked = (p.blockedLocations || [])
+    .find((b) => locationHits(location, [b], (jobItem.country || "").toLowerCase(), title).length);
+  if (blocked && !geo.length) return { score: 0, rejected: `blocked location: ${blocked}`, kind: "blocked", reasons };
   if (p.strictLocation && (p.locations || []).length && !geo.length && !globallyOpen) {
-    return { score: 0, rejected: `outside your locations: ${jobItem.location}`, reasons };
+    return { score: 0, rejected: `outside your locations: ${jobItem.location}`, kind: "location", reasons };
   }
 
   const age = ageDays(jobItem.postedAt);
   if (age != null && p.maxAgeDays && age > p.maxAgeDays) {
-    return { score: 0, rejected: `posted ${Math.round(age)} days ago`, reasons };
+    return { score: 0, rejected: `posted ${Math.round(age)} days ago`, kind: "age", reasons };
   }
 
   let score = 0;
@@ -271,7 +275,7 @@ export function scoreJob(jobItem, p) {
     const why = years !== null
       ? `${level}-level · asks for ${years}+ years`
       : `${level}-level role`;
-    return { score: 0, rejected: why, reasons };
+    return { score: 0, rejected: why, kind: "level", reasons };
   }
   if (level === wants) {
     reasons.chips.push({ kind: "good", text: `${wants}-level` });
@@ -279,7 +283,7 @@ export function scoreJob(jobItem, p) {
   // Οι αγγελίες που δεν δηλώνουν επίπεδο πουθενά (level === null) περνάνε
   // χωρίς μπόνους: δεν έχουμε στοιχείο για να τις κρίνουμε προς καμία μεριά.
 
-  return { score: Math.max(0, Math.min(100, Math.round(score))), rejected: null, reasons };
+  return { score: Math.max(0, Math.min(100, Math.round(score))), rejected: null, kind: null, reasons };
 }
 
 /** Η ίδια θέση ανεβαίνει συχνά σε πολλά boards — κρατάμε μία φορά την καθεμία. */
@@ -296,15 +300,20 @@ const dedupeKey = (j) => {
 };
 
 /** Βαθμολογεί όλα τα jobs και επιστρέφει ταξινομημένα τα matches. */
-export function rankJobs(jobs, profile, { dismissed = [], appliedIds = [] } = {}) {
+/* Το tally είναι Map που γεμίζει ο καλών: «τι έκοψε τι». Ένα «0 σου ταιριάζουν»
+   χωρίς εξήγηση στέλνει τον κόσμο να ψάχνει το λάθος στην εφαρμογή, ενώ σχεδόν
+   πάντα φταίει ένα φίλτρο που ο ίδιος έβαλε και ξέχασε. */
+export function rankJobs(jobs, profile, { dismissed = [], appliedIds = [], tally = null } = {}) {
   const skip = new Set([...dismissed, ...appliedIds]);
+  const count = (k) => tally && tally.set(k, (tally.get(k) || 0) + 1);
   const out = [];
   for (const j of jobs) {
     if (skip.has(j.id)) continue;
-    const { score, rejected, reasons } = scoreJob(j, profile);
+    const { score, rejected, kind, reasons } = scoreJob(j, profile);
     // ?? και όχι ||: το μηδέν είναι έγκυρο κατώφλι («δείξε τα πάντα»),
     // αλλά είναι falsy — με το || γινόταν σιωπηλά 55.
-    if (rejected || score < (profile.minScore ?? 55)) continue;
+    if (rejected) { count(kind); continue; }
+    if (score < (profile.minScore ?? 55)) { count("score"); continue; }
     out.push({ ...j, score, chips: reasons.chips });
   }
 
