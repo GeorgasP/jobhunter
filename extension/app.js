@@ -84,7 +84,7 @@ const stageName = (key) => t(`stage.${key}`);
 // Οι όροι του Adzuna ζητούν κάθε αγγελία τους να φέρει «Jobs by Adzuna».
 // Είναι το τίμημα του δωρεάν κλειδιού και είναι δίκαιο: τα δεδομένα δικά τους.
 const SOURCE_LABELS = { adzuna: "Jobs by Adzuna", devitjobs: "DevITjobs",
-                        skywalker: "Skywalker.gr", psf: "ΠΣΦ" };
+                        skywalker: "Skywalker.gr", psf: "ΠΣΦ", ordino: "Ordino" };
 const sourceLabel = (s) => SOURCE_LABELS[s] || s;
 
 const INDUSTRY_LABELS = { ai: "AI", hr: "HR", saas: "SaaS", fintech: "Fintech" };
@@ -214,6 +214,21 @@ function visibleMatches() {
   });
 }
 
+/* Εταιρεία, τοποθεσία, πηγή — με τελείες ανάμεσα, αλλά μόνο σε ό,τι υπάρχει.
+   Οι αγγελίες από sitemap δεν λένε εργοδότη, και μια κενή κουκκίδα δείχνει
+   σαν να έλειψε κάτι κατά το φόρτωμα. */
+function metaLine(m) {
+  const parts = [];
+  // Το «Unknown» είναι κατάλοιπο: οι ήδη κατεβασμένες αγγελίες το κουβαλούν
+  // μέχρι την επόμενη σάρωση, που τις ξαναγράφει σωστά.
+  if (m.company && m.company !== "Unknown") {
+    parts.push(`<span class="co">${esc(m.company)}</span>`);
+  }
+  if (m.location) parts.push(esc(m.location));
+  parts.push(`<span class="src">${esc(sourceLabel(m.source))}</span>`);
+  return parts.join('<i class="dot"></i>');
+}
+
 function renderCards() {
   const list = visibleMatches().slice(0, 100);
   $("#count").textContent = t("filter.showing", { shown: list.length, total: matches.length });
@@ -232,9 +247,7 @@ function renderCards() {
       <div class="ring" style="--p:${m.score};--ring:${ringColor(m.score)}"><b>${m.score}</b></div>
       <div>
         <h3><a href="${esc(m.url)}" target="_blank" rel="noopener">${esc(m.title)}</a></h3>
-        <div class="meta"><span class="co">${esc(m.company)}</span>
-          ${m.location ? `<i class="dot"></i>${esc(m.location)}` : ""}
-          <i class="dot"></i><span class="src">${esc(sourceLabel(m.source))}</span></div>
+        <div class="meta">${metaLine(m)}</div>
         <div class="chips">${(m.chips || []).map((c) => `<span class="chip ${c.kind}">${esc(c.text)}</span>`).join("")}</div>
         <div class="acts">
           <button class="btn primary" data-act="apply">${esc(t("cards.apply"))}</button>
@@ -252,7 +265,7 @@ function renderBoard() {
       <div class="col-h" style="--c:${st.color}"><i></i>${esc(stageName(st.key))}<span>${items.length}</span></div>
       ${items.length ? items.map((a) => `
         <div class="tile" draggable="true" data-app="${a.id}">
-          <b>${esc(a.title)}</b><div class="co">${esc(a.company)}</div>
+          <b>${esc(a.title)}</b><div class="co">${esc(a.company || sourceLabel(a.source))}</div>
           <div class="f"><span class="tag">${esc(a.method)}</span>${new Date(a.preparedAt).toLocaleDateString()}</div>
         </div>`).join("") : `<div class="col-empty">${esc(t("board.empty"))}</div>`}
     </div>`;
@@ -287,7 +300,7 @@ async function openDrawer(id) {
   $("#drawer-body").innerHTML = `
     <button class="btn" id="close-drawer" style="margin-bottom:16px">${esc(t("drawer.back"))}</button>
     <h2>${esc(app.title)}</h2>
-    <div class="meta">${esc(app.company)}${app.location ? " · " + esc(app.location) : ""} ·
+    <div class="meta">${esc(app.company || sourceLabel(app.source))}${app.location ? " · " + esc(app.location) : ""} ·
       <a href="${esc(app.url)}" target="_blank" rel="noopener">${esc(t("drawer.viewPosting"))}</a></div>
     <div class="acts" style="margin:18px 0">
       ${STAGES.map((s) => `<button class="btn ${app.status === s.key ? "primary" : ""}" data-stage="${s.key}">${esc(stageName(s.key))}</button>`).join("")}

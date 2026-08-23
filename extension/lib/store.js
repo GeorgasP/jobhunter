@@ -37,7 +37,7 @@ export const DEFAULT_PROFILE = {
   maxAgeDays: 60,
   minScore: 55,
   boards: ["remotive", "arbeitnow", "remoteok", "jobicy", "himalayas", "workingnomads",
-           "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna", "psf", "skywalker"],
+           "themuse", "weworkremotely", "landingjobs", "cryptojobs", "devitjobs", "adzuna", "psf", "skywalker", "ordino"],
   targets: [],
   autoScan: true,
   notify: true,
@@ -145,7 +145,10 @@ export async function updateApp(id, patch, eventText) {
   const app = apps.find((a) => a.id === id);
   if (!app) return null;
   Object.assign(app, patch);
-  if (eventText) app.events.push({ at: new Date().toISOString(), text: eventText });
+  // Μια αίτηση χωρίς events έριχνε εξαίρεση εδώ, και η εξαίρεση σκότωνε και την
+  // αποθήκευση: η αλλαγή σταδίου χανόταν αθόρυβα. Το ιστορικό είναι σημείωση,
+  // δεν είναι λόγος να μη γραφτεί το ότι έστειλες την αίτηση.
+  if (eventText) (app.events ||= []).push({ at: new Date().toISOString(), text: eventText });
   await saveApps(apps);
   return app;
 }

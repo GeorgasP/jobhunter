@@ -24,6 +24,11 @@ const getJSON = async (url) =>
   (await request(url, { headers: { accept: "application/json" } })).json();
 
 const getText = async (url) => (await request(url)).text();
+/* Το res.text() αποκωδικοποιεί ΠΑΝΤΑ ως UTF-8, ό,τι κι αν δηλώνει ο server.
+   Οι παλιοί ελληνικοί ιστότοποι είναι σε windows-1253 και θα έβγαιναν
+   «����� ��� �� ordino» — οπότε διαβάζουμε bytes και αποκωδικοποιούμε εμείς. */
+const getTextIn = async (url, charset) =>
+  new TextDecoder(charset).decode(await (await request(url)).arrayBuffer());
 
 const postJSON = async (url, body) =>
   (await request(url, {
@@ -170,7 +175,9 @@ function job(source, externalId, company, title, url, opts = {}) {
   }
   return {
     id: `${source}:${externalId}`,
-    source, company: (company || "Unknown").trim(), title: (title || "").trim(),
+    // Άγνωστος εργοδότης σημαίνει κενό, όχι «Unknown». Το δεύτερο είναι
+    // επινοημένο όνομα εταιρείας και εμφανιζόταν ως τέτοιο στις κάρτες.
+    source, company: (company || "").trim(), title: (title || "").trim(),
     location: location.trim(), description: opts.description || "", url,
     // Μια εθνική πηγή ξέρει τη χώρα της ακόμα κι όταν η αγγελία γράφει μόνο
     // «Νέα Φιλαδέλφεια». Χωρίς αυτό, όποιος έβαζε «Ελλάδα» δεν έβρισκε τίποτα.
@@ -558,6 +565,49 @@ export const BOARDS = {
         postedAt: new Date(at).toISOString(),
         country: "greece",
       }));
+    }
+    return out;
+  },
+
+  /*
+   * Ordino — ελληνικές αγγελίες casting: θέατρο, κινηματογράφος, τηλεόραση.
+   *
+   * Η σελίδα τους είναι δημόσια αλλά δείχνει μόνο τίτλο και ημερομηνία· τα
+   * υπόλοιπα θέλουν λογαριασμό στο ordino, δωρεάν για ηθοποιούς. Άρα εδώ δεν
+   * φέρνουμε αγγελία, φέρνουμε ειδοποίηση: «βγήκε ακρόαση, δες την». Κάθε
+   * κάρτα οδηγεί στη δική τους σελίδα, όπου γίνεται και η αίτηση.
+   *
+   * Τρεις σελίδες φτάνουν για δύο μήνες πίσω — δέκα αγγελίες η καθεμία.
+   */
+  async ordino(query, opts = {}) {
+    const BASE = "https://www.ordino.gr/ads/";
+    const ROW = /<td class="aggCell">[\s\S]*?<a href="(ad\.asp\?id=\d+)">([\s\S]*?)<\/a>[\s\S]*?<td class="dateCell">\s*(\d{1,2})\/(\d{1,2})\/(\d{4})([\s\S]*?)<\/td>/g;
+    const cutoff = Date.now() - (opts.maxAgeDays || 60) * 86400000;
+    const out = [];
+
+    for (const pg of [1, 2, 3]) {
+      const html = await getTextIn(`${BASE}ads.asp${pg > 1 ? `?pg=${pg}` : ""}`, "windows-1253");
+      for (const m of html.matchAll(ROW)) {
+        const title = stripHtml(m[2]);
+        // Το ordino αφήνει τις περασμένες ακροάσεις στη σελίδα και τις σημαδεύει
+        // στον τίτλο. Χωρίς αυτό, τα δύο τρίτα των ευρημάτων είναι ραντεβού που
+        // έχουν ήδη γίνει — και μια ληγμένη ακρόαση δεν είναι εύρημα.
+        if (!title || /\(ΕΧΕΙ ΛΗΞΕΙ\)/i.test(title)) continue;
+        const at = Date.UTC(+m[5], +m[4] - 1, +m[3]);
+        if (!at || at < cutoff) continue;
+
+        // Η σελίδα λέει η ίδια σε ποιον ανοίγει· ας το λέει και η κάρτα, αντί
+        // να το ανακαλύψει ο χρήστης αφού πατήσει.
+        const gated = /Μόνο για συνδρομητές/.test(m[6]);
+        out.push(job("ordino", m[1].replace(/\D/g, ""), "", title, BASE + m[1], {
+          location: "Ελλάδα",
+          country: "greece",
+          postedAt: new Date(at).toISOString(),
+          description: gated
+            ? "Οι λεπτομέρειες είναι μόνο για συνδρομητές του ordino."
+            : "Οι λεπτομέρειες είναι για όλα τα μέλη του ordino — η εγγραφή ηθοποιού είναι δωρεάν.",
+        }));
+      }
     }
     return out;
   },

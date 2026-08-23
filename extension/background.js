@@ -27,6 +27,7 @@ const MIGRATIONS = [
   { version: 3, boards: ["devitjobs", "adzuna"] },
   { version: 4, boards: ["psf"] },
   { version: 5, boards: ["skywalker"] },
+  { version: 6, boards: ["ordino"] },
 ];
 const SCHEMA_VERSION = MIGRATIONS[MIGRATIONS.length - 1].version;
 

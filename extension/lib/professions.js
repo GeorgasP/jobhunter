@@ -166,6 +166,16 @@ export const BY_INDUSTRY = {
     "Growth Marketer", "Email Marketing Specialist", "Marketing Analyst",
     "Public Relations Manager", "Communications Manager", "Event Manager",
   ],
+  arts: [
+    "Actor", "Background Actor", "Voice Actor", "Model", "Presenter",
+    "Dancer", "Choreographer", "Singer", "Musician", "Stunt Performer",
+    "Theatre Director", "Assistant Director", "Casting Director",
+    "Stage Manager", "Production Assistant", "Location Manager",
+    "Script Supervisor", "Screenwriter", "Playwright",
+    "Set Designer", "Costume Designer", "Makeup Artist", "Hair Stylist",
+    "Lighting Technician", "Sound Technician", "Camera Operator",
+    "Art Director", "Talent Agent",
+  ],
   media: [
     "Journalist", "Editor", "Copy Editor", "Video Editor", "Videographer",
     "Photographer", "Producer", "Podcast Producer", "Broadcast Engineer",
@@ -240,6 +250,34 @@ export const ALIASES = {
   "Sales Assistant": ["πωλητ", "polit"],
   "Security Officer": ["φύλακ", "σεκιούριτι", "fylak", "sekiouriti"],
   "Social Worker": ["κοινωνικ λειτουργ", "koinonik leitourg"],
+
+  /* Θέαμα: οι αγγελίες γράφονται ελληνικά, και στα ελληνικά
+     πινακίδια συχνά greeklish. */
+  "Actor": ["ηθοποι", "ithopoi"],
+  "Background Actor": ["κομπάρσ", "kompars", "φιγκυράν"],
+  "Voice Actor": ["ηθοποιός φωνής", "voice over", "voiceover"],
+  "Model": ["μοντέλ", "montel"],
+  "Presenter": ["παρουσιαστ", "parousiast"],
+  "Dancer": ["χορευτ", "χορεύτρι", "chorevt", "horevt"],
+  "Choreographer": ["χορογράφ", "chorograf", "horograf"],
+  "Singer": ["τραγουδιστ", "τραγουδίστρ", "tragoudist"],
+  "Musician": ["μουσικ", "mousik"],
+  "Stunt Performer": ["κασκαντέρ", "kaskander"],
+  "Theatre Director": ["σκηνοθέτ", "skinothet"],
+  "Assistant Director": ["βοηθός σκηνοθέτ", "voithos skinothet"],
+  "Casting Director": ["κάστινγκ", "casting"],
+  "Stage Manager": ["υπεύθυνος σκηνής", "φροντιστ"],
+  "Production Assistant": ["βοηθός παραγωγ", "voithos paragog"],
+  "Screenwriter": ["σεναριογράφ", "senariograf"],
+  "Playwright": ["θεατρικ συγγραφ"],
+  "Set Designer": ["σκηνογράφ", "skinograf"],
+  "Costume Designer": ["ενδυματολόγ", "endymatolog"],
+  "Makeup Artist": ["μακιγιέρ", "μακιγιάζ", "makigier"],
+  "Hair Stylist": ["κομμωτ", "kommot"],
+  "Lighting Technician": ["φωτισμ", "φώτα", "fotism"],
+  "Sound Technician": ["ήχο", "ηχολήπτ", "icholipt"],
+  "Camera Operator": ["εικονολήπτ", "οπερατέρ", "operater"],
+  "Art Director": ["καλλιτεχνικ διευθυντ"],
 };
 
 /** Οι ρίζες που πρέπει να ψάξουμε για έναν τίτλο — ο ίδιος συν τα συνώνυμά του. */

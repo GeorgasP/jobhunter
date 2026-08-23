@@ -2,6 +2,8 @@
  * Έτοιμες εταιρείες ανά κλάδο, ώστε ο νέος χρήστης να μη χρειάζεται να ξέρει
  * ποια εταιρεία τρέχει ποιο ATS. Όλες επαληθευμένες ότι απαντούν.
  */
+import { BY_INDUSTRY } from "./professions.js";
+
 export const LIBRARY = [
   { provider: "greenhouse", slug: "datadog", name: "Datadog", industries: ["tech", "saas"] },
   { provider: "greenhouse", slug: "cloudflare", name: "Cloudflare", industries: ["tech", "saas"] },
@@ -82,7 +84,15 @@ export const LIBRARY = [
   { provider: "workable", slug: "persado", name: "Persado", industries: ["ai", "marketing"] },
 ];
 
-export const ALL_INDUSTRIES = [...new Set(LIBRARY.flatMap((c) => c.industries))].sort();
+/* Οι κλάδοι που έχουν εταιρείες με σελίδα καριέρας εδώ. */
+const COMPANY_INDUSTRIES = [...new Set(LIBRARY.flatMap((c) => c.industries))];
+
+/* Οι κλάδοι που μπορεί να διαλέξει ο χρήστης. Δεν είναι οι ίδιοι: κανένα
+   θέατρο και κανένα φυσικοθεραπευτήριο δεν τρέχει Greenhouse, αλλά και τα δύο
+   βγάζουν αγγελίες. Αν ο κλάδος έχει επαγγέλματα, έχει και νόημα να τον
+   διαλέξεις — τον καλύπτουν οι εθνικές πηγές. */
+export const ALL_INDUSTRIES =
+  [...new Set([...COMPANY_INDUSTRIES, ...Object.keys(BY_INDUSTRY)])].sort();
 
 export function pickCompanies(industries = [], limit = 25) {
   const wanted = new Set(industries.map((i) => i.toLowerCase()));
@@ -95,4 +105,4 @@ export function pickCompanies(industries = [], limit = 25) {
 
 /** Κλάδοι που δεν έχουν εταιρείες εδώ — τους καλύπτουν τα job boards. */
 export const uncovered = (industries = []) =>
-  industries.filter((i) => !ALL_INDUSTRIES.includes(i.toLowerCase()));
+  industries.filter((i) => !COMPANY_INDUSTRIES.includes(i.toLowerCase()));

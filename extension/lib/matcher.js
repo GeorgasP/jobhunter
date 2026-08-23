@@ -202,7 +202,10 @@ export function scoreJob(jobItem, p) {
     reasons.chips.push({ kind: "", text: [...new Set(geo)].slice(0, 2).join(" · ") });
   } else if (globallyOpen || !(p.locations || []).length) {
     score += W.location * 0.7;
-    reasons.chips.push({ kind: "", text: "Worldwide" });
+    // Το σήμα μπαίνει μόνο αν η ίδια η αγγελία λέει ότι δέχεται από παντού.
+    // Χωρίς φίλτρο τοποθεσίας παίρνει τους ίδιους βαθμούς — αλλά μια θέση στη
+    // Νέα Σμύρνη δεν γίνεται παγκόσμια επειδή εσύ δεν διάλεξες περιοχή.
+    if (globallyOpen) reasons.chips.push({ kind: "", text: "Worldwide" });
   }
 
   const industryHits = (p.industries || []).filter((i) => phraseIn(i, hay));
