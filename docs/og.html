@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JobHunter — social preview card</title>
+<!--
+  Η πηγή του og.png, της εικόνας που βλέπει ο κόσμος όταν μοιράζεσαι τον
+  σύνδεσμο. Ήταν μόνο δυαδικό αρχείο, οπότε το νούμερο μέσα της δεν μπορούσε
+  να ενημερωθεί χωρίς εργαλείο εικόνας — και έμεινε πίσω.
+
+  Ξαναβγάζεις την εικόνα με:  python store/shoot.py
+  Τα χρώματα είναι τα ίδια tokens με την εφαρμογή.
+-->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1200px;
+    height: 630px;
+
+    position: relative;
+    overflow: hidden;
+
+    padding: 65px 80px;
+
+    background:
+      radial-gradient(
+        120% 130% at 38% 42%,
+        #121c33 0%,
+        #0a0f1c 72%
+      );
+
+    color: #f1f5f9;
+
+    font:
+      400 16px/1.4
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      system-ui,
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Ο στόχος, δεξιά ─────────────────────────────────── */
+  .target {
+    position: absolute;
+
+    left: 952px;
+    top: 299px;
+  }
+
+  .target i {
+    position: absolute;
+
+    border: 2px solid #284682;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .r1 { width: 134px; height: 134px; }
+  .r2 { width: 214px; height: 214px; }
+  .r3 { width: 294px; height: 294px; }
+
+  .dot {
+    position: absolute;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    transform: translate(-50%, -50%);
+  }
+
+  /* ── Σήμα ────────────────────────────────────────────── */
+  .brand {
+    display: flex;
+    align-items: center;
+
+    gap: 22px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+
+    width: 60px;
+    height: 60px;
+
+    border-radius: 15px;
+
+    background:
+      linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    font-size: 28px;
+  }
+
+  .brand b {
+    font-size: 27px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+  }
+
+  /* ── Κείμενο ─────────────────────────────────────────── */
+  .eyebrow {
+    margin-top: 72px;
+
+    color: #3b82f6;
+
+    font-size: 17px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+  }
+
+  .eyebrow span {
+    margin: 0 10px;
+
+    color: #26518f;
+  }
+
+  h1 {
+    margin-top: 16px;
+
+    font-size: 92px;
+    font-weight: 700;
+
+    line-height: 0.99;
+    letter-spacing: -3.2px;
+  }
+
+  .sub {
+    margin-top: 26px;
+
+    color: #899bb2;
+
+    font-size: 24px;
+  }
+
+  /* ── Ετικέτες ────────────────────────────────────────── */
+  .pills {
+    display: flex;
+
+    gap: 16px;
+
+    margin-top: 26px;
+  }
+
+  .pills b {
+    padding: 10px 19px;
+
+    border: 1px solid #2d3c5f;
+    border-radius: 11px;
+
+    color: #c8d7f0;
+
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .link {
+    margin-top: 32px;
+
+    color: #3b82f6;
+
+    font-size: 20px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body>
+
+<div class="target">
+  <i class="r1"></i><i class="r2"></i><i class="r3"></i>
+  <div class="dot"></div>
+</div>
+
+<div class="brand">
+  <div class="mark">🎯</div>
+  <b>JOBHUNTER</b>
+</div>
+
+<div class="eyebrow">CHROME EXTENSION<span>·</span>PYTHON<span>·</span>ZERO DEPENDENCIES</div>
+
+<h1>Automatic<br>job hunting</h1>
+
+<div class="sub">Searches, scores &amp; applies — all in your browser</div>
+
+<div class="pills">
+  <b>24 job sources</b>
+  <b>zero dependencies</b>
+  <b>private</b>
+  <b>0-100 scoring</b>
+</div>
+
+<div class="link">georgasp.github.io/jobhunter</div>
+
+</body>
+</html>

@@ -25,11 +25,15 @@ import sys, tempfile, threading
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 W, H = 1280, 800
-WINDOW_H = H + 90                      # ό,τι κρατάει για τον εαυτό του το Chrome
+CHROME_INSET = 90                      # ό,τι κρατάει για τον εαυτό του το Chrome
 PORT = 8791
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SHOTS = ROOT / "store" / "screenshots"
 PAGES = ["1-matches", "2-pipeline", "5-profile", "3-autofill", "4-onboarding"]
+
+# Η κάρτα που βλέπει ο κόσμος όταν μοιράζεσαι τον σύνδεσμο. Ζούσε μόνο ως PNG,
+# οπότε το νούμερο μέσα της δεν μπορούσε να ενημερωθεί μαζί με τον κώδικα.
+OG = ("docs/og.html", ROOT / "docs" / "og.png", 1200, 630)
 
 CHROME = next((p for p in [
     pathlib.Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
@@ -53,44 +57,55 @@ def png_size(path):
     return struct.unpack(">II", b[16:24]) if b[:8] == b"\x89PNG\r\n\x1a\n" else None
 
 
+def capture(page, out, w, h, tmp):
+    """Μία σελίδα → ένα PNG ακριβώς w×h."""
+    from PIL import Image                      # μόνο για το κόψιμο
+
+    raw = tmp / (out.stem + "-raw.png")
+    subprocess.run([
+        str(CHROME), "--headless=new", "--disable-gpu", "--hide-scrollbars",
+        "--force-device-scale-factor=1", f"--window-size={w},{h + CHROME_INSET}",
+        "--virtual-time-budget=6000", f"--screenshot={raw}",
+        f"http://127.0.0.1:{PORT}/{page}",
+    ], capture_output=True, timeout=120)
+
+    if not raw.exists():
+        print(f"  [ ] {out.name}  το Chrome δεν έγραψε τίποτα για «{page}»")
+        return 0
+
+    out.parent.mkdir(exist_ok=True)
+    Image.open(raw).crop((0, 0, w, h)).save(out)
+    size = png_size(out)
+    if size != (w, h):
+        print(f"  [!] {out.name}  βγήκε {size[0]}×{size[1]}")
+        return 0
+    print(f"  [x] {out.name}  {w}×{h}  ({out.stat().st_size // 1024} KB)  {page}")
+    return 1
+
+
 def main():
     if CHROME is None:
         print("  δεν βρέθηκε το chrome.exe — βάλε τη διαδρομή στο CHROME")
         return 1
-    from PIL import Image                      # μόνο για το κόψιμο
 
     httpd = serve()
     tmp = pathlib.Path(tempfile.mkdtemp())
-    SHOTS.mkdir(exist_ok=True)
     made = 0
 
     try:
+        print("  Screenshots του listing")
         for i, name in enumerate(PAGES, 1):
-            raw = tmp / f"{name}.png"
-            subprocess.run([
-                str(CHROME), "--headless=new", "--disable-gpu", "--hide-scrollbars",
-                "--force-device-scale-factor=1", f"--window-size={W},{WINDOW_H}",
-                "--virtual-time-budget=6000", f"--screenshot={raw}",
-                f"http://127.0.0.1:{PORT}/store/screenshots/{name}.html",
-            ], capture_output=True, timeout=120)
+            made += capture(f"store/screenshots/{name}.html", SHOTS / f"{i}.png", W, H, tmp)
 
-            if not raw.exists():
-                print(f"  [ ] {i}.png  το Chrome δεν έγραψε τίποτα για «{name}»")
-                continue
-
-            out = SHOTS / f"{i}.png"
-            Image.open(raw).crop((0, 0, W, H)).save(out)
-            size = png_size(out)
-            if size != (W, H):
-                print(f"  [!] {i}.png  βγήκε {size[0]}×{size[1]}")
-                continue
-            print(f"  [x] {i}.png  {W}×{H}  ({out.stat().st_size // 1024} KB)  {name}")
-            made += 1
+        print("\n  Κάρτα κοινοποίησης")
+        page, out, w, h = OG
+        made += capture(page, out, w, h, tmp)
     finally:
         httpd.shutdown()
 
-    print(f"\n  {made}/{len(PAGES)} έτοιμα στο store/screenshots/")
-    return 0 if made == len(PAGES) else 1
+    total = len(PAGES) + 1
+    print(f"\n  {made}/{total} έτοιμα")
+    return 0 if made == total else 1
 
 
 if __name__ == "__main__":
