@@ -106,9 +106,11 @@ purpose.
 | `notifications` | Tells the user when a background search has found new job openings that match their profile. |
 | `activeTab` | When the user clicks "Fill the current page" in the extension popup, the form filler is injected into the tab the user is actively looking at, at that moment, on their explicit click. |
 | `scripting` | Injects the form-filling script into an application page in response to that same explicit user click, for career sites not covered by the declared content scripts. |
-| Host permissions for job boards | Read-only requests for publicly available job listings from Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas and WorkingNomads. No user data is sent in these requests. |
+| Host permissions for job boards | Read-only requests for publicly available job listings. Applicant tracking systems: Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Workday, Teamtailor, Breezy. Job boards: Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas, WorkingNomads, The Muse, We Work Remotely, Cryptocurrency Jobs, Landing.jobs, DevITjobs. National sources: psf.org.gr, skywalker.gr, ordino.gr. No user data is sent in these requests. |
+| Host permission `api.adzuna.com` | Optional feature. Only if the user enters their own Adzuna application ID and key, the extension queries Adzuna for listings in the countries the user selected. The request carries the user's own credentials and those country codes, which is how the Adzuna API identifies a caller. No CV, name or contact details are sent. Without a key no request is made. |
 | Host permission `open.er-api.com` | Fetches published currency exchange rates once per day so a minimum-salary filter set in one currency can be compared against jobs advertised in another. No user data is sent; the request has no parameters. |
 | Host permission `api.anthropic.com` | Optional feature. Only if the user enters their own Anthropic API key, the extension sends the user's CV text and the job description to Anthropic to generate a cover letter for that specific job. Disabled and unused by default. |
+| Optional host permissions for social networks | Not requested at install and off by default. Some jobs are only posted as a post in a group or thread. If the user switches on "Save button on social posts" in Settings, Chrome asks them to grant access to facebook.com, instagram.com, reddit.com, x.com, twitter.com and threads.net, and switching it off withdraws the permission. While on, a button appears over a post that reads like a job ad; the post's text is read only when the user presses that button, is shown to them for correction, and is stored locally. Nothing is read in the background and nothing is transmitted. |
 | Content scripts on ATS domains | Displays the "Fill with JobHunter" button on job application forms hosted by Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Teamtailor, BambooHR, Workday, Personio, Jobvite and iCIMS, so the user can fill the form in one click. |
 
 **Remote code:** No. All JavaScript is contained in the package. Nothing is
@@ -118,7 +120,7 @@ evaluated from a remote source.
 
 | Category | Collected? | Note |
 |---|---|---|
-| Personally identifiable information | **Yes** | Name, email, phone, CV. Stored locally. Transmitted only to `api.anthropic.com`, and only if the user supplies their own API key for the optional cover-letter feature. |
+| Personally identifiable information | **Yes** | Name, email, phone, CV, profile photo and the text the user writes about themselves. Stored locally. Transmitted only to `api.anthropic.com`, and only if the user supplies their own API key for the optional cover-letter feature. The photo is never transmitted or attached to an application. |
 | Location | **Yes** | The city/country the user types in as their own location. Stored locally, used for matching. |
 | Web history | No | |
 | User activity | No | |
@@ -130,8 +132,12 @@ Certify all three:
 - ☑ I do not use or transfer user data for purposes that are unrelated to my item's single purpose
 - ☑ I do not use or transfer user data to determine creditworthiness or for lending purposes
 
-**Privacy policy URL:** the public URL where you host `PRIVACY.md`
-(GitHub Pages, a Gist, or any static host — it must be reachable without login).
+**Privacy policy URL:**
+```
+https://georgasp.github.io/jobhunter/privacy.html
+```
+Served from `docs/` by GitHub Pages. `store/privacy_html.py` regenerates it from
+`store/PRIVACY.md`; it only goes live once the commit is pushed.
 
 ---
 
@@ -140,6 +146,6 @@ Certify all three:
 | Asset | Size | Status |
 |---|---|---|
 | Store icon | 128×128 | ✅ `extension/icons/128.png` |
-| Screenshots | 1280×800 | ⏳ capture from `store/screenshots/*.html` (see SUBMISSION.md) |
+| Screenshots | 1280×800 | ✅ `store/screenshots/1.png` … `5.png` — rebuild with `python store/shoot.py` |
 | Small promo tile | 440×280 | Optional |
 | Marquee promo tile | 1400×560 | Optional |
