@@ -59,6 +59,10 @@
     [/phone|mobile|telephone|contact number|τηλέφων/, "phone"],
     [/linked.?in/, "linkedin"],
     [/git.?hub/, "github"],
+    // Το Lever ονομάζει κάθε πεδίο συνδέσμου «… URL» — «LinkedIn URL», «Video
+    // Link URL». Χωρίς την εξαίρεση, το προφίλ σου κατέληγε και στη θέση όπου ο
+    // εργοδότης περίμενε βίντεο.
+    [/video|reel|showreel|demo ?tape/, null],
     [/portfolio|personal (web)?site|website|\burl\b|blog/, "website"],
     [/current (city|location)|where are you (based|located)|city|location|address|town/, "location"],
     [/salary|compensation|expected pay|rate expectation|μισθ/, "salary_expectation"],
@@ -73,6 +77,7 @@
     if (type === "email") return "email";
     if (type === "tel") return "phone";
     const text = describe(el);
+    // Το key μπορεί να είναι null: κανόνας-εξαίρεση που λέει «μην αγγίξεις».
     for (const [re, key] of RULES) if (re.test(text)) return key;
     if (type === "url") return "website";
     return null;
@@ -101,6 +106,33 @@
     }
   }
 
+  /*
+   * Πόσα υποχρεωτικά μένουν αναπάντητα.
+   *
+   * Δύο παγίδες: το Workable βάζει aria-required σε wrapper div, όχι στο πεδίο,
+   * οπότε μετράμε μόνο πραγματικά controls και κοιτάμε αν κάποιος γονιός τα
+   * δηλώνει υποχρεωτικά· και μια ομάδα από πέντε ραδιοπλήκτρα είναι μία
+   * ερώτηση, όχι πέντε.
+   */
+  function countUnanswered() {
+    const seenGroups = new Set();
+    return [...document.querySelectorAll("input, textarea, select")].filter((el) => {
+      if (el.disabled || el.offsetParent === null) return false;
+      if (!(el.required || el.getAttribute("aria-required") === "true"
+            || el.closest("[aria-required='true']"))) return false;
+
+      const type = (el.type || "").toLowerCase();
+      if (type === "file") return el.files.length === 0;
+      if (type === "radio" || type === "checkbox") {
+        const group = el.name || el.id;
+        if (!group || seenGroups.has(group)) return false;
+        seenGroups.add(group);
+        return !document.querySelector(`[name="${CSS.escape(group)}"]:checked`);
+      }
+      return !String(el.value || "").trim();
+    }).length;
+  }
+
   function toast(report, job) {
     document.getElementById("__jobhunter_toast")?.remove();
     const box = document.createElement("div");
@@ -115,9 +147,17 @@
     const missing = report.skipped.length
       ? `<div style="color:#8b949e;font-size:12.5px;margin-top:8px">Left for you: ${report.skipped.join(", ")}</div>`
       : "";
+    // Οι δοκιμιακές ερωτήσεις («περίγραψε τον καλύτερο μηχανικό που δούλεψες
+    // μαζί») δεν συμπληρώνονται ποτέ από εργαλείο. Αν δεν τις μετρήσουμε, το
+    // «3 πεδία συμπληρώθηκαν» ακούγεται σαν τελείωσες, και δεν τελείωσες.
+    const required = report.required
+      ? `<div style="color:#f0a020;font-size:12.5px;margin-top:6px">${report.required} required field${
+          report.required === 1 ? " still needs" : "s still need"} you</div>`
+      : "";
     box.innerHTML =
       `<b>🎯 JobHunter</b><br>${report.filled} field${report.filled === 1 ? "" : "s"} filled` +
       (report.cv ? " · CV attached" : "") +
+      required +
       `<div style="color:#8b949e;font-size:12.5px;margin-top:6px">${job ? job.company + " — " + job.title : ""}</div>` +
       `<div style="margin-top:8px;font-size:12.5px">Check everything, then press Submit yourself.</div>` +
       missing;
@@ -147,6 +187,11 @@
       // full_name μόνο αν δεν υπάρχει ήδη ζεύγος first/last
       if (key === "full_name" && seen.has("first_name")) return;
 
+      // Μία φορά το καθένα. Μια φόρμα με τρία πεδία συνδέσμου δεν θέλει το ίδιο
+      // προφίλ τρεις φορές — φαίνεται προχειρότητα σε όποιον το διαβάσει. Μόνη
+      // εξαίρεση η επιβεβαίωση, όπου η επανάληψη είναι το ζητούμενο.
+      if (seen.has(key) && !/confirm|repeat|verify|again|ξανά/.test(describe(el))) return;
+
       const value = answers[key];
       if (!value) return;
       if (el.value && el.value.trim()) return;          // μη γράφεις πάνω στον χρήστη
@@ -163,11 +208,19 @@
       if (el.disabled || el.offsetParent === null) return;
       const text = describe(el);
       for (const [re, key] of RULES) {
-        if (re.test(text) && !report.skipped.includes(key)) { report.skipped.push(key); break; }
+        if (!re.test(text)) continue;
+        // Ό,τι συμπληρώθηκε ήδη δεν «έμεινε σε σένα». Τα ραδιοπλήκτρα των
+        // αντωνυμιών περιέχουν το όνομα, και το μήνυμα έλεγε ότι έμεινε το
+        // όνομα αφού το είχε μόλις γράψει.
+        if (key && !seen.has(key) && !report.skipped.includes(key)) report.skipped.push(key);
+        break;
       }
     });
 
     if (data.cv && !report.cv) report.skipped.push("CV upload");
+
+    report.required = countUnanswered();
+
     toast(report, data.job);
     return report;
   };
