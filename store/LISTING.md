@@ -49,10 +49,10 @@ including attaching your CV as a real file. You review and press Submit.
 ── NOT ONLY DESK JOBS ────────────────────────────────────
 
 Most job tools are built for software engineers. This one covers 31 industries
-and more than 400 professions: nurses, physiotherapists, electricians, chefs,
-drivers, teachers, actors, stage technicians, accountants, hospitality staff.
-If the word for your profession is in your own language, it still finds you —
-title matching understands local spellings, not just English ones.
+and more than 400 professions — care work and construction and kitchens and
+classrooms and stages, not only desks. If the word for your profession is in
+your own language it still finds you, because title matching understands local
+spellings and not only English ones.
 
 ── WHY THE MATCHES ARE ACTUALLY GOOD ─────────────────────
 
@@ -62,21 +62,22 @@ is (10), salary (5), minus penalties when the seniority is wrong.
 
 Crucially, it understands geography. A "Remote" job that is really "US only" is
 dropped if you cannot work in the US — and it says so, instead of wasting your
-time. Regional shorthands like EU, EMEA, APAC, LATAM, UK and ANZ are understood.
+time. The regional shorthands employers write instead of country names are
+understood too.
 
 And when nothing matches, it tells you which filter did it, instead of showing
 you a zero and letting you wonder whether the thing is broken.
 
 ── WHERE THE JOBS COME FROM ──────────────────────────────
 
-Public listings only. Job boards: Remotive, Arbeitnow, RemoteOK, Jobicy,
-Himalayas, WorkingNomads, The Muse, We Work Remotely, Cryptocurrency Jobs,
-Landing.jobs and DevITjobs. Company career pages on Greenhouse, Lever, Ashby,
-Workable, SmartRecruiters, Recruitee, Workday, Teamtailor and Breezy — pick your
-industries and a matching set is tracked for you.
+Public listings only, from two kinds of place: open job boards, and the career
+pages companies publish through the usual applicant tracking systems. Pick your
+industries and a matching set of employers is tracked for you. A few national
+job sites are included as well, for the work that never reaches an international
+board — clinics, theatres, workshops, hotels.
 
-Optionally, add your own free Adzuna key and it searches a whole country's job
-market rather than only the companies it knows.
+You can also connect your own free key from a job-market data provider, and the
+search widens from the companies it knows to a whole country's market.
 
 JobHunter does not automate LinkedIn or Indeed accounts. Their terms forbid it
 and it gets people's accounts banned. For the jobs that only ever appear as a
@@ -89,9 +90,9 @@ There is no JobHunter server and no account. Your CV, your details and your
 application history live in your browser's local storage and are never sent to
 us — we have no way of reading them. No analytics, no telemetry, no tracking.
 
-Optionally, you can add your own Anthropic API key so Claude writes each cover
-letter from your CV and the job description. Without a key, a solid template is
-used and nothing is transmitted.
+Optionally, you can add your own Anthropic API key and each cover letter is
+written from your CV and the job description. Without a key, a solid template is
+used and nothing is transmitted anywhere.
 
 ── WHAT IT WILL NOT DO ───────────────────────────────────
 
@@ -101,8 +102,7 @@ to a legal question costs more than the three seconds it takes you to pick.
 Fields you already filled in are never overwritten, and when required questions
 are still empty it says how many, so you do not send half an application.
 
-Interface in English, Greek, German, Spanish, French, Italian, Polish and
-Portuguese. Free, open source, no upsell.
+Interface in eight languages. Free, open source, no upsell.
 ```
 
 ---

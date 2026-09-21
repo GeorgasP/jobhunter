@@ -19,7 +19,7 @@ sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 E = ROOT / "extension"
 DOCS = {name: (ROOT / "store" / name).read_text(encoding="utf-8")
-        for name in ("LISTING.md", "PRIVACY.md", "SUBMISSION.md")}
+        for name in ("LISTING.md", "PRIVACY.md", "PRIVACY_FIELDS.md", "SUBMISSION.md")}
 MANIFEST = json.loads((E / "manifest.json").read_text(encoding="utf-8"))
 SOURCES = (E / "lib" / "sources.js").read_text(encoding="utf-8")
 
@@ -73,11 +73,22 @@ NAMES = {
     "recruitee": "Recruitee", "workday": "Workday", "teamtailor": "Teamtailor",
     "breezy": "Breezy",
 }
-for doc in ("LISTING.md", "PRIVACY.md"):
+# Οι πηγές ανήκουν εκεί που ο κριτής και ο χρήστης πρέπει να τις δουν: στη
+# δικαιολόγηση των αδειών και στην πολιτική απορρήτου. ΟΧΙ στην περιγραφή του
+# store — εκεί μια σειρά από είκοσι ονόματα τρίτων είναι keyword spam, και μας
+# απέρριψαν γι' αυτό ακριβώς.
+for doc in ("PRIVACY.md", "PRIVACY_FIELDS.md"):
     missing = sorted(NAMES[k] for k in (boards() | ats())
                      if k in NAMES and NAMES[k].lower() not in DOCS[doc].lower())
     check(not missing, f"{doc} αναφέρει όλες τις πηγές",
           "λείπουν: " + ", ".join(missing) if missing else f"{len(boards() | ats())} πηγές")
+
+description = re.search(r"\*\*Detailed description\*\*\n```\n([\s\S]*?)\n```",
+                        DOCS["LISTING.md"]).group(1)
+brands = [NAMES[k] for k in (boards() | ats())
+          if k in NAMES and re.search(rf"\b{re.escape(NAMES[k])}\b", description)]
+check(len(brands) <= 2, "η περιγραφή δεν απαριθμεί ονόματα τρίτων",
+      f"βρέθηκαν {len(brands)}: {', '.join(brands)}" if len(brands) > 2 else "καθαρή")
 
 unknown = sorted((boards() | ats()) - set(NAMES))
 if unknown:
