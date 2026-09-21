@@ -94,6 +94,36 @@ def capture(page, out, w, h, tmp):
     return 1
 
 
+def stage_for_upload():
+    """
+    Μαζεύει σε έναν φάκελο ό,τι σέρνεται στη φόρμα του store.
+
+    Γιατί: οι εικόνες ζουν δίπλα στις HTML πηγές τους, σε τρεις διαφορετικούς
+    φακέλους. Τη στιγμή που ανεβάζεις, δεν θέλεις να διαλέγεις ανάμεσα σε
+    «1.png» και «1-matches.html» — θέλεις έναν φάκελο όπου κάθε όνομα λέει
+    μόνο του πού πάει, και όπου τα screenshots μένουν στη σειρά τους.
+    """
+    out = ROOT / "store" / "dist" / "upload"
+    out.mkdir(parents=True, exist_ok=True)
+    for old in out.glob("*.png"):
+        old.unlink()
+
+    staged = []
+    for i in range(1, len(PAGES) + 1):
+        staged.append((SHOTS / f"{i}.png", out / f"screenshot-{i}.png"))
+    staged.append((ROOT / "store" / "promo" / "440x280.png", out / "promo-small-440x280.png"))
+    staged.append((ROOT / "store" / "promo" / "1400x560.png", out / "promo-marquee-1400x560.png"))
+    staged.append((ROOT / "extension" / "icons" / "128.png", out / "store-icon-128.png"))
+
+    for src, dst in staged:
+        if src.exists():
+            dst.write_bytes(src.read_bytes())
+            print(f"  [x] {dst.name}")
+        else:
+            print(f"  [ ] λείπει το {src.name}")
+    return out
+
+
 def main():
     if CHROME is None:
         print("  δεν βρέθηκε το chrome.exe — βάλε τη διαδρομή στο CHROME")
@@ -120,6 +150,10 @@ def main():
 
     total = len(PAGES) + 1 + len(PROMO)
     print(f"\n  {made}/{total} έτοιμα")
+
+    print("\n  Έτοιμα για ανέβασμα")
+    folder = stage_for_upload()
+    print(f"\n  {folder}")
     return 0 if made == total else 1
 
 
