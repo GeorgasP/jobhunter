@@ -2475,6 +2475,12 @@ html[data-theme="light"] .cvbox:hover {
 
     transition-duration: 0.01ms !important;
 
+    /* Και η καθυστέρηση. Χωρίς αυτό, η κλιμακωτή εμφάνιση των καρτών επιβιώνει
+       σε μηδενική διάρκεια: τα στοιχεία απλώς περιμένουν αόρατα τη σειρά τους,
+       που είναι ακριβώς η κίνηση που ζήτησε να μη δει ο χρήστης. */
+    animation-delay: 0ms !important;
+    transition-delay: 0ms !important;
+
     scroll-behavior: auto !important;
   }
 }

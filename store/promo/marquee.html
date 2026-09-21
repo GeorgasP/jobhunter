@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JobHunter — marquee promo tile 1400×560</title>
+<!-- Πηγή του store/promo/1400x560.png. Ξαναβγαίνει με: python store/shoot.py -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 1400px;
+    height: 560px;
+
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 0 96px;
+
+    background:
+      radial-gradient(
+        110% 150% at 34% 50%,
+        #121c33 0%,
+        #0a0f1c 74%
+      );
+
+    color: #f1f5f9;
+
+    font:
+      400 16px/1.4
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      system-ui,
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .target { position: absolute; left: 1118px; top: 280px; }
+
+  .target i {
+    position: absolute;
+
+    border: 2px solid #284682;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .r1 { width: 128px; height: 128px; }
+  .r2 { width: 218px; height: 218px; }
+  .r3 { width: 308px; height: 308px; }
+  .r4 { width: 398px; height: 398px; }
+
+  .dot {
+    position: absolute;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-bottom: 34px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    font-size: 22px;
+  }
+
+  .brand b {
+    font-size: 21px;
+    font-weight: 700;
+
+    letter-spacing: 1.6px;
+  }
+
+  h1 {
+    max-width: 760px;
+
+    font-size: 76px;
+    font-weight: 700;
+
+    line-height: 1.02;
+    letter-spacing: -2.6px;
+  }
+
+  .sub {
+    margin-top: 22px;
+    max-width: 700px;
+
+    color: #899bb2;
+
+    font-size: 22px;
+    line-height: 1.45;
+  }
+
+  .pills {
+    display: flex;
+
+    gap: 14px;
+
+    margin-top: 30px;
+  }
+
+  .pills b {
+    padding: 9px 17px;
+
+    border: 1px solid #2d3c5f;
+    border-radius: 10px;
+
+    color: #c8d7f0;
+
+    font-size: 15.5px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="target">
+  <i class="r1"></i><i class="r2"></i><i class="r3"></i><i class="r4"></i>
+  <div class="dot"></div>
+</div>
+
+<div class="brand">
+  <div class="mark">🎯</div>
+  <b>JOBHUNTER</b>
+</div>
+
+<h1>Upload your CV once.</h1>
+
+<div class="sub">It searches twice a day, scores every posting out of 100 and tells
+you why, then fills in the application form. You press Submit.</div>
+
+<div class="pills">
+  <b>24 job sources</b>
+  <b>400+ professions</b>
+  <b>nothing collected about you</b>
+</div>
+
+</body>
+</html>

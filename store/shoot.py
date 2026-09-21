@@ -35,6 +35,13 @@ PAGES = ["1-matches", "2-pipeline", "5-profile", "3-autofill", "4-onboarding"]
 # οπότε το νούμερο μέσα της δεν μπορούσε να ενημερωθεί μαζί με τον κώδικα.
 OG = ("docs/og.html", ROOT / "docs" / "og.png", 1200, 630)
 
+# Προαιρετικά στο store, αλλά το μικρό είναι ό,τι βλέπει κανείς όταν ξεφυλλίζει
+# μια κατηγορία — εκεί κρίνεται αν θα ανοίξει καν τη σελίδα.
+PROMO = [
+    ("store/promo/small.html", ROOT / "store" / "promo" / "440x280.png", 440, 280),
+    ("store/promo/marquee.html", ROOT / "store" / "promo" / "1400x560.png", 1400, 560),
+]
+
 CHROME = next((p for p in [
     pathlib.Path(r"C:\Program Files\Google\Chrome\Application\chrome.exe"),
     pathlib.Path(r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe"),
@@ -65,6 +72,10 @@ def capture(page, out, w, h, tmp):
     subprocess.run([
         str(CHROME), "--headless=new", "--disable-gpu", "--hide-scrollbars",
         "--force-device-scale-factor=1", f"--window-size={w},{h + CHROME_INSET}",
+        # Ο χρόνος δεν αρκεί από μόνος του: μια λήψη έχασε τρεις από τις πέντε
+        # στήλες του πίνακα επειδή περίμεναν ακόμη τη σειρά τους. Αντί να
+        # ελπίζουμε ότι πρόλαβαν, ζητάμε να μην ξεκινήσουν καθόλου.
+        "--force-prefers-reduced-motion",
         "--virtual-time-budget=6000", f"--screenshot={raw}",
         f"http://127.0.0.1:{PORT}/{page}",
     ], capture_output=True, timeout=120)
@@ -100,10 +111,14 @@ def main():
         print("\n  Κάρτα κοινοποίησης")
         page, out, w, h = OG
         made += capture(page, out, w, h, tmp)
+
+        print("\n  Promo tiles του store")
+        for page, out, w, h in PROMO:
+            made += capture(page, out, w, h, tmp)
     finally:
         httpd.shutdown()
 
-    total = len(PAGES) + 1
+    total = len(PAGES) + 1 + len(PROMO)
     print(f"\n  {made}/{total} έτοιμα")
     return 0 if made == total else 1
 

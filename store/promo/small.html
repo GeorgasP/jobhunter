@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>JobHunter — small promo tile 440×280</title>
+<!-- Πηγή του store/promo/440x280.png. Ξαναβγαίνει με: python store/shoot.py -->
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    width: 440px;
+    height: 280px;
+
+    position: relative;
+    overflow: hidden;
+
+    padding: 28px 30px;
+
+    background:
+      radial-gradient(
+        130% 140% at 30% 38%,
+        #121c33 0%,
+        #0a0f1c 74%
+      );
+
+    color: #f1f5f9;
+
+    font:
+      400 14px/1.4
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      system-ui,
+      sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Ο στόχος βγαίνει μισός έξω από την κάτω δεξιά γωνία: σε 440 πίξελ δεν
+     χωράει ολόκληρος, και μισός διαβάζεται σαν σχήμα αντί για εικονίδιο. */
+  .target { position: absolute; left: 392px; top: 232px; }
+
+  .target i {
+    position: absolute;
+
+    border: 2px solid #284682;
+    border-radius: 50%;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .r1 { width: 74px; height: 74px; }
+  .r2 { width: 126px; height: 126px; }
+  .r3 { width: 178px; height: 178px; }
+
+  .dot {
+    position: absolute;
+
+    width: 26px;
+    height: 26px;
+
+    border-radius: 50%;
+
+    background: #3b82f6;
+
+    transform: translate(-50%, -50%);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+
+    width: 36px;
+    height: 36px;
+
+    border-radius: 10px;
+
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+    font-size: 18px;
+  }
+
+  .brand b {
+    font-size: 17px;
+    font-weight: 700;
+
+    letter-spacing: 1.2px;
+  }
+
+  h1 {
+    margin-top: 30px;
+
+    font-size: 38px;
+    font-weight: 700;
+
+    line-height: 1.02;
+    letter-spacing: -1.4px;
+  }
+
+  .sub {
+    margin-top: 12px;
+
+    color: #899bb2;
+
+    font-size: 14.5px;
+  }
+
+  .pill {
+    display: inline-block;
+
+    margin-top: 18px;
+    padding: 7px 14px;
+
+    border: 1px solid #2d3c5f;
+    border-radius: 9px;
+
+    color: #c8d7f0;
+
+    font-size: 13px;
+    font-weight: 600;
+  }
+</style>
+</head>
+<body>
+
+<div class="target">
+  <i class="r1"></i><i class="r2"></i><i class="r3"></i>
+  <div class="dot"></div>
+</div>
+
+<div class="brand">
+  <div class="mark">🎯</div>
+  <b>JOBHUNTER</b>
+</div>
+
+<h1>Automatic<br>job hunting</h1>
+
+<div class="sub">Searches, scores &amp; applies for you</div>
+
+<span class="pill">24 job sources</span>
+
+</body>
+</html>
