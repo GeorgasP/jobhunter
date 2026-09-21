@@ -33,7 +33,8 @@ including attaching your CV as a real file. You review and press Submit.
    LinkedIn automatically, then suggests job titles based on your experience.
 
 2. Say what you want. Job titles, countries or "Remote", salary floor,
-   industries, seniority. Every filter is yours to set.
+   industries, seniority. Every filter is yours to set, and every change saves
+   itself as you type.
 
 3. It searches on its own. Twice a day in the background, across public job
    boards and thousands of company career pages. You get a notification and a
@@ -45,6 +46,14 @@ including attaching your CV as a real file. You review and press Submit.
 5. Track everything. A pipeline board from Prepared to Sent, Interview and
    Offer. Drag cards between stages.
 
+── NOT ONLY DESK JOBS ────────────────────────────────────
+
+Most job tools are built for software engineers. This one covers 31 industries
+and more than 400 professions: nurses, physiotherapists, electricians, chefs,
+drivers, teachers, actors, stage technicians, accountants, hospitality staff.
+If the word for your profession is in your own language, it still finds you —
+title matching understands local spellings, not just English ones.
+
 ── WHY THE MATCHES ARE ACTUALLY GOOD ─────────────────────
 
 Every job gets a 0-100 score, and JobHunter always tells you why: job title
@@ -55,15 +64,24 @@ Crucially, it understands geography. A "Remote" job that is really "US only" is
 dropped if you cannot work in the US — and it says so, instead of wasting your
 time. Regional shorthands like EU, EMEA, APAC, LATAM, UK and ANZ are understood.
 
+And when nothing matches, it tells you which filter did it, instead of showing
+you a zero and letting you wonder whether the thing is broken.
+
 ── WHERE THE JOBS COME FROM ──────────────────────────────
 
-Public, documented APIs only: Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas
-and WorkingNomads, plus any employer using Greenhouse, Lever, Ashby, Workable,
-SmartRecruiters or Recruitee. Pick your industries and a matching set of company
-career pages is tracked for you.
+Public listings only. Job boards: Remotive, Arbeitnow, RemoteOK, Jobicy,
+Himalayas, WorkingNomads, The Muse, We Work Remotely, Cryptocurrency Jobs,
+Landing.jobs and DevITjobs. Company career pages on Greenhouse, Lever, Ashby,
+Workable, SmartRecruiters, Recruitee, Workday, Teamtailor and Breezy — pick your
+industries and a matching set is tracked for you.
+
+Optionally, add your own free Adzuna key and it searches a whole country's job
+market rather than only the companies it knows.
 
 JobHunter does not automate LinkedIn or Indeed accounts. Their terms forbid it
-and it gets people's accounts banned.
+and it gets people's accounts banned. For the jobs that only ever appear as a
+post in a group or a thread, there is an off-by-default button that saves the
+post you are reading — it never searches those sites on its own.
 
 ── YOUR DATA STAYS YOURS ─────────────────────────────────
 
@@ -80,7 +98,11 @@ used and nothing is transmitted.
 It never presses Submit. Dropdown questions about work authorization or
 relocation are deliberately left untouched and flagged for you — a wrong answer
 to a legal question costs more than the three seconds it takes you to pick.
-Fields you already filled in are never overwritten.
+Fields you already filled in are never overwritten, and when required questions
+are still empty it says how many, so you do not send half an application.
+
+Interface in English, Greek, German, Spanish, French, Italian, Polish and
+Portuguese. Free, open source, no upsell.
 ```
 
 ---
