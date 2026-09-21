@@ -89,11 +89,17 @@ like any other listing.
 
 ## Form filling
 
-When you press "Fill with JobHunter" on an application page, the extension
-writes your details into that page's form fields and attaches your CV file. This
-happens entirely inside your browser. The data goes to the employer only when
-**you** press the employer's own Submit button. JobHunter never submits a form
-on your behalf.
+When you press "Fill with JobHunter" on an application page, the extension reads
+that page's form — the labels and field names, so it knows which box wants your
+phone number and which wants your city — and then writes your details in and
+attaches your CV file. Both the reading and the writing happen inside your
+browser, at the moment you press the button. The page's contents are not stored
+and are not sent anywhere.
+
+The data goes to the employer only when **you** press the employer's own Submit
+button. JobHunter never submits a form on your behalf. Questions it cannot
+answer safely, such as dropdowns about work authorization, are deliberately left
+untouched and counted for you.
 
 ## Data we sell or share
 
