@@ -19,7 +19,7 @@ zoom, η κλίμακα της οθόνης. Η Google θέλει ακριβώς
 
 Τρέξιμο:  python store/shoot.py
 """
-import http.server, functools, pathlib, socketserver, struct, subprocess
+import http.server, functools, pathlib, re, socketserver, struct, subprocess
 import sys, tempfile, threading
 
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -114,6 +114,17 @@ def stage_for_upload():
     staged.append((ROOT / "store" / "promo" / "440x280.png", out / "promo-small-440x280.png"))
     staged.append((ROOT / "store" / "promo" / "1400x560.png", out / "promo-marquee-1400x560.png"))
     staged.append((ROOT / "extension" / "icons" / "128.png", out / "store-icon-128.png"))
+
+    # Και η περιγραφή, από τη μοναδική της πηγή. Έμεινε κάποτε πίσω σε ένα
+    # rename επειδή το dist/ είναι εξαιρεμένο από τις αναζητήσεις, και θα
+    # ανέβαινε κείμενο που μιλούσε για προϊόν με άλλο όνομα.
+    listing = (ROOT / "store" / "LISTING.md").read_text(encoding="utf-8")
+    fence = "```"
+    body = re.search(r"\*\*Detailed description\*\*\n" + fence + r"\n([\s\S]*?)\n" + fence,
+                     listing)
+    if body:
+        (out / "description.txt").write_text(body.group(1), encoding="utf-8")
+        print(f"  [x] description.txt  ({len(body.group(1))} χαρακτήρες)")
 
     for src, dst in staged:
         if src.exists():
