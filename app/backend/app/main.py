@@ -1,7 +1,7 @@
 """
-JobHunter Backend — FastAPI entry point
+Jobora Backend — FastAPI entry point
 ========================================
-Production-grade async API server για το JobHunter SaaS.
+Production-grade async API server για το Jobora SaaS.
 
 Endpoints overview:
   /api/me              → current user
@@ -31,10 +31,10 @@ from app.api import users, cvs, jobs, cover_letters, applications, stripe_routes
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup + shutdown hooks."""
-    logging.info("🚀 JobHunter backend starting...")
+    logging.info("🚀 Jobora backend starting...")
     await init_db()
     yield
-    logging.info("🛑 JobHunter backend shutting down...")
+    logging.info("🛑 Jobora backend shutting down...")
     await close_db()
 
 
@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI):
 # App initialization
 # ════════════════════════════════════════════════════════════════
 app = FastAPI(
-    title="JobHunter API",
+    title="Jobora API",
     version="0.1.0",
     description="AI-powered job scouting + application automation",
     lifespan=lifespan,
@@ -71,7 +71,7 @@ async def health():
 @app.get("/")
 async def root():
     return {
-        "service": "JobHunter API",
+        "service": "Jobora API",
         "docs": "/docs",
         "health": "/health",
     }

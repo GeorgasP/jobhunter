@@ -1,6 +1,6 @@
-# JobHunter Backend
+# Jobora Backend
 
-FastAPI server για το JobHunter SaaS.
+FastAPI server για το Jobora SaaS.
 
 ## Local setup
 
@@ -16,7 +16,7 @@ cp .env.example .env
 docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres postgres:16
 
 # 4. Create database
-createdb jobhunter
+createdb jobora
 
 # 5. Run migrations (TODO: alembic init)
 # alembic upgrade head

@@ -1,5 +1,5 @@
 /*
- * Service worker — η «μηχανή» του JobHunter.
+ * Service worker — η «μηχανή» του Jobora.
  *
  * • Καθημερινό αυτόματο scan (chrome.alarms) με ειδοποίηση για νέα matches
  * • Badge με τον αριθμό των matches
@@ -13,7 +13,11 @@ import { pickCompanies } from "./lib/companies.js";
 import { refreshRates } from "./lib/fx.js";
 import { initI18n, t } from "./lib/i18n.js";
 
-const ALARM = "jobhunter-daily";
+const ALARM = "jobora-daily";
+// Το προηγούμενο όνομα του προϊόντος ζει ακόμη σε ένα χρονόμετρο που έφτιαξε
+// μια παλιότερη εγκατάσταση. Δεν ταιριάζει πια με κανέναν ακροατή, οπότε θα
+// χτυπούσε για πάντα χωρίς να κάνει τίποτα. Το σβήνουμε μία φορά.
+chrome.alarms.clear("jobhunter-daily");
 let scanning = false;
 
 /* ── Μεταφορά ρυθμίσεων σε ενημερώσεις ────────────────────────
@@ -56,9 +60,9 @@ async function migrate() {
    είναι ακριβώς η πρώτη σάρωση μετά από ενημέρωση, δηλαδή η μόνη που κοιτάς. */
 const migrated = migrate()
   .then((added) => {
-    if (added?.length) console.info(`JobHunter: added new job boards — ${added.join(", ")}`);
+    if (added?.length) console.info(`Jobora: added new job boards — ${added.join(", ")}`);
   })
-  .catch((e) => console.warn("JobHunter: migration failed —", e));
+  .catch((e) => console.warn("Jobora: migration failed —", e));
 
 /* ── Lifecycle ────────────────────────────────────────────── */
 chrome.runtime.onInstalled.addListener(async (details) => {

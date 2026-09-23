@@ -202,7 +202,7 @@ COMPANIES = {
 async def scrape_all() -> list[JobResult]:
     """Run all configured scrapers in parallel, return aggregated results."""
     async with httpx.AsyncClient(
-        headers={"User-Agent": "JobHunter/1.0 (jobhunter.app)"},
+        headers={"User-Agent": "Jobora/1.0 (jobora.app)"},
         follow_redirects=True,
     ) as client:
         tasks = []

@@ -1,13 +1,13 @@
-# Privacy Policy — JobHunter
+# Privacy Policy — Jobora
 
 **Last updated: 21 September 2026**
 
-JobHunter is a browser extension that searches public job listings, ranks them
+Jobora is a browser extension that searches public job listings, ranks them
 against a profile you define, and fills in application forms for you.
 
 ## The short version
 
-There is no JobHunter server and no JobHunter account. Your CV, your personal
+There is no Jobora server and no Jobora account. Your CV, your personal
 details and your application history are stored by your browser, on your
 computer, and are never sent to us. We have no way of reading them.
 
@@ -33,7 +33,7 @@ from the extension's settings or your browser's site data controls.
 
 ## What leaves your device
 
-JobHunter makes network requests to three kinds of destination, and to nothing
+Jobora makes network requests to three kinds of destination, and to nothing
 else.
 
 **1. Public job listing APIs and pages.** To find jobs, the extension requests
@@ -59,7 +59,7 @@ currency can be compared against a job advertised in another. The request has
 no parameters and carries no data about you.
 
 **3. Anthropic's API — only if you opt in.** If, and only if, you enter your own
-Anthropic API key in Settings, JobHunter sends the text of your CV, anything you
+Anthropic API key in Settings, Jobora sends the text of your CV, anything you
 wrote about yourself in your profile, and the description of the specific job to
 `api.anthropic.com` in order to write a cover letter for that job. This happens
 once per application, at your request. Without a key, cover letters are produced
@@ -72,7 +72,7 @@ error reporting, no advertising and no tracking of any kind.
 ## The save button on social networks — off unless you turn it on
 
 Some jobs are only ever posted as a post: a group on Facebook, a thread on
-Reddit, an update on a page. JobHunter can show a "Save to JobHunter" button
+Reddit, an update on a page. Jobora can show a "Save to Jobora" button
 while you are reading such a post, so you can keep it alongside the listings it
 found itself.
 
@@ -89,7 +89,7 @@ like any other listing.
 
 ## Form filling
 
-When you press "Fill with JobHunter" on an application page, the extension reads
+When you press "Fill with Jobora" on an application page, the extension reads
 that page's form — the labels and field names, so it knows which box wants your
 phone number and which wants your city — and then writes your details in and
 attaches your CV file. Both the reading and the writing happen inside your
@@ -97,7 +97,7 @@ browser, at the moment you press the button. The page's contents are not stored
 and are not sent anywhere.
 
 The data goes to the employer only when **you** press the employer's own Submit
-button. JobHunter never submits a form on your behalf. Questions it cannot
+button. Jobora never submits a form on your behalf. Questions it cannot
 answer safely, such as dropdowns about work authorization, are deliberately left
 untouched and counted for you.
 
@@ -109,7 +109,7 @@ advertising, credit assessment or lending.
 
 ## Children
 
-JobHunter is not directed at children under 13.
+Jobora is not directed at children under 13.
 
 ## Changes
 

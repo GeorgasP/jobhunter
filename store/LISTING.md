@@ -8,7 +8,7 @@ Everything below is ready to paste into the Developer Dashboard forms.
 
 **Name** (max 75)
 ```
-JobHunter — automatic job search
+Jobora — automatic job search
 ```
 
 **Short description** (max 132 — this one is 118)
@@ -21,15 +21,15 @@ Finds jobs that match you every day and fills in the application forms for you. 
 
 **Detailed description**
 ```
-Job hunting is 90% repetitive admin. JobHunter does that part.
+Job hunting is 90% repetitive admin. Jobora does that part.
 
-Upload your CV once. From then on JobHunter searches twice a day, ranks what
+Upload your CV once. From then on Jobora searches twice a day, ranks what
 actually fits you, writes the cover letter, and fills in the application form —
 including attaching your CV as a real file. You review and press Submit.
 
 ── HOW IT WORKS ──────────────────────────────────────────
 
-1. Upload your CV. JobHunter reads it and fills in your name, email, phone and
+1. Upload your CV. Jobora reads it and fills in your name, email, phone and
    LinkedIn automatically, then suggests job titles based on your experience.
 
 2. Say what you want. Job titles, countries or "Remote", salary floor,
@@ -41,7 +41,7 @@ including attaching your CV as a real file. You review and press Submit.
    badge count when new roles match.
 
 4. Apply in about fifteen seconds. Press Apply, the posting opens, press "Fill
-   with JobHunter", check the form, submit.
+   with Jobora", check the form, submit.
 
 5. Track everything. A pipeline board from Prepared to Sent, Interview and
    Offer. Drag cards between stages.
@@ -56,7 +56,7 @@ spellings and not only English ones.
 
 ── WHY THE MATCHES ARE ACTUALLY GOOD ─────────────────────
 
-Every job gets a 0-100 score, and JobHunter always tells you why: job title
+Every job gets a 0-100 score, and Jobora always tells you why: job title
 (40 points), location (25), industry (10), language (10), how fresh the posting
 is (10), salary (5), minus penalties when the seniority is wrong.
 
@@ -79,14 +79,14 @@ board — clinics, theatres, workshops, hotels.
 You can also connect your own free key from a job-market data provider, and the
 search widens from the companies it knows to a whole country's market.
 
-JobHunter does not automate LinkedIn or Indeed accounts. Their terms forbid it
+Jobora does not automate LinkedIn or Indeed accounts. Their terms forbid it
 and it gets people's accounts banned. For the jobs that only ever appear as a
 post in a group or a thread, there is an off-by-default button that saves the
 post you are reading — it never searches those sites on its own.
 
 ── YOUR DATA STAYS YOURS ─────────────────────────────────
 
-There is no JobHunter server and no account. Your CV, your details and your
+There is no Jobora server and no account. Your CV, your details and your
 application history live in your browser's local storage and are never sent to
 us — we have no way of reading them. No analytics, no telemetry, no tracking.
 
@@ -111,7 +111,7 @@ Interface in eight languages. Free, open source, no upsell.
 
 **Single purpose description**
 ```
-JobHunter has one purpose: to help a person find job openings that match their
+Jobora has one purpose: to help a person find job openings that match their
 profile and complete the application forms for those openings. Every feature —
 searching public job boards, scoring listings, writing a cover letter, filling
 the application form, and tracking the resulting applications — serves that one
@@ -133,7 +133,7 @@ purpose.
 | Host permission `open.er-api.com` | Fetches published currency exchange rates once per day so a minimum-salary filter set in one currency can be compared against jobs advertised in another. No user data is sent; the request has no parameters. |
 | Host permission `api.anthropic.com` | Optional feature. Only if the user enters their own Anthropic API key, the extension sends the user's CV text and the job description to Anthropic to generate a cover letter for that specific job. Disabled and unused by default. |
 | Optional host permissions for social networks | Not requested at install and off by default. Some jobs are only posted as a post in a group or thread. If the user switches on "Save button on social posts" in Settings, Chrome asks them to grant access to facebook.com, instagram.com, reddit.com, x.com, twitter.com and threads.net, and switching it off withdraws the permission. While on, a button appears over a post that reads like a job ad; the post's text is read only when the user presses that button, is shown to them for correction, and is stored locally. Nothing is read in the background and nothing is transmitted. |
-| Content scripts on ATS domains | Displays the "Fill with JobHunter" button on job application forms hosted by Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Teamtailor, BambooHR, Workday, Personio, Jobvite and iCIMS, so the user can fill the form in one click. |
+| Content scripts on ATS domains | Displays the "Fill with Jobora" button on job application forms hosted by Greenhouse, Lever, Ashby, Workable, SmartRecruiters, Recruitee, Teamtailor, BambooHR, Workday, Personio, Jobvite and iCIMS, so the user can fill the form in one click. |
 
 **Remote code:** No. All JavaScript is contained in the package. Nothing is
 evaluated from a remote source.
@@ -156,7 +156,7 @@ Certify all three:
 
 **Privacy policy URL:**
 ```
-https://georgasp.github.io/jobhunter/privacy.html
+https://georgasp.github.io/jobora/privacy.html
 ```
 Served from `docs/` by GitHub Pages. `store/privacy_html.py` regenerates it from
 `store/PRIVACY.md`; it only goes live once the commit is pushed.

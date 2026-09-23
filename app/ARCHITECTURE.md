@@ -1,4 +1,4 @@
-# 🏗️ JobHunter — Technical Architecture
+# 🏗️ Jobora — Technical Architecture
 
 ## High-Level Stack
 

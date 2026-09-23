@@ -82,7 +82,7 @@ def check(manifest: dict) -> list[str]:
 
 def build(manifest: dict) -> Path:
     OUT.mkdir(parents=True, exist_ok=True)
-    target = OUT / f"jobhunter-{manifest['version']}.zip"
+    target = OUT / f"jobora-{manifest['version']}.zip"
 
     files: list[Path] = []
     for path in sorted(EXT.rglob("*")):

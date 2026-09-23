@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     CORS_ORIGINS: list[str] = ["http://localhost:3000"]
 
     # Database (Postgres via Supabase)
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/jobhunter"
+    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/jobora"
 
     # Auth (Clerk)
     CLERK_PUBLIC_KEY: str = ""
@@ -52,7 +52,7 @@ class Settings(BaseSettings):
 
     # Email (SendGrid)
     SENDGRID_API_KEY: str = ""
-    EMAIL_FROM: str = "noreply@jobhunter.app"
+    EMAIL_FROM: str = "noreply@jobora.app"
 
     # Background jobs (Redis via Upstash)
     REDIS_URL: str = "redis://localhost:6379/0"

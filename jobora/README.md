@@ -1,4 +1,4 @@
-# 🎯 JobHunter
+# 🎯 Jobora
 
 Finds jobs that match you anywhere in the world, writes the cover letters,
 prepares or sends the applications, and keeps the full history. The only thing
@@ -15,12 +15,12 @@ server, no cloud account, no API key required.
 ## Quick start
 
 ```bash
-python -m jobhunter init          # onboarding wizard
-python -m jobhunter run --apply 5 # scan, match, prepare 5 applications
-python -m jobhunter serve         # dashboard at http://127.0.0.1:8765
+python -m jobora init          # onboarding wizard
+python -m jobora run --apply 5 # scan, match, prepare 5 applications
+python -m jobora serve         # dashboard at http://127.0.0.1:8765
 ```
 
-On Windows you can just double-click `JobHunter.bat`.
+On Windows you can just double-click `Jobora.bat`.
 
 ---
 
@@ -68,12 +68,12 @@ browser, on your own session, and leaving Submit to you.
 
 Open `http://127.0.0.1:8765/connect` and pick one:
 
-**Browser extension** (`jobhunter/extension/`, works everywhere)
+**Browser extension** (`jobora/extension/`, works everywhere)
 1. `chrome://extensions` → enable Developer mode → **Load unpacked**
-2. Select the `jobhunter/extension` folder
-3. Click the JobHunter icon, paste the pairing key from `/connect`, Save
+2. Select the `jobora/extension` folder
+3. Click the Jobora icon, paste the pairing key from `/connect`, Save
 
-A “Fill with JobHunter” button then appears on Greenhouse, Lever, Ashby,
+A “Fill with Jobora” button then appears on Greenhouse, Lever, Ashby,
 Workable, SmartRecruiters, Recruitee, Teamtailor, BambooHR and Workday pages.
 
 **Bookmarklet** (nothing to install) — drag the button from `/connect` to your
@@ -179,14 +179,14 @@ not your account password. Secrets stay on your machine; nothing is uploaded.
 Windows:
 
 ```powershell
-schtasks /create /tn "JobHunter" /tr "python -m jobhunter run --apply 5 --no-browser" /sc daily /st 08:00 /f
+schtasks /create /tn "Jobora" /tr "python -m jobora run --apply 5 --no-browser" /sc daily /st 08:00 /f
 ```
 
 macOS / Linux (`crontab -e`):
 
 ```bash
-0 8 * * * cd /path/to/JobHunt && python -m jobhunter run --apply 5 --no-browser
-0 */4 * * * cd /path/to/JobHunt && python -m jobhunter inbox
+0 8 * * * cd /path/to/JobHunt && python -m jobora run --apply 5 --no-browser
+0 */4 * * * cd /path/to/JobHunt && python -m jobora inbox
 ```
 
 ---
@@ -210,7 +210,7 @@ application by mail, it goes out on its own with your CV and cover letter.
 ## Layout
 
 ```
-jobhunter/
+jobora/
   config.py     paths + settings (env → data/settings.json)
   db.py         SQLite: jobs, matches, applications, events, runs
   profile.py    your profile, preferences, CV loading
@@ -224,6 +224,6 @@ jobhunter/
   server.py     local dashboard (http.server)
   cli.py        command line
 
-data/           profile.json, settings.json, jobhunter.db   ← local and private
+data/           profile.json, settings.json, jobora.db   ← local and private
 output/applications/NNNN-company-role/   cover_letter.txt, CV, form_answers.md
 ```

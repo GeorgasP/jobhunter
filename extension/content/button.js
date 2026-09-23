@@ -4,8 +4,8 @@
  */
 (function () {
   "use strict";
-  if (window.__jobhunterButton) return;
-  window.__jobhunterButton = true;
+  if (window.__joboraButton) return;
+  window.__joboraButton = true;
 
   const looksLikeForm = () =>
     Boolean(document.querySelector("input[type=file]")) ||
@@ -13,9 +13,9 @@
 
   function makeButton() {
     const b = document.createElement("button");
-    b.id = "__jobhunter_btn";
+    b.id = "__jobora_btn";
     b.type = "button";
-    b.textContent = "🎯 Fill with JobHunter";
+    b.textContent = "🎯 Fill with Jobora";
     b.style.cssText = [
       "position:fixed", "z-index:2147483646", "right:18px", "bottom:18px",
       "background:linear-gradient(135deg,#5b8cff,#7c5cff)", "color:#fff", "border:none",
@@ -29,14 +29,14 @@
       b.textContent = "Filling…";
       chrome.runtime.sendMessage({ type: "prefill", url: location.href }, (data) => {
         b.disabled = false;
-        b.textContent = "🎯 Fill with JobHunter";
+        b.textContent = "🎯 Fill with Jobora";
         if (!data || !data.ok) {
-          alert("JobHunter: " + ((data && data.error) || "no response"));
+          alert("Jobora: " + ((data && data.error) || "no response"));
           return;
         }
-        const report = window.__jobhunterFill(data);
+        const report = window.__joboraFill(data);
         if (!report.filled && !report.cv) {
-          alert("JobHunter did not recognise any fields on this page.");
+          alert("Jobora did not recognise any fields on this page.");
           return;
         }
         // Μόλις ο χρήστης πατήσει submit, σημειώνουμε την αίτηση ως σταλμένη.
@@ -54,7 +54,7 @@
   }
 
   function mount() {
-    if (document.getElementById("__jobhunter_btn") || !looksLikeForm()) return;
+    if (document.getElementById("__jobora_btn") || !looksLikeForm()) return;
     document.body.appendChild(makeButton());
   }
 

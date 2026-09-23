@@ -1,4 +1,4 @@
-# Shipping JobHunter to the Chrome Web Store
+# Shipping Jobora to the Chrome Web Store
 
 The package is built and passes the automated checks. What remains needs your
 hands — an account, a payment, a hosted URL and four screenshots.
@@ -6,7 +6,7 @@ hands — an account, a payment, a hosted URL and four screenshots.
 ```bash
 python store/package.py
 ```
-→ `store/dist/jobhunter-1.0.0.zip` · 35 files · 140 KB
+→ `store/dist/jobora-1.0.0.zip` · 35 files · 140 KB
 
 ```bash
 python store/preflight.py
@@ -34,7 +34,7 @@ A privacy policy URL is **mandatory** for us, because the extension handles
 personal information, and it must be reachable without a login. Ours is live:
 
 ```
-https://georgasp.github.io/jobhunter/privacy.html
+https://georgasp.github.io/jobora/privacy.html
 ```
 
 It is generated from `store/PRIVACY.md` by `store/privacy_html.py` into `docs/`,
@@ -69,7 +69,7 @@ Upload them in that order; the first is the one people actually look at.
 ## Step 4 — Create the listing (20 minutes)
 
 In the Developer Dashboard: **Add new item** → upload
-`store/dist/jobhunter-1.0.0.zip`.
+`store/dist/jobora-1.0.0.zip`.
 
 Then work through the tabs, pasting from `LISTING.md`:
 
@@ -102,7 +102,7 @@ python store/package.py --bump 1.0.1
 
 ## Things worth knowing before you press submit
 
-**The name.** "JobHunter" is generic and there are products using similar names.
+**The name.** "Jobora" is generic and there are products using similar names.
 Google will not check trademarks for you, but a rights holder can file a
 complaint later and get the listing pulled. Search the Web Store and the EUIPO
 register for the name before you commit to it. If you want to be safe, a
@@ -120,6 +120,6 @@ gated behind an account or a key. That is a meaningful advantage during review.
 **Updates.** Each update goes through review again. Batch changes rather than
 shipping daily.
 
-**What is not in this package.** The Python version in `jobhunter/` — SMTP email
+**What is not in this package.** The Python version in `jobora/` — SMTP email
 applications and IMAP reply tracking — stays out. A browser extension cannot do
 either, and shipping unused code invites questions.

@@ -1,4 +1,4 @@
-# 🎯 JobHunter — Product Vision
+# 🎯 Jobora — Product Vision
 
 ## The Problem
 

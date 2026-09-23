@@ -125,9 +125,9 @@ def _page(title: str, active: str, body: str) -> bytes:
     scanning = _state["scan"] == "running"
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{_e(title)} · JobHunter</title><style>{CSS}</style></head><body>
+<title>{_e(title)} · Jobora</title><style>{CSS}</style></head><body>
 <header>
-  <h1>🎯 JobHunter</h1>
+  <h1>🎯 Jobora</h1>
   <nav>{nav}</nav>
   <form method="post" action="/scan" style="margin-left:auto">
     <button class="primary" {"disabled" if scanning else ""}>{"Scanning…" if scanning else "Scan now"}</button>
@@ -144,7 +144,7 @@ def _score_class(score: int) -> str:
 
 def _uid(conn) -> int:
     profile: Profile = _state["profile"]
-    return db.get_or_create_user(conn, profile.email or "local@jobhunter", profile.name)
+    return db.get_or_create_user(conn, profile.email or "local@jobora", profile.name)
 
 
 # ════════════════════════════════════════════════════════════════
@@ -334,7 +334,7 @@ def view_settings() -> bytes:
     <textarea name="targets">{_e(targets_text)}</textarea></label>
   <div class="hint">Providers: {", ".join(sorted(sources.ATS_PROVIDERS))}.
     Open a company's careers page — the application URL reveals the provider and slug.
-    Run <code>python -m jobhunter doctor</code> to verify.</div>
+    Run <code>python -m jobora doctor</code> to verify.</div>
 </fieldset>
 
 <fieldset><legend>You</legend>
@@ -533,8 +533,8 @@ def _bookmarklet(token: str, port: int) -> str:
         + filler +
         "fetch(B+'/api/prefill?token='+T+'&url='+encodeURIComponent(location.href))"
         ".then(function(r){return r.json()})"
-        ".then(function(d){if(!d.ok){alert('JobHunter: '+d.error);return}window.__jobhunterFill(d)})"
-        ".catch(function(e){alert('JobHunter could not reach the dashboard at '+B+"
+        ".then(function(d){if(!d.ok){alert('Jobora: '+d.error);return}window.__joboraFill(d)})"
+        ".catch(function(e){alert('Jobora could not reach the dashboard at '+B+"
         "'\\n\\nEither it is not running, or this site blocks localhost requests (Greenhouse, "
         "Ashby). Use the browser extension there.\\n\\n'+e)});"
         "})()"
@@ -551,11 +551,11 @@ def view_connect() -> bytes:
 
     body = f"""
 <h2 style="margin:0 0 6px">One-click form autofill</h2>
-<p style="color:var(--dim);margin-top:0">Open a job application form, trigger JobHunter, and every
+<p style="color:var(--dim);margin-top:0">Open a job application form, trigger Jobora, and every
 text field plus your CV is filled in. It never presses Submit — that stays your call.</p>
 
 <fieldset><legend>Option 1 — The browser extension (recommended)</legend>
-  <p style="margin-top:0">A standalone version of JobHunter that needs neither Python nor this
+  <p style="margin-top:0">A standalone version of Jobora that needs neither Python nor this
   dashboard: it searches, scores, tracks and autofills entirely inside your browser. It also works
   on Greenhouse and Ashby, which block page scripts from reaching your computer.</p>
   <ol style="line-height:1.9;padding-left:20px">
@@ -569,7 +569,7 @@ text field plus your CV is filled in. It never presses Submit — that stays you
 <fieldset><legend>Option 2 — Bookmarklet for this dashboard</legend>
   <p style="margin-top:0">Fills forms from the applications prepared <em>here</em>. Drag the button
   to your bookmarks bar, then click it while you are on an application form.</p>
-  <p><a class="btn" style="font-size:15px;padding:10px 18px" href="{_e(mark)}">🎯 Fill with JobHunter</a></p>
+  <p><a class="btn" style="font-size:15px;padding:10px 18px" href="{_e(mark)}">🎯 Fill with Jobora</a></p>
   <div class="hint">Works on Workable, SmartRecruiters, Lever and most company career pages.
   On Greenhouse and Ashby it will tell you to use the extension instead.
   It matches the page URL against your prepared applications, so the flow is:
@@ -587,7 +587,7 @@ def _run_scan_background() -> None:
         profile, settings = _state["profile"], _state["settings"]
         try:
             with db.connect() as conn:
-                uid = db.get_or_create_user(conn, profile.email or "local@jobhunter", profile.name)
+                uid = db.get_or_create_user(conn, profile.email or "local@jobora", profile.name)
                 report = pipeline.run(conn, uid, profile, settings, log=lambda *_: None)
             _state["flash"] = (f"Scan finished: {report.jobs_seen} postings, "
                                f"{report.jobs_new} new, {report.matches_new} new matches.")
@@ -664,7 +664,7 @@ def action_inbox(form: dict) -> str:
 
 # ════════════════════════════════════════════════════════════════
 class Handler(BaseHTTPRequestHandler):
-    server_version = "JobHunter"
+    server_version = "Jobora"
 
     def log_message(self, fmt, *args):        # ησυχία στο terminal
         pass
@@ -795,7 +795,7 @@ def serve(profile: Profile, settings: Settings, port: int = 8765,
 
     httpd = ThreadingHTTPServer(("127.0.0.1", port), Handler)
     url = f"http://127.0.0.1:{port}"
-    print(f"🎯 JobHunter dashboard → {url}   (Ctrl+C to stop)")
+    print(f"🎯 Jobora dashboard → {url}   (Ctrl+C to stop)")
     print(f"   Form autofill setup  → {url}/connect")
     if open_browser:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()

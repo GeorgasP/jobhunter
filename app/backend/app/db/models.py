@@ -1,5 +1,5 @@
 """
-SQLAlchemy ORM models — JobHunter database schema.
+SQLAlchemy ORM models — Jobora database schema.
 Mirror του ARCHITECTURE.md schema. Production-ready με indexes.
 """
 from datetime import datetime

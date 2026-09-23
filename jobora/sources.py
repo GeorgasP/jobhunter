@@ -22,7 +22,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from typing import Any, Callable
 
-USER_AGENT = "JobHunter/2.0 (+personal job search assistant)"
+USER_AGENT = "Jobora/2.0 (+personal job search assistant)"
 TIMEOUT = 20
 
 _TAG_RE = re.compile(r"<[^>]+>")

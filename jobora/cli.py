@@ -1,5 +1,5 @@
 """
-CLI: python -m jobhunter <command>
+CLI: python -m jobora <command>
 
 Το UI είναι αγγλικά — η εφαρμογή απευθύνεται σε χρήστες παντού. Τα σχόλια
 του κώδικα μένουν ελληνικά.
@@ -19,7 +19,7 @@ from . import companies, db, inbox, letters, matcher, pipeline
 from .config import PROFILE_PATH, SETTINGS_PATH, Settings, ensure_dirs, load_settings
 from .profile import DEFAULT_BOARDS, Profile, build_profile, load_profile
 
-BANNER = "🎯 JobHunter"
+BANNER = "🎯 Jobora"
 
 
 def _ctx() -> tuple[Profile, Settings]:
@@ -27,7 +27,7 @@ def _ctx() -> tuple[Profile, Settings]:
 
 
 def _user_id(conn, profile: Profile) -> int:
-    return db.get_or_create_user(conn, profile.email or "local@jobhunter", profile.name)
+    return db.get_or_create_user(conn, profile.email or "local@jobora", profile.name)
 
 
 def _csv(value: str) -> list[str]:
@@ -50,7 +50,7 @@ def _wizard(args) -> Profile:
     print(textwrap.dedent(f"""
         {BANNER} — setup
 
-        Answer a few questions and JobHunter will search worldwide on your behalf.
+        Answer a few questions and Jobora will search worldwide on your behalf.
         Press Enter to accept the default shown in brackets. You can change
         everything later in data/profile.json or from the dashboard.
     """))
@@ -133,9 +133,9 @@ def cmd_init(args) -> int:
 
     print(textwrap.dedent(f"""
         Next steps:
-          python -m jobhunter run --apply 5     scan, match and prepare 5 applications
-          python -m jobhunter serve             dashboard at http://127.0.0.1:8765
-          python -m jobhunter doctor            check that every source works
+          python -m jobora run --apply 5     scan, match and prepare 5 applications
+          python -m jobora serve             dashboard at http://127.0.0.1:8765
+          python -m jobora doctor            check that every source works
 
         Optional, in {SETTINGS_PATH.name}:
           anthropic_api_key   AI-written cover letters instead of templates
@@ -166,7 +166,7 @@ def cmd_run(args) -> int:
         for e in report.errors[:8]:
             print(f"   • {e}")
     if not args.apply:
-        print("\nSee your matches:  python -m jobhunter matches")
+        print("\nSee your matches:  python -m jobora matches")
     return 0
 
 
@@ -177,7 +177,7 @@ def cmd_matches(args) -> int:
         rows = db.pending_matches(conn, uid, args.min_score or settings.min_score, args.limit)
 
     if not rows:
-        print("No pending matches. Run:  python -m jobhunter run")
+        print("No pending matches. Run:  python -m jobora run")
         return 0
 
     for r in rows:
@@ -185,7 +185,7 @@ def cmd_matches(args) -> int:
         print(f"\n[{r['id']:>4}] {r['score']:>3}/100  {r['company']} — {r['title']}")
         print(f"       {r['location'] or 'n/a'} · {matcher.explain(reasons)}")
         print(f"       {r['url']}")
-    print(f"\n{len(rows)} matches. Apply:  python -m jobhunter apply --top 5")
+    print(f"\n{len(rows)} matches. Apply:  python -m jobora apply --top 5")
     return 0
 
 
@@ -232,7 +232,7 @@ def cmd_apply(args) -> int:
                                           open_browser=not args.no_browser)
 
     ok = sum(1 for r in results if r.get("ok"))
-    print(f"\n{ok}/{len(results)} applications prepared. History: python -m jobhunter history")
+    print(f"\n{ok}/{len(results)} applications prepared. History: python -m jobora history")
     return 0
 
 
@@ -352,7 +352,7 @@ def cmd_companies(args) -> int:
     for c in picks:
         print(f"  {c['name']:<18} {c['provider']:<16} {c['slug']}")
     print(f"\n{len(picks)} companies. Add them to \"targets\" in {PROFILE_PATH.name}, "
-          f"then run:  python -m jobhunter doctor")
+          f"then run:  python -m jobora doctor")
     return 0
 
 
@@ -419,7 +419,7 @@ def cmd_serve(args) -> int:
 
 # ════════════════════════════════════════════════════════════════
 def build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="jobhunter",
+    p = argparse.ArgumentParser(prog="jobora",
                                 description="Find jobs worldwide, apply, and track every application")
     sub = p.add_subparsers(dest="command", required=True)
 

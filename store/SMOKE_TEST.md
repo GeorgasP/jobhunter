@@ -49,7 +49,7 @@ Also try a **DOCX** and a **TXT** CV — three different formats, three parsers.
 ## 4 · Apply + autofill — the important one
 
 - [ ] Press **Apply** on a match: the posting opens in a new tab
-- [ ] A **"🎯 Fill with JobHunter"** button appears bottom-right on that page
+- [ ] A **"🎯 Fill with Jobora"** button appears bottom-right on that page
 - [ ] Pressing it fills name, email, phone, location, LinkedIn, cover letter
 - [ ] **The CV appears attached in the file field**
 - [ ] The toast reports what was filled and what was left to you
@@ -69,14 +69,14 @@ have different form markup and this is where breakage is most likely.
 
 - [ ] Turn on "Search automatically twice a day" if it is off
 - [ ] `chrome://extensions` → service worker → Console:
-      `chrome.alarms.getAll(console.log)` shows the `jobhunter-daily` alarm
+      `chrome.alarms.getAll(console.log)` shows the `jobora-daily` alarm
 - [ ] Notifications are allowed for Chrome in Windows settings
 
 To test the alarm without waiting 12 hours, run this in the service worker
 console — it fires the scan in one minute:
 
 ```js
-chrome.alarms.create("jobhunter-daily", { delayInMinutes: 1 });
+chrome.alarms.create("jobora-daily", { delayInMinutes: 1 });
 ```
 
 - [ ] After a minute: a notification appears and the badge updates

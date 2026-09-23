@@ -8,7 +8,7 @@ REM  boroi na to allaksei sti mesi - kai apo ekei kai pera to cmd
 REM  diavazei skoupidia. Gi' auto trexoume ena antigrafo apo to %TEMP%.
 REM ---------------------------------------------------------------------
 if /i not "%~1"=="--copy" (
-  set "SELF=%TEMP%\jobhunter-update-%RANDOM%.bat"
+  set "SELF=%TEMP%\jobora-update-%RANDOM%.bat"
   copy /y "%~f0" "!SELF!" >nul
   call "!SELF!" --copy "%~dp0"
   del "!SELF!" >nul 2>&1
@@ -16,10 +16,10 @@ if /i not "%~1"=="--copy" (
 )
 
 cd /d "%~2"
-title JobHunter - update
+title Jobora - update
 
 echo.
-echo   JobHunter - update
+echo   Jobora - update
 echo   ==================
 echo.
 
@@ -165,7 +165,7 @@ exit /b 1
 :norepo
 echo   [*] Autos o fakelos den einai git repository.
 echo       Trekse prota:
-echo         git clone https://github.com/GeorgasP/jobhunter.git
+echo         git clone https://github.com/GeorgasP/jobora.git
 echo.
 pause
 exit /b 1
@@ -186,10 +186,10 @@ echo   ------------------------------------------------------------
 echo.
 echo   Teleutaio vima - to Chrome den diavazei mono tou ta nea arxeia:
 echo.
-echo     Anoixe to JobHunter  ^>  Rythmiseis  ^>  Enimerwseis
+echo     Anoixe to Jobora  ^>  Rythmiseis  ^>  Enimerwseis
 echo     kai pata "Efarmogi enimerwsis"
 echo.
-echo     (isodynama: chrome://extensions  ^>  Reload sto JobHunter)
+echo     (isodynama: chrome://extensions  ^>  Reload sto Jobora)
 echo.
 pause
 exit /b 0

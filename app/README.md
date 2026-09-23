@@ -1,6 +1,6 @@
-# 🎯 JobHunter — AI-Powered Job Applications, On Autopilot
+# 🎯 Jobora — AI-Powered Job Applications, On Autopilot
 
-Stop wasting your life on job applications. JobHunter scouts 100+ companies daily,
+Stop wasting your life on job applications. Jobora scouts 100+ companies daily,
 generates personalized cover letters with AI, and pre-fills applications.
 **You just show up to the interview.**
 

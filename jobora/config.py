@@ -4,7 +4,7 @@ Paths + settings.
 Settings resolution order (last wins):
   1. defaults εδώ
   2. data/settings.json
-  3. environment variables (JOBHUNTER_* / ANTHROPIC_API_KEY)
+  3. environment variables (JOBORA_* / ANTHROPIC_API_KEY)
 
 Τα secrets μένουν ΤΟΠΙΚΑ στο data/settings.json. Τίποτα δεν φεύγει από το
 μηχάνημά σου εκτός από: (a) τα public job-board APIs, (b) το Anthropic API αν
@@ -22,7 +22,7 @@ DATA_DIR = ROOT / "data"
 OUTPUT_DIR = ROOT / "output"
 PACKS_DIR = OUTPUT_DIR / "applications"
 
-DB_PATH = DATA_DIR / "jobhunter.db"
+DB_PATH = DATA_DIR / "jobora.db"
 PROFILE_PATH = DATA_DIR / "profile.json"
 SETTINGS_PATH = DATA_DIR / "settings.json"
 
@@ -86,7 +86,7 @@ class Settings:
         return self.api_token
 
 
-_ENV_PREFIX = "JOBHUNTER_"
+_ENV_PREFIX = "JOBORA_"
 
 
 def load_settings() -> Settings:

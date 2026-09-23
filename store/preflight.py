@@ -110,7 +110,7 @@ if (R / "store/PRIVACY.html").exists(): ok("PRIVACY.html υπάρχει τοπι
 else: bad("λείπει το PRIVACY.html")
 # Δεν αρκεί το τοπικό αρχείο: η Google ζητάει URL που ανοίγει χωρίς login.
 # Το ελέγχουμε αντί να το υπενθυμίζουμε κάθε φορά.
-PRIVACY_URL = "https://georgasp.github.io/jobhunter/privacy.html"
+PRIVACY_URL = "https://georgasp.github.io/jobora/privacy.html"
 try:
     import urllib.request
     with urllib.request.urlopen(PRIVACY_URL, timeout=15) as r:

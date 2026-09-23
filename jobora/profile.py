@@ -101,7 +101,7 @@ def _pdf_text(path: Path) -> str:
 def load_profile() -> Profile:
     if not PROFILE_PATH.exists():
         raise SystemExit(
-            f"No profile found at {PROFILE_PATH}.\nRun this first:  python -m jobhunter init"
+            f"No profile found at {PROFILE_PATH}.\nRun this first:  python -m jobora init"
         )
     data: dict[str, Any] = json.loads(PROFILE_PATH.read_text(encoding="utf-8"))
     prefs = Preferences(**{k: v for k, v in (data.pop("preferences", {}) or {}).items()

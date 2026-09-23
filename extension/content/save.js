@@ -1,5 +1,5 @@
 /*
- * «Αποθήκευση στο JobHunter» — για αγγελίες που δεν έχουν API.
+ * «Αποθήκευση στο Jobora» — για αγγελίες που δεν έχουν API.
  *
  * Πολλές θέσεις ανεβαίνουν μόνο σε ανάρτηση: ομάδα στο Facebook, νήμα στο
  * Reddit, δημοσίευση σε σελίδα. Καμία σάρωση δεν τις φτάνει, και κανένα
@@ -12,8 +12,8 @@
  */
 (function () {
   "use strict";
-  if (window.__jobhunterSave) return;
-  window.__jobhunterSave = true;
+  if (window.__joboraSave) return;
+  window.__joboraSave = true;
 
   const HIRING = [
     // αγγλικά
@@ -76,7 +76,7 @@
     close();
     const g = guess(found.text);
     panel = document.createElement("div");
-    panel.id = "__jobhunter_save_panel";
+    panel.id = "__jobora_save_panel";
     panel.attachShadow({ mode: "open" }).innerHTML = `
       <style>
         :host { all: initial; }
@@ -152,12 +152,12 @@
   function mountTrigger() {
     const found = findPosting();
     if (!found) return;
-    if (document.getElementById("__jobhunter_save_btn")) return;
+    if (document.getElementById("__jobora_save_btn")) return;
 
     const b = document.createElement("button");
-    b.id = "__jobhunter_save_btn";
+    b.id = "__jobora_save_btn";
     b.type = "button";
-    b.textContent = "🎯 Αποθήκευση στο JobHunter";
+    b.textContent = "🎯 Αποθήκευση στο Jobora";
     b.style.cssText = [
       "position:fixed", "z-index:2147483646", "right:18px", "bottom:18px",
       "padding:10px 14px", "border:0", "border-radius:10px",

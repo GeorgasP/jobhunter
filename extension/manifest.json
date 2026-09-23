@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "JobHunter — automatic job search",
+  "name": "Jobora — automatic job search",
   "version": "1.0.0",
   "description": "Finds jobs that match you every day and fills in the application forms for you. Your CV never leaves your browser.",
   "minimum_chrome_version": "111",
@@ -47,7 +47,7 @@
   },
   "action": {
     "default_popup": "popup.html",
-    "default_title": "JobHunter"
+    "default_title": "Jobora"
   },
   "options_page": "app.html",
   "content_scripts": [

@@ -1,4 +1,4 @@
-# JobHunter Frontend
+# Jobora Frontend
 
 Next.js 14 (App Router) + Tailwind + Clerk auth.
 

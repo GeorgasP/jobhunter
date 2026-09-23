@@ -1,4 +1,4 @@
-# 🎯 JobHunter — browser extension
+# 🎯 Jobora — browser extension
 
 Job hunting that runs by itself. Upload your CV once; from then on it searches
 twice a day, ranks what fits you, and fills in the application forms.
@@ -40,7 +40,7 @@ The first search starts immediately and takes about half a minute.
   you can work in are dropped, and it says so.
 - **Writes the cover letter.** From a template, or from Claude if you add your
   own Anthropic API key in Settings.
-- **Fills the form.** Open a posting and press *Fill with JobHunter*: name,
+- **Fills the form.** Open a posting and press *Fill with Jobora*: name,
   email, phone, location, LinkedIn, salary, notice period, the cover letter —
   and your CV attached as a real file.
 - **Tracks everything.** A pipeline board from Prepared through Sent, Interview
@@ -85,7 +85,7 @@ banned.
 
 Everything lives in `chrome.storage.local` on this machine. The extension talks
 to exactly two kinds of host: the public job APIs listed above, and
-`api.anthropic.com` — only if you supply your own key. There is no JobHunter
+`api.anthropic.com` — only if you supply your own key. There is no Jobora
 server and no account.
 
 ---
@@ -105,9 +105,9 @@ app.html/js/css      dashboard: matches, pipeline, settings
 onboarding.html/js   first-run setup
 popup.html/js        toolbar popup
 content/prefill.js   the form filler
-content/button.js    the “Fill with JobHunter” button on application pages
+content/button.js    the “Fill with Jobora” button on application pages
 ```
 
-There is also a Python version in `../jobhunter/` for power users: same engine,
+There is also a Python version in `../jobora/` for power users: same engine,
 plus SMTP email applications and IMAP tracking of company replies — things a
 browser extension cannot do.

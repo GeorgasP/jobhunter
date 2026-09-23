@@ -1,10 +1,10 @@
 @echo off
 setlocal
 cd /d "%~dp0"
-title JobHunter - screenshots
+title Jobora - screenshots
 
 echo.
-echo   JobHunter - screenshots gia to Chrome Web Store
+echo   Jobora - screenshots gia to Chrome Web Store
 echo   ===============================================
 echo.
 echo   Anoigei topiko server kai tis 4 selides sto Chrome.

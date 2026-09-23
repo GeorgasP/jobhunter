@@ -1,11 +1,11 @@
 /*
- * JobHunter — form autofill.
+ * Jobora — form autofill.
  *
  * Τρέχει στη σελίδα της αίτησης (bookmarklet ή extension content script) και
  * γεμίζει τη φόρμα από το προφίλ του χρήστη. ΔΕΝ πατάει ποτέ Submit: η υποβολή
  * μένει πάντα ανθρώπινη απόφαση.
  *
- * Εκτίθεται ως window.__jobhunterFill(data) -> report
+ * Εκτίθεται ως window.__joboraFill(data) -> report
  */
 (function () {
   "use strict";
@@ -134,9 +134,9 @@
   }
 
   function toast(report, job) {
-    document.getElementById("__jobhunter_toast")?.remove();
+    document.getElementById("__jobora_toast")?.remove();
     const box = document.createElement("div");
-    box.id = "__jobhunter_toast";
+    box.id = "__jobora_toast";
     box.style.cssText = [
       "position:fixed", "z-index:2147483647", "right:18px", "bottom:18px",
       "max-width:330px", "background:#161b22", "color:#e6edf3",
@@ -155,7 +155,7 @@
           report.required === 1 ? " still needs" : "s still need"} you</div>`
       : "";
     box.innerHTML =
-      `<b>🎯 JobHunter</b><br>${report.filled} field${report.filled === 1 ? "" : "s"} filled` +
+      `<b>🎯 Jobora</b><br>${report.filled} field${report.filled === 1 ? "" : "s"} filled` +
       (report.cv ? " · CV attached" : "") +
       required +
       `<div style="color:#8b949e;font-size:12.5px;margin-top:6px">${job ? job.company + " — " + job.title : ""}</div>` +
@@ -165,7 +165,7 @@
     setTimeout(() => box.remove(), 12000);
   }
 
-  window.__jobhunterFill = function (data) {
+  window.__joboraFill = function (data) {
     const answers = data.answers || {};
     if (data.cover_letter) answers.cover_letter = data.cover_letter;
 
@@ -225,5 +225,5 @@
     return report;
   };
 
-  return window.__jobhunterFill;
+  return window.__joboraFill;
 })();

@@ -9,7 +9,7 @@
 ## Single purpose description  (466/1000)
 
 ```
-JobHunter has one purpose: to help a person find job openings that match their profile and complete the application forms for those openings. Every feature — searching public job listings, scoring them against the profile, drafting a cover letter, filling in the application form, and tracking the resulting applications — serves that one purpose. The extension does not browse, advertise, analyse the user's activity, or do anything unrelated to applying for a job.
+Jobora has one purpose: to help a person find job openings that match their profile and complete the application forms for those openings. Every feature — searching public job listings, scoring them against the profile, drafting a cover letter, filling in the application form, and tracking the resulting applications — serves that one purpose. The extension does not browse, advertise, analyse the user's activity, or do anything unrelated to applying for a job.
 ```
 
 ## storage justification  (310/1000)
@@ -39,7 +39,7 @@ Tells the user when a background search has found new job openings that match th
 ## scripting justification  (401/1000)
 
 ```
-Injects the form-filling script into a job application page when the user clicks "Fill with JobHunter", for career sites that are not covered by the declared content scripts. The script runs only in response to that explicit click, writes the user's own details into the form's fields, and never submits the form. It is not injected on page load and does not run anywhere the user has not asked it to.
+Injects the form-filling script into a job application page when the user clicks "Fill with Jobora", for career sites that are not covered by the declared content scripts. The script runs only in response to that explicit click, writes the user's own details into the form's fields, and never submits the form. It is not injected on page load and does not run anywhere the user has not asked it to.
 ```
 
 ## activeTab justification  (306/1000)
@@ -61,6 +61,6 @@ open.er-api.com: published exchange rates once a day, with no parameters, so a s
 
 api.anthropic.com: optional, and only if the user enters their own API key, to draft a cover letter.
 
-Content script match patterns cover job application pages only, to show the "Fill with JobHunter" button and fill the form when the user clicks it.
+Content script match patterns cover job application pages only, to show the "Fill with Jobora" button and fill the form when the user clicks it.
 ```
 
