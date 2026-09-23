@@ -105,6 +105,29 @@ if not shots:
 else:
     ok(f"{len(shots)} screenshots βρέθηκαν")
 
+# ── Εκδοση: πρέπει να ξεπερνάει τη δημοσιευμένη ─────────────────────
+# Το store αρνείται ανέβασμα με ίδιο ή μικρότερο αριθμό. Δεν το λέει καθαρά
+# μέχρι να έχεις σύρει το zip και να περιμένεις.
+PUBLISHED_ID = "fbaoaohhakcbkebgnmpjnoilippdhioi"
+try:
+    import urllib.request
+    req = urllib.request.Request(
+        f"https://chromewebstore.google.com/detail/{PUBLISHED_ID}",
+        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                               "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0 Safari/537.36"})
+    page = urllib.request.urlopen(req, timeout=20).read().decode("utf-8", "replace")
+    live = re.search(r"(\d+\.\d+(?:\.\d+){0,2})(?=[^<]{0,40}(?:Version|version))", page)
+    if live:
+        def tup(v): return tuple(int(x) for x in v.split("."))
+        if tup(m["version"]) <= tup(live.group(1)):
+            bad(f"η έκδοση {m['version']} δεν ξεπερνάει τη δημοσιευμένη {live.group(1)}")
+        else:
+            ok(f"έκδοση {m['version']} > δημοσιευμένη {live.group(1)}")
+    else:
+        warn(f"δεν διάβασα τη δημοσιευμένη έκδοση — βεβαιώσου ότι το {m['version']} την ξεπερνάει")
+except Exception as e:
+    warn(f"δεν ελέγχθηκε η δημοσιευμένη έκδοση ({type(e).__name__})")
+
 # ── Πολιτική απορρήτου ──────────────────────────────────────────────
 if (R / "store/PRIVACY.html").exists(): ok("PRIVACY.html υπάρχει τοπικά")
 else: bad("λείπει το PRIVACY.html")

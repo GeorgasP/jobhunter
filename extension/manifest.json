@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Jobora — automatic job search",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Finds jobs that match you every day and fills in the application forms for you. Your CV never leaves your browser.",
   "minimum_chrome_version": "111",
   "permissions": [
