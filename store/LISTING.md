@@ -21,86 +21,84 @@ Finds jobs that match you every day and fills in the application forms for you. 
 
 **Detailed description**
 ```
-Job hunting is 90% repetitive admin. Jobora does that part.
+Job hunting is mostly admin. Jobora does that part.
 
-Upload your CV once. From then on Jobora searches twice a day, ranks what
-actually fits you, writes the cover letter, and fills in the application form —
-including attaching your CV as a real file. You review and press Submit.
+Upload your CV once. After that it searches twice a day, ranks what actually
+fits, drafts the cover letter, and fills in the application form with your CV
+attached as a real file. You check it and press Submit.
 
-── HOW IT WORKS ──────────────────────────────────────────
 
-1. Upload your CV. Jobora reads it and fills in your name, email, phone and
-   LinkedIn automatically, then suggests job titles based on your experience.
+HOW IT WORKS
 
-2. Say what you want. Job titles, countries or "Remote", salary floor,
-   industries, seniority. Every filter is yours to set, and every change saves
-   itself as you type.
+1. Upload your CV. Jobora reads your name, email, phone and LinkedIn out of it,
+   then suggests job titles based on what you have done.
 
-3. It searches on its own. Twice a day in the background, across public job
-   boards and thousands of company career pages. You get a notification and a
-   badge count when new roles match.
+2. Say what you want: job titles, countries or "Remote", a salary floor,
+   industries, seniority. Every change saves itself as you type.
 
-4. Apply in about fifteen seconds. Press Apply, the posting opens, press "Fill
-   with Jobora", check the form, submit.
+3. It searches on its own, twice a day, in the background. When something new
+   matches, you get a notification and a number on the toolbar icon.
 
-5. Track everything. A pipeline board from Prepared to Sent, Interview and
-   Offer. Drag cards between stages.
+4. Applying takes about fifteen seconds. Press Apply, the posting opens, press
+   "Fill with Jobora", check the form, submit it yourself.
 
-── NOT ONLY DESK JOBS ────────────────────────────────────
+5. Track it. A board from Prepared to Sent, Interview and Offer. Drag the cards.
 
-Most job tools are built for software engineers. This one covers 31 industries
-and more than 400 professions — care work and construction and kitchens and
-classrooms and stages, not only desks. If the word for your profession is in
-your own language it still finds you, because title matching understands local
-spellings and not only English ones.
 
-── WHY THE MATCHES ARE ACTUALLY GOOD ─────────────────────
+NOT ONLY DESK JOBS
 
-Every job gets a 0-100 score, and Jobora always tells you why: job title
-(40 points), location (25), industry (10), language (10), how fresh the posting
-is (10), salary (5), minus penalties when the seniority is wrong.
+Most job tools are built for software engineers. This one knows 31 industries
+and over 400 professions: care work, construction, kitchens, classrooms, stages.
+It also reads job titles in your own language, so an advert that never uses an
+English word still reaches you.
 
-Crucially, it understands geography. A "Remote" job that is really "US only" is
-dropped if you cannot work in the US — and it says so, instead of wasting your
-time. The regional shorthands employers write instead of country names are
-understood too.
 
-And when nothing matches, it tells you which filter did it, instead of showing
-you a zero and letting you wonder whether the thing is broken.
+WHY THE MATCHES ARE GOOD
 
-── WHERE THE JOBS COME FROM ──────────────────────────────
+Every posting gets a score out of 100, and Jobora shows its working: job title
+is worth 40 points, location 25, industry 10, the language you speak 10, how
+recent the posting is 10, salary 5. Wrong seniority loses points.
 
-Public listings only, from two kinds of place: open job boards, and the career
-pages companies publish through the usual applicant tracking systems. Pick your
-industries and a matching set of employers is tracked for you. A few national
-job sites are included as well, for the work that never reaches an international
-board — clinics, theatres, workshops, hotels.
+It understands geography, which matters more than it sounds. A "Remote" job that
+turns out to mean "US only" gets dropped if you cannot work in the US, and
+Jobora says that is why. It also reads the regional shorthand employers use
+instead of naming countries.
 
-You can also connect your own free key from a job-market data provider, and the
-search widens from the companies it knows to a whole country's market.
+When nothing matches, it names the filter that emptied the list. No more staring
+at a zero and wondering whether the thing is broken.
 
-Jobora does not automate LinkedIn or Indeed accounts. Their terms forbid it
-and it gets people's accounts banned. For the jobs that only ever appear as a
-post in a group or a thread, there is an off-by-default button that saves the
-post you are reading — it never searches those sites on its own.
 
-── YOUR DATA STAYS YOURS ─────────────────────────────────
+WHERE THE JOBS COME FROM
 
-There is no Jobora server and no account. Your CV, your details and your
-application history live in your browser's local storage and are never sent to
-us — we have no way of reading them. No analytics, no telemetry, no tracking.
+Public listings, from two kinds of place: open job boards, and the career pages
+companies publish through the usual applicant tracking systems. Choose your
+industries and a matching set of employers gets watched for you. A few national
+job sites are in there too, for the work that never reaches an international
+board. Clinics. Theatres. Workshops. Hotels.
 
-Optionally, you can add your own Anthropic API key and each cover letter is
-written from your CV and the job description. Without a key, a solid template is
-used and nothing is transmitted anywhere.
+Connect your own free key from a job-market data provider and the search widens
+from the employers it knows to a country's whole market.
 
-── WHAT IT WILL NOT DO ───────────────────────────────────
 
-It never presses Submit. Dropdown questions about work authorization or
-relocation are deliberately left untouched and flagged for you — a wrong answer
-to a legal question costs more than the three seconds it takes you to pick.
-Fields you already filled in are never overwritten, and when required questions
-are still empty it says how many, so you do not send half an application.
+YOUR DATA STAYS YOURS
+
+No account. No server. No analytics. Your CV, your details and your application
+history live in your browser's storage, on your machine, and we have no way of
+reading them.
+
+If you add your own Anthropic API key, each cover letter is written from your CV
+and the job description. Without a key it uses a template and nothing is sent
+anywhere at all.
+
+
+WHAT IT WILL NOT DO
+
+It never presses Submit. Dropdown questions about work authorisation or
+relocation are left alone on purpose and flagged for you, because a wrong answer
+to a legal question costs more than the three seconds it takes to answer it
+yourself. Anything you have already typed is never overwritten. If required
+questions are still empty, it tells you how many, so you do not send half an
+application.
 
 Interface in eight languages. Free, open source, no upsell.
 ```

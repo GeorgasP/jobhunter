@@ -9,7 +9,7 @@
 ## Single purpose description  (466/1000)
 
 ```
-Jobora has one purpose: to help a person find job openings that match their profile and complete the application forms for those openings. Every feature — searching public job listings, scoring them against the profile, drafting a cover letter, filling in the application form, and tracking the resulting applications — serves that one purpose. The extension does not browse, advertise, analyse the user's activity, or do anything unrelated to applying for a job.
+Jobora has one purpose: to help a person find job openings that match their profile, and complete the application forms for those openings. Every feature serves that purpose. It searches public job listings, scores them against the profile, drafts a cover letter, fills in the application form, and tracks the resulting applications. The extension does not browse, advertise, analyse the user's activity, or do anything unrelated to applying for a job.
 ```
 
 ## storage justification  (310/1000)
@@ -21,7 +21,7 @@ Stores the user's profile, CV file, search preferences, the job listings retriev
 ## unlimitedStorage justification  (366/1000)
 
 ```
-A single search retrieves several thousand public job listings, and the user's CV file is stored alongside them. Together these routinely exceed the default quota. Without this permission the extension would have to discard listings between searches and would keep re-reporting the same jobs as new. Nothing is uploaded anywhere; the data stays on the user's device.
+A single search retrieves several thousand public job listings, and the user's CV file is stored alongside them. Together these routinely exceed the default quota. Without this permission the extension would have to discard listings between searches, and would keep re-reporting the same jobs as new. Nothing is uploaded anywhere. The data stays on the user's device.
 ```
 
 ## alarms justification  (298/1000)

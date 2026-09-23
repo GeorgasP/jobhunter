@@ -20,7 +20,7 @@ All of the following is kept in your browser's local extension storage
 - Your name, email, phone, location, LinkedIn and GitHub links, work
   authorization status and notice period
 - Your profile photo, headline and the text you write about yourself. The photo
-  is resized and stored on your device; it is never attached to an application
+  is resized and stored on your device. It is never attached to an application
 - Your search preferences: job titles, locations, industries, salary floor,
   seniority, filters
 - Job postings retrieved from public job boards
@@ -37,13 +37,18 @@ Jobora makes network requests to three kinds of destination, and to nothing
 else.
 
 **1. Public job listing APIs and pages.** To find jobs, the extension requests
-publicly available listings from the applicant tracking systems Greenhouse,
-Lever, Ashby, Workable, SmartRecruiters, Recruitee, Workday, Teamtailor and
-Breezy; from the job boards Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas,
-WorkingNomads, The Muse, We Work Remotely, Cryptocurrency Jobs, Landing.jobs
-and DevITjobs; and from the Greek sites psf.org.gr, skywalker.gr and ordino.gr.
+publicly available listings from three groups of source.
+
+Applicant tracking systems: Greenhouse, Lever, Ashby, Workable, SmartRecruiters,
+Recruitee, Workday, Teamtailor, Breezy.
+
+Job boards: Remotive, Arbeitnow, RemoteOK, Jobicy, Himalayas, WorkingNomads,
+The Muse, We Work Remotely, Cryptocurrency Jobs, Landing.jobs, DevITjobs.
+
+National sites: psf.org.gr, skywalker.gr, ordino.gr.
+
 These are ordinary read requests for postings that anyone can see without
-logging in. **No personal data of yours is included** — not your CV, not your
+logging in. **No personal data of yours is included.** Not your CV, not your
 name, not your preferences. The matching happens on your computer after the
 listings arrive.
 
@@ -58,7 +63,7 @@ exchange rates from `open.er-api.com`, so that a minimum salary you set in one
 currency can be compared against a job advertised in another. The request has
 no parameters and carries no data about you.
 
-**3. Anthropic's API — only if you opt in.** If, and only if, you enter your own
+**3. Anthropic's API, only if you opt in.** If, and only if, you enter your own
 Anthropic API key in Settings, Jobora sends the text of your CV, anything you
 wrote about yourself in your profile, and the description of the specific job to
 `api.anthropic.com` in order to write a cover letter for that job. This happens
@@ -69,7 +74,7 @@ from a local template and nothing is sent. That traffic is governed by
 Nothing else is transmitted anywhere. There is no analytics, no telemetry, no
 error reporting, no advertising and no tracking of any kind.
 
-## The save button on social networks — off unless you turn it on
+## The save button on social networks, off unless you turn it on
 
 Some jobs are only ever posted as a post: a group on Facebook, a thread on
 Reddit, an update on a page. Jobora can show a "Save to Jobora" button
@@ -90,9 +95,9 @@ like any other listing.
 ## Form filling
 
 When you press "Fill with Jobora" on an application page, the extension reads
-that page's form — the labels and field names, so it knows which box wants your
-phone number and which wants your city — and then writes your details in and
-attaches your CV file. Both the reading and the writing happen inside your
+that page's form. It looks at the labels and field names, so it knows which box
+wants your phone number and which wants your city. Then it writes your details
+in and attaches your CV file. Both the reading and the writing happen inside your
 browser, at the moment you press the button. The page's contents are not stored
 and are not sent anywhere.
 
