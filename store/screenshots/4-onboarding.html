@@ -5,7 +5,7 @@
 <title>Jobora — setup</title>
 <link rel="stylesheet" href="../../extension/app.css">
 <style>
-html,body{width:1280px;height:800px;overflow:hidden}
+html,body{width:1280px;height:668px;overflow:hidden}
 body{display:grid;place-items:center start;justify-content:center;padding:0}
 .ob{width:620px}
 .top{display:flex;align-items:center;gap:12px;margin-bottom:26px}
@@ -30,9 +30,34 @@ h2{font-size:22px;font-weight:680;letter-spacing:-.6px;margin-bottom:7px}
 .found .row b{font-weight:600}
 .nav-btns{display:flex;gap:10px;margin-top:26px;align-items:center}
 .skip{color:var(--fg-3);font-size:13px;margin-left:auto}
+
+/* ── Λωρίδα τίτλου: η μόνη πρόταση που θα διαβάσει ο περαστικός ── */
+html, body { height: 800px !important; }
+body { display: flex; flex-direction: column; }
+.shot-band {
+  flex: none;
+  height: 132px;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 46px;
+  background: radial-gradient(120% 200% at 22% 50%, #16223c 0%, #0a0f1c 70%);
+  border-bottom: 1px solid #24324a;
+  font: 400 16px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.shot-band b {
+  display: block;
+  color: #f1f5f9; font-size: 31px; font-weight: 700; letter-spacing: -0.9px;
+}
+.shot-band span {
+  display: block; margin-top: 7px;
+  color: #7f96c4; font-size: 25px; font-weight: 500; letter-spacing: -0.4px;
+}
+.app, body > .wrap, body > main { flex: 1; min-height: 0; }
+aside { height: 668px !important; }
 </style>
 </head>
 <body>
+<div class="shot-band"><b>Upload your CV once.</b><span>It fills in everything else from it</span></div>
 <div class="ob">
   <div class="top"><div class="mark">🎯</div>
     <div><b>Jobora</b><span>Three steps and it starts working for you</span></div></div>

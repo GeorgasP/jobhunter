@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Jobora — autofill</title>
 <style>
-html,body{width:1280px;height:800px;overflow:hidden;margin:0}
+html,body{width:1280px;height:668px;overflow:hidden;margin:0}
 body{background:#f4f6f9;font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;color:#1b2029}
 .page{max-width:660px;margin:0 auto;padding:34px 24px}
 .crumb{color:#7a838f;font-size:13px;margin-bottom:6px}
@@ -28,9 +28,34 @@ textarea{height:96px;resize:none}
   border:1px solid #5b8cff;border-radius:10px;padding:14px 16px;font:14px/1.5 system-ui;
   box-shadow:0 8px 28px rgba(0,0,0,.45)}
 .jh-toast .dim{color:#9aa7b8;font-size:12.5px;margin-top:6px}
+
+/* ── Λωρίδα τίτλου: η μόνη πρόταση που θα διαβάσει ο περαστικός ── */
+html, body { height: 800px !important; }
+body { display: flex; flex-direction: column; }
+.shot-band {
+  flex: none;
+  height: 132px;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 46px;
+  background: radial-gradient(120% 200% at 22% 50%, #16223c 0%, #0a0f1c 70%);
+  border-bottom: 1px solid #24324a;
+  font: 400 16px/1.3 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.shot-band b {
+  display: block;
+  color: #f1f5f9; font-size: 31px; font-weight: 700; letter-spacing: -0.9px;
+}
+.shot-band span {
+  display: block; margin-top: 7px;
+  color: #7f96c4; font-size: 25px; font-weight: 500; letter-spacing: -0.4px;
+}
+.app, body > .wrap, body > main { flex: 1; min-height: 0; }
+aside { height: 668px !important; }
 </style>
 </head>
 <body>
+<div class="shot-band"><b>One click fills the form</b><span>and attaches your CV as a real file</span></div>
 <div class="page">
   <div class="crumb">Remote.com › Careers › Sales</div>
   <h1>Senior Account Manager — EMEA</h1>
