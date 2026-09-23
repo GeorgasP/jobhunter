@@ -105,12 +105,22 @@ for host, word in SPECIAL.items():
 print("\n5 · Αριθμοί μέσα στα κείμενα")
 W = re.search(r"const W = \{([^}]+)\}", (E / "lib" / "matcher.js").read_text(encoding="utf-8"))
 weights = dict(re.findall(r"(\w+): (\d+)", W.group(1)))
-claimed = re.search(r"\((\d+) points\), location \((\d+)\), industry \((\d+)\), language \((\d+)\)",
-                    listing)
-check(claimed and [claimed.group(i) for i in (1, 2, 3, 4)]
-      == [weights["title"], weights["location"], weights["industry"], weights["language"]],
-      "οι βαθμοί της περιγραφής == matcher.js",
-      f"title {weights['title']} · location {weights['location']}")
+# Δεν κλειδώνουμε στη διατύπωση, μόνο στους αριθμούς: η πρώτη γραφή του ελέγχου
+# απαιτούσε «(40 points), location (25)» κατά λέξη και χάλασε μόλις ξαναγράφτηκε
+# η περιγραφή σε πιο ανθρώπινα αγγλικά. Ο έλεγχος πρέπει να πιάνει λάθος νούμερο,
+# όχι αλλαγή ύφους.
+claimed = {}
+# Το κείμενο αναδιπλώνεται σε γραμμές, οπότε η αλλαγή γραμμής δεν πρέπει να
+# κόβει το ζεύγος λέξη-αριθμός: «job title\nis worth 40 points».
+for label, number in re.findall(r"\b(title|location|industry|language|salary)\b[^,.]{0,26}?(\d+)",
+                                description, re.I):
+    claimed.setdefault(label.lower(), number)
+wrong = [f"{k} λέει {claimed.get(k, '—')} αντί για {v}"
+         for k, v in weights.items() if k in claimed and claimed[k] != v]
+missing = [k for k in ("title", "location", "industry", "language") if k not in claimed]
+check(not wrong and not missing, "οι βαθμοί της περιγραφής == matcher.js",
+      ", ".join(wrong + [f"δεν αναφέρεται το {m}" for m in missing])
+      or f"title {weights['title']} · location {weights['location']} · salary {weights['salary']}")
 
 langs = sorted(p.stem for p in (E / "locales").glob("*.json"))
 check(str(len(langs)) in listing or "English, Greek, German" in listing,
